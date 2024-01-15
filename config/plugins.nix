@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  imports = [ ./rest-client.nix ./completions.nix ./snippets.nix ./lsp.nix ];
+  imports = [ ./rest-client.nix ./completions.nix ./lsp.nix ];
 
   # Disable some builtin plugins
   globals = {
@@ -16,7 +16,6 @@
     flash.enable = true;
     which-key.enable = true;
     fidget.enable = true;
-    luasnip.enable = true;
     toggleterm = {
       enable = true;
       direction = "float";
