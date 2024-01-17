@@ -1,8 +1,5 @@
 { pkgs, ... }:
 let
-  # TODO Configure these plugins
-  # TODO C-p to search files
-  # TODO C-S-p opens legendary
   enabledPlugins = [
     "nvim-autopairs"
     "telescope"

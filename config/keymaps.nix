@@ -23,6 +23,10 @@
       key = "<leader>.";
       action = "<CMD>echo v:errmsg<CR>";
     }
+    {
+      key = "<C-p>";
+      action = "<CMD>lua require'telescope.builtin'.live_grep()<CR>";
+    }
 
     # Better window navigation
     {
