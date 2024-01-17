@@ -1,5 +1,35 @@
-{ pkgs, ... }: {
-  imports = [ ./rest-client.nix ./completions.nix ./lsp.nix ];
+{ pkgs, ... }:
+let
+  # TODO Configure these plugins
+  # TODO C-p to search files
+  # TODO C-S-p opens legendary
+  enabledPlugins = [
+    "nvim-autopairs"
+    "telescope"
+    "lualine"
+    "presence-nvim"
+    "nvim-colorizer"
+    "flash"
+    "wilder"
+    "which-key"
+    "gitsigns"
+    "noice"
+    "nix"
+    "molten"
+    "lastplace"
+    "rainbow-delimiters"
+    "typst-vim"
+    "marks"
+    "comment-nvim"
+    "navbuddy"
+    # "fidget"
+    # "cursorline"
+    # "diffview"
+    # "multicursors"
+    # "intellitab"
+  ];
+in {
+  imports = [ ./rest-client.nix ./completions.nix ./lsp.nix ./folds.nix ];
 
   # Disable some builtin plugins
   globals = {
@@ -11,54 +41,45 @@
   };
 
   # TODO Mini.files split with https://github.com/folke/edgy.nvim
-  plugins = {
-    todo-comments.enable = true;
-    flash.enable = true;
-    which-key.enable = true;
-    fidget.enable = true;
+  plugins = builtins.listToAttrs (map (name: {
+    name = name;
+    value = { enable = true; };
+  }) enabledPlugins) // {
     toggleterm = {
       enable = true;
       direction = "float";
       openMapping = "<M-n>";
+      floatOpts.border = "curved";
     };
-    presence-nvim.enable = true;
-    lualine.enable = true;
-    telescope.enable = true;
     treesitter = {
       enable = true;
       indent = true;
     };
-    luasnip.enable = true;
     oil = {
       enable = true;
       deleteToTrash = true;
     };
-    gitsigns.enable = true;
-    noice.enable = true;
-    copilot-vim.enable = true;
-    # cursorline.enable = true;
-    # diffview.enable = true;
-    # multicursors.enable = true;
-    nix.enable = true;
+    notify = {
+      enable = true;
+      render = "minimal";
+      timeout = 4000;
+      topDown = false;
+    };
+    todo-comments = {
+      enable = true;
+      highlight.pattern = ".*<(KEYWORDS)s*:*";
+      search.pattern = "\\s\\b(KEYWORDS)\\b\\s";
+
+    };
   };
+
   extraPlugins = with pkgs.vimPlugins; [
+    # APIs and Functions
     plenary-nvim
-    {
-      plugin = marks-nvim;
-      config = ''lua require("marks").setup()'';
-    }
-    {
-      plugin = comment-nvim;
-      config = ''lua require("Comment").setup()'';
-    }
-    {
-      plugin = pretty-fold-nvim;
-      config = ''lua require("pretty-fold").setup()'';
-    }
-    rainbow-delimiters-nvim
-    typst-vim
+    popup-nvim
+
+    # Filetypes
     yuck-vim
     vim-just
-    vim-lastplace
   ];
 }
