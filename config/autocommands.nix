@@ -24,5 +24,10 @@
       pattern = [ "*" ];
       command = "q";
     }
+    { # Disable automatic commenting on newline
+      event = [ "BufNewFile" "BufRead" ];
+      pattern = [ "*" ];
+      command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o";
+    }
   ];
 }

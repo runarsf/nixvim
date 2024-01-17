@@ -1,9 +1,8 @@
-{ pkgs, ... }: {
-  # Import all your configuration modules here
+{ lib, pkgs, ... }: {
   imports = [ ./options.nix ./autocommands.nix ./theme.nix ./plugins.nix ./keymaps.nix ];
 
-  extraConfigLua = builtins.readFile ./utils.lua;
-}
+  extraPackages = [ pkgs.glow ];
 
-# TODO When entering parenthesis, add the matching one automatically
-# TODO Fix slow input
+  extraConfigLuaPre =
+    lib.concatStringsSep "\n" [ (builtins.readFile ./utils.lua) ];
+}
