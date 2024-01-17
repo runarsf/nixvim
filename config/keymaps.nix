@@ -1,4 +1,4 @@
-{
+{ config, ... }: {
   globals = {
     mapleader = ",";
     maplocalleader = "<Space>";
@@ -14,8 +14,14 @@
     }
     {
       key = "<leader>..";
-      action = "<CMD>messages<CR>";
-      # TODO "<CMD>lua require'telescope'.extensions.notify.notify()<CR>";
+      action = if (config.plugins.notify.enable) then
+        "<CMD>lua require'telescope'.extensions.notify.notify()<CR>"
+      else
+        "<CMD>messages<CR>";
+    }
+    { # Show last error
+      key = "<leader>.";
+      action = "<CMD>echo v:errmsg<CR>";
     }
 
     # Better window navigation
@@ -70,16 +76,16 @@
     }
 
     # Saner behaviour of n/N
-    {
-      key = "n";
-      action = "'Nn'[v:searchforward]";
-      mode = [ "n" "x" "o" ];
-    }
-    {
-      key = "N";
-      action = "'nN'[v:searchforward]";
-      mode = [ "n" "x" "o" ];
-    }
+    # {
+    #   key = "n";
+    #   action = "'Nn'[v:searchforward]";
+    #   mode = [ "n" "x" "o" ];
+    # }
+    # {
+    #   key = "N";
+    #   action = "'nN'[v:searchforward]";
+    #   mode = [ "n" "x" "o" ];
+    # }
 
     # Quickly edit macro
     {
@@ -133,7 +139,7 @@
 
     {
       key = "<leader>m";
-      action = "<CMD>lua M.ToggleMouse()<CR>";
+      action = "<CMD>lua ToggleMouse()<CR>";
     }
     {
       key = "<leader>n";
@@ -162,6 +168,10 @@
     {
       key = "<leader>M";
       action = "<CMD>w<CR><CMD>lua Glow()<CR>";
+    }
+    {
+      key = "<C-n>";
+      action = "<CMD>Oil<CR>";
     }
   ];
 }

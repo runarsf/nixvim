@@ -1,13 +1,21 @@
+local ok, luasnip = pcall(require, "luasnip")
+if not ok then return end
+local ok, cmp = pcall(require, "cmp")
+if not ok then return end
+
 ToggleMouse = function()
-  if vim.o.mouse == 'a' then
-    vim.o.mouse = 'v'
+  vim.g.def_mouse = vim.g.def_mouse ~= nil and "vc" or vim.g.def_mouse
+  if #vim.o.mouse > 0 then
+    vim.g.def_mouse = vim.o.mouse
+    vim.o.mouse = false
   else
-    vim.o.mouse = 'a'
+    vim.o.mouse = vim.g.def_mouse
   end
 end
 
 CopyMode = function()
   local g = vim.g
+  local o = vim.o
   local w = vim.wo
   vim.cmd("stopinsert")
   g.def_number         = g.def_number ~= nil and true or g.def_number
@@ -15,6 +23,7 @@ CopyMode = function()
   g.def_wrap           = g.def_wrap ~= nil and false or g.def_wrap
   g.def_list           = g.def_list ~= nil and true or g.def_list
   g.def_signcolumn     = g.def_signcolumn ~= nil and "yes" or g.def_signcolumn
+  g.def_mouse          = g.def_mouse ~= nil and "vc" or g.def_mouse
 
   -- vim.wo always returns a number, but expects a bool when assigning
   local int_to_bool = function(int)
@@ -31,6 +40,7 @@ CopyMode = function()
     g.def_wrap           = int_to_bool(w.wrap)
     g.def_list           = int_to_bool(w.list)
     g.def_signcolumn     = w.signcolumn
+    g.def_mouse          = o.mouse
 
     -- Disable
     if has_blankline then vim.cmd[[IndentBlanklineDisable]] end
@@ -39,6 +49,7 @@ CopyMode = function()
     w.wrap           = false
     w.list           = false
     w.signcolumn     = "no"
+    o.mouse          = false
     -- vim.cmd("mkview 3")
     -- vim.api.nvim_input("zRzz")
   else
@@ -49,6 +60,7 @@ CopyMode = function()
     w.wrap           = g.def_wrap
     w.list           = g.def_list
     w.signcolumn     = g.def_signcolumn
+    o.mouse          = g.def_mouse
     -- vim.cmd("loadview 3")
   end
 end
@@ -63,4 +75,10 @@ Glow = function()
   end
   local glow = Terminal:new({ cmd="PAGER='less -r' glow -s dark -p "..file, hidden=false })
   glow:toggle()
+end
+
+HasWordsBefore = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
