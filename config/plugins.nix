@@ -36,6 +36,7 @@ let
   ];
 in {
   imports = [
+    ./molten.nix
     ./toggleterm.nix
     ./hop.nix
     ./rest-client.nix
@@ -66,14 +67,6 @@ in {
       enable = true;
       highlight.pattern = ".*<(KEYWORDS)s*:*";
       search.pattern = "\\s\\b(KEYWORDS)\\b\\s";
-    };
-    molten = {
-      enable = true;
-      imageProvider = "image.nvim";
-    };
-    image = {
-      enable = true;
-      package = pkgs.stable.vimPlugins.image-nvim;
     };
   };
 
