@@ -1,53 +1,53 @@
 { pkgs, ... }:
+# FIXME Incalid option to dictwatcherdel
 let
   enabledPlugins = [
+    # "image" # FIXME Broken package
+    "nix"
     "nvim-autopairs"
     "telescope"
-    "lualine"
+    "trouble"
+    "lualine" # TODO Add mouse and copy indicators
     "presence-nvim"
     "nvim-colorizer"
     "flash"
-    "wilder"
     "which-key"
     "gitsigns"
+    "wilder"
     "noice"
-    "nix"
-    "molten"
     "lastplace"
     "rainbow-delimiters"
     "typst-vim"
     "marks"
     "comment-nvim"
-    "navbuddy"
+    # alpha
+    "barbar"
+    # chadtree
+    # conform-nvim # TODO Formatters (nixfmt)
+    # cursorline
+    "diffview"
+    "hmts"
+    "instant"
+    "intellitab"
+    "multicursors"
+    "undotree"
+    # "mini" "edgy" # TODO Split mini in edgy
     # "fidget"
-    # "cursorline"
-    # "diffview"
-    # "multicursors"
-    # "intellitab"
   ];
 in {
-  imports = [ ./rest-client.nix ./completions.nix ./lsp.nix ./folds.nix ];
+  imports = [
+    ./toggleterm.nix
+    ./hop.nix
+    ./rest-client.nix
+    ./completions.nix
+    ./lsp.nix
+    ./folds.nix
+  ];
 
-  # Disable some builtin plugins
-  globals = {
-    loaded_tutor_mode_plugin = 1;
-    loaded_netrw = 1;
-    loaded_netrwPlugin = 1;
-    loaded_netrwSettings = 1;
-    loaded_netrwFileHandlers = 1;
-  };
-
-  # TODO Mini.files split with https://github.com/folke/edgy.nvim
   plugins = builtins.listToAttrs (map (name: {
     name = name;
     value = { enable = true; };
   }) enabledPlugins) // {
-    toggleterm = {
-      enable = true;
-      direction = "float";
-      openMapping = "<M-n>";
-      floatOpts.border = "curved";
-    };
     treesitter = {
       enable = true;
       indent = true;
@@ -66,7 +66,14 @@ in {
       enable = true;
       highlight.pattern = ".*<(KEYWORDS)s*:*";
       search.pattern = "\\s\\b(KEYWORDS)\\b\\s";
-
+    };
+    molten = {
+      enable = true;
+      imageProvider = "image.nvim";
+    };
+    image = {
+      enable = true;
+      package = pkgs.stable.vimPlugins.image-nvim;
     };
   };
 
@@ -75,8 +82,27 @@ in {
     plenary-nvim
     popup-nvim
 
+    vim-sleuth
+    {
+      plugin = tabout-nvim;
+      config = ''
+        lua require("tabout").setup({
+        \   skip_ssl_verification = true,
+        \ })
+      '';
+    }
+
     # Filetypes
     yuck-vim
     vim-just
   ];
+
+  # Disable some builtin plugins
+  globals = {
+    loaded_tutor_mode_plugin = 1;
+    loaded_netrw = 1;
+    loaded_netrwPlugin = 1;
+    loaded_netrwSettings = 1;
+    loaded_netrwFileHandlers = 1;
+  };
 }

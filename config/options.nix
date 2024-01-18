@@ -11,6 +11,7 @@
       mouse = "vc";
       foldmethod = "marker";
       conceallevel = 0;
+      filetype = "on";
       confirm = true;
       backup = false;
       swapfile = false;
@@ -28,14 +29,16 @@
       linebreak = true;
       synmaxcol = 1000;
       foldopen = "block,hor,insert,jump,mark,percent,quickfix,search,tag,undo";
+      grepprg = "${pkgs.ripgrep}/bin/rg --vimgrep --hidden --glob '!.git'";
 
+      # Also handled by vim-sleuth
       shiftround = true;
       smartindent = true;
-      grepprg = "${pkgs.ripgrep}/bin/rg --vimgrep --hidden --glob '!.git'";
       shiftwidth = 2;
       autoindent = true;
       smarttab = true;
       tabstop = 2;
+      expandtab = true;
     };
     clipboard = {
       register = "unnamedplus";
@@ -48,6 +51,9 @@
       " Faster keyword completion
       set complete-=i   " disable scanning included files
       set complete-=t   " disable searching tags
+
+      " https://neovim.io/doc/user/faq.html#faq
+      " set shortmess-=F
     '';
   };
 }

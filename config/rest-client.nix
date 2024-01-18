@@ -1,12 +1,11 @@
 { pkgs, ... }: {
   extraPlugins = [{
     plugin = pkgs.vimPlugins.rest-nvim;
-    # FIXME Config doesn't apply correctly (for all extraPlugins)
-    # config = ''
-    #   require("rest-nvim").setup({
-    #     skip_ssl_verification = true,
-    #   })
-    # '';
+    config = ''
+      lua require("rest-nvim").setup({
+      \   skip_ssl_verification = true,
+      \ })
+    '';
   }];
   keymaps = [
     {

@@ -1,10 +1,8 @@
 {
-  keymaps = [
-    {
-      key = "<leader>f";
-      action = "<CMD>:Format<CR>";
-    }
-  ];
+  keymaps = [{
+    key = "<leader>f";
+    action = "<CMD>:Format<CR>";
+  }];
 
   plugins = {
     lsp-format.enable = true;

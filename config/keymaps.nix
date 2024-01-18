@@ -177,5 +177,9 @@
       key = "<C-n>";
       action = "<CMD>Oil<CR>";
     }
+    {
+      key = "<leader>?";
+      action = "<CMD>TroubleToggle<CR>";
+    }
   ];
 }
