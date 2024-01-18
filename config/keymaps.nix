@@ -5,10 +5,6 @@
   };
   keymaps = [
     {
-      key = "<ESC><ESC>";
-      action = "<CMD>nohlsearch<CR>";
-    }
-    {
       key = "<leader><Space>";
       action = "<CMD>nohlsearch<CR>";
     }
@@ -78,18 +74,6 @@
       action = ">gv";
       mode = "v";
     }
-
-    # Saner behaviour of n/N
-    # {
-    #   key = "n";
-    #   action = "'Nn'[v:searchforward]";
-    #   mode = [ "n" "x" "o" ];
-    # }
-    # {
-    #   key = "N";
-    #   action = "'nN'[v:searchforward]";
-    #   mode = [ "n" "x" "o" ];
-    # }
 
     # Quickly edit macro
     {

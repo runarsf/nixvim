@@ -1,4 +1,6 @@
 { pkgs, ... }: {
+  # NOTE To install a kernel, run:
+  #  $ python -m ipykernel install --user --name jupyter
   extraLuaPackages = with pkgs; [ magick ];
   extraPackages = with pkgs; [ imagemagick ];
   extraPython3Packages = p:
@@ -11,6 +13,8 @@
       plotly
       pyperclip
       nbformat
+      jupytext
+      ipykernel
     ];
   plugins = {
     molten = {
@@ -19,6 +23,7 @@
     };
     image = {
       enable = true;
+      # Unstable release is broken :⁾
       package = pkgs.stable.vimPlugins.image-nvim;
     };
   };
