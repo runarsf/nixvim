@@ -3,35 +3,39 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
+    flake-utils.url = "github:numtide/flake-utils";
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixvim, flake-parts, ... }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-
-      perSystem = { pkgs, system, ... }:
-        let
-          nixvimLib = nixvim.lib.${system};
-          nixvim' = nixvim.legacyPackages.${system};
-          nvim = nixvim'.makeNixvimWithModule {
-            inherit pkgs;
-            module = import ./config;
-            extraSpecialArgs = { };
+  outputs = { nixpkgs, nixvim, flake-utils, ... }@inputs:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        stable-packages = final: prev: {
+          stable = import inputs.nixpkgs-stable {
+            system = final.system;
+            config.allowUnfree = true;
+            config.allowBroken = true;
           };
-        in {
-          checks = {
-            default = nixvimLib.check.mkTestDerivationFromNvim {
-              inherit nvim;
-              name = "Personal Neovim configuration";
-            };
-          };
-          packages.default = nvim;
-          formatter = pkgs.nixfmt;
         };
-    };
+        overlays = [ stable-packages ];
+        pkgs = import nixpkgs { inherit system overlays; };
+        nixvimLib = nixvim.lib.${system};
+        nixvim' = nixvim.legacyPackages.${system};
+        nvim = nixvim'.makeNixvimWithModule {
+          inherit pkgs;
+          module = import ./config;
+          extraSpecialArgs = { inherit inputs; };
+        };
+      in {
+        checks.default = nixvimLib.check.mkTestDerivationFromNvim {
+          inherit nvim;
+          name = "Personal Neovim configuration";
+        };
+        packages.default = nvim;
+        formatter = pkgs.nixfmt;
+      });
 }
