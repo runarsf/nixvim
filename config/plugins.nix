@@ -57,6 +57,12 @@ in {
     nui-nvim
     nvim-web-devicons
 
+    {
+      plugin = dressing-nvim;
+      config = ''
+        lua require("dressing").setup()
+      '';
+    }
     vim-sleuth
     {
       plugin = tabout-nvim;
