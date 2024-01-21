@@ -1,11 +1,5 @@
 {
-  keymaps = [{
-    key = "<leader>f";
-    action = "<CMD>:Format<CR>";
-  }];
-
   plugins = {
-    lsp-format.enable = true;
     lspkind.enable = true;
     lsp = {
       enable = true;

@@ -11,13 +11,16 @@
     {
       key = "<leader>..";
       action = if (config.plugins.notify.enable) then
-        "<CMD>lua require'telescope'.extensions.notify.notify()<CR>"
+        "<CMD>Telescope notify<CR>"
       else
         "<CMD>messages<CR>";
     }
     { # Show last error
       key = "<leader>.";
-      action = "<CMD>echo v:errmsg<CR>";
+      action = if (config.plugins.notify.enable) then
+        "<CMD>Notifications<CR>"
+      else
+        "<CMD>echo v:errmsg<CR>";
     }
     {
       key = "<C-p>";
@@ -54,12 +57,12 @@
     }
     {
       key = "<S-l>";
-      action = "<CMD>tabnext<CR>";
+      action = "<CMD>BufferNext<CR>";
       mode = "n";
     }
     {
       key = "<S-h>";
-      action = "<CMD>tabprevious<CR>";
+      action = "<CMD>BufferPrevious<CR>";
       mode = "n";
     }
 
@@ -158,11 +161,15 @@
       action = "<CMD>w<CR><CMD>lua Glow()<CR>";
     }
     {
-      key = "<C-n>";
-      action = "<CMD>Oil<CR>";
+      key = "<leader>u";
+      action = "<CMD>UndotreeToggle<CR>";
     }
     {
-      key = "<leader>?";
+      key = "<C-n>";
+      action = "<CMD>lua MiniFiles.open()<CR>";
+    }
+    {
+      key = "<leader>t";
       action = "<CMD>TroubleToggle<CR>";
     }
   ];

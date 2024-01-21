@@ -28,6 +28,7 @@
       wrap = false;
       linebreak = true;
       synmaxcol = 1000;
+      cursorline = true;
       foldopen = "block,hor,insert,jump,mark,percent,quickfix,search,tag,undo";
       grepprg = "${pkgs.ripgrep}/bin/rg --vimgrep --hidden --glob '!.git'";
 

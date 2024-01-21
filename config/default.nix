@@ -7,9 +7,6 @@
     ./keymaps.nix
   ];
 
-  # TODO Formatting with nixfmt
-  # TODO Properly package (python) dependencies
-
   extraPackages = with pkgs; [ glow ];
 
   extraConfigLuaPre =

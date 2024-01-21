@@ -22,8 +22,13 @@
       matching.disallowPartialFuzzyMatching = false;
       snippet.expand = "luasnip";
       window = {
-        completion.scrollbar = false;
-        completion.scrolloff = 2;
+        completion = {
+          scrollbar = false;
+          scrolloff = 2;
+          border = "rounded";
+          winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None";
+        };
+        documentation.maxHeight = "math.floor(vim.o.lines / 2)";
       };
       sources = [
         { name = "nvim_lsp"; }
@@ -78,7 +83,8 @@
               elseif HasWordsBefore() then
                 cmp.complete()
               else
-                fallback()
+                vim.cmd[[silent! lua require("intellitab").indent()]]
+                -- fallback()
               end
             end, { "i", "s" })
           '';

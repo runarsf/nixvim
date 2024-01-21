@@ -1,38 +1,31 @@
 { pkgs, ... }:
-# FIXME Incalid option to dictwatcherdel
 let
-  enabledPlugins = [
-    # "image" # FIXME Broken package
+  plugins = [
     "nix"
-    "nvim-autopairs"
     "telescope"
+    "harpoon"
     "trouble"
-    "lualine" # TODO Add mouse and copy indicators
     "presence-nvim"
     "nvim-colorizer"
     "flash"
     "which-key"
     "gitsigns"
     "wilder"
-    "noice"
     "lastplace"
     "rainbow-delimiters"
     "typst-vim"
     "marks"
-    "comment-nvim"
     # alpha
     "barbar"
-    # chadtree
-    # conform-nvim # TODO Formatters (nixfmt)
     # cursorline
+    # "bufferline"
     "diffview"
     "hmts"
     "instant"
-    "intellitab"
+    "intellitab" # keymap set in ./completions.nix
     "multicursors"
     "undotree"
-    # "mini" "edgy" # TODO Split mini in edgy
-    # "fidget"
+    # "fidget" # Alternative to nvim-notify
   ];
 in {
   imports = [
@@ -41,39 +34,28 @@ in {
     ./hop.nix
     ./rest-client.nix
     ./completions.nix
+    ./conform.nix
     ./lsp.nix
     ./folds.nix
+    ./mini.nix
+    ./treesitter.nix
+    ./notify.nix
+    ./todo-comments.nix
+    ./noice.nix
+    ./lualine.nix
   ];
 
   plugins = builtins.listToAttrs (map (name: {
     name = name;
     value = { enable = true; };
-  }) enabledPlugins) // {
-    treesitter = {
-      enable = true;
-      indent = true;
-    };
-    oil = {
-      enable = true;
-      deleteToTrash = true;
-    };
-    notify = {
-      enable = true;
-      render = "minimal";
-      timeout = 4000;
-      topDown = false;
-    };
-    todo-comments = {
-      enable = true;
-      highlight.pattern = ".*<(KEYWORDS)s*:*";
-      search.pattern = "\\s\\b(KEYWORDS)\\b\\s";
-    };
-  };
+  }) plugins);
 
   extraPlugins = with pkgs.vimPlugins; [
     # APIs and Functions
     plenary-nvim
     popup-nvim
+    nui-nvim
+    nvim-web-devicons
 
     vim-sleuth
     {
