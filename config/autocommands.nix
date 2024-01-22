@@ -1,6 +1,6 @@
 {
   extraConfigVim = ''
-    function s:ForbidReplace()
+    function ForbidReplace()
       if v:insertmode isnot# 'i'
         call feedkeys("\<Insert>", "n")
       endif
@@ -38,9 +38,9 @@
       command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o";
     }
     {
-      event = [ "InserEnter" "InsertChange" ];
+      event = [ "InsertEnter" "InsertChange" ];
       pattern = [ "*" ];
-      command = "call s:ForbidReplace()";
+      command = "call ForbidReplace()";
       group = "ForbidReplaceMode";
     }
   ];
