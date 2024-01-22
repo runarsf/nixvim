@@ -59,9 +59,7 @@ in {
 
     {
       plugin = dressing-nvim;
-      config = ''
-        lua require("dressing").setup()
-      '';
+      config = ''lua require("dressing").setup()'';
     }
     vim-sleuth
     {

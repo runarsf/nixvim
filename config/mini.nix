@@ -5,9 +5,9 @@
       pairs = { };
       comment = { };
       align = { };
-      animate = { };
       hipatterns = { };
       bufremove = { };
+      # animate = { };
       # tabline = { };
       files = {
         # TODO Multiple mappings https://github.com/echasnovski/mini.nvim/discussions/409
