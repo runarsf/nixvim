@@ -1,5 +1,13 @@
 {
-  autoGroups = { CursorLine.clear = true; };
+  extraConfigVim = ''
+    function s:ForbidReplace()
+      if v:insertmode isnot# 'i'
+        call feedkeys("\<Insert>", "n")
+      endif
+    endfunction
+  '';
+
+  autoGroups = { CursorLine.clear = true; ForbidReplaceMode.clear = true; };
 
   autoCmd = [
     { # Show cursor-line
@@ -28,6 +36,12 @@
       event = [ "FileType" "BufNewFile" "BufRead" ];
       pattern = [ "*" ];
       command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o";
+    }
+    {
+      event = [ "InserEnter" "InsertChange" ];
+      pattern = [ "*" ];
+      command = "call s:ForbidReplace()";
+      group = "ForbidReplaceMode";
     }
   ];
 }
