@@ -1,4 +1,6 @@
-{ config, ... }: {
+{ config, ... }:
+
+{
   globals = {
     mapleader = ",";
     maplocalleader = "<Space>";

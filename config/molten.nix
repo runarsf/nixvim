@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+
+{
   keymaps = [
     {
       key = "<leader>Mi";

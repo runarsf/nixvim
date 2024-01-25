@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+
+{
   plugins.toggleterm = {
     enable = true;
     direction = "float";

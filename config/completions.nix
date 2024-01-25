@@ -1,3 +1,5 @@
+_:
+
 {
   plugins = {
     copilot-cmp.enable = true;

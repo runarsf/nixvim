@@ -1,4 +1,5 @@
 { pkgs, ... }:
+
 let
   plugins = [
     "nix"
@@ -15,18 +16,19 @@ let
     "rainbow-delimiters"
     "typst-vim"
     "marks"
-    # alpha
     "barbar"
-    # cursorline
-    # "bufferline"
     "diffview"
     "hmts"
     "instant"
     "intellitab" # keymap set in ./completions.nix
     "multicursors"
     "undotree"
+    # "alpha"
+    # "cursorline"
+    # "bufferline"
     # "fidget" # Alternative to nvim-notify
   ];
+
 in {
   imports = [
     ./sniprun.nix

@@ -1,3 +1,5 @@
+_:
+
 {
   extraConfigVim = ''
     function ForbidReplace()

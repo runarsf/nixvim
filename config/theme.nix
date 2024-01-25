@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+
+{
   colorscheme = "ayu-dark";
   colorschemes.ayu = {
     enable = true;

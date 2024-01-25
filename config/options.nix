@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+
+{
   config = {
     luaLoader.enable = true;
     options = {

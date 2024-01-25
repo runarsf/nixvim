@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+
+{
   extraPlugins = [{
     plugin = pkgs.vimPlugins.rest-nvim;
     config = ''

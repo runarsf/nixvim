@@ -1,4 +1,6 @@
-{ lib, pkgs, ... }: {
+{ lib, pkgs, ... }:
+
+{
   imports = [
     ./options.nix
     ./autocommands.nix
