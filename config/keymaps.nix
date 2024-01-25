@@ -80,7 +80,7 @@
 
     # Quickly edit macro
     {
-      key = "<leader>m";
+      key = "<leader>em";
       action =
         "nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>";
       mode = "n";
@@ -157,7 +157,7 @@
       action = "<CMD>set wrap!<CR>";
     }
     {
-      key = "<leader>M";
+      key = "<leader>G";
       action = "<CMD>w<CR><CMD>lua Glow()<CR>";
     }
     {

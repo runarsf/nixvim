@@ -1,4 +1,5 @@
 {
+  # TODO Lsp border
   plugins = {
     lspkind.enable = true;
     lsp = {

@@ -29,7 +29,7 @@ let
   ];
 in {
   imports = [
-    ./molten.nix
+    ./sniprun.nix
     ./toggleterm.nix
     ./hop.nix
     ./rest-client.nix

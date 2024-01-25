@@ -1,7 +1,9 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+
+{
   keymaps = [{
     key = "<leader>f";
-    action = "<CMD>w<CR><CMD>lua require'conform'.format()<CR>";
+    action = "<CMD>w | sleep 200m | lua require'conform'.format()<CR>";
   }];
 
   plugins.conform-nvim = {

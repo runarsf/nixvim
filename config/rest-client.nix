@@ -9,15 +9,15 @@
   }];
   keymaps = [
     {
-      key = "<leader>r";
+      key = "<leader>h";
       action = "<Plug>RestNvim";
     }
     {
-      key = "<leader>rc";
+      key = "<leader>hc";
       action = "<Plug>RestNvimPreview";
     }
     {
-      key = "<leader>r.";
+      key = "<leader>h.";
       action = "<Plug>RestNvimLast";
     }
   ];
