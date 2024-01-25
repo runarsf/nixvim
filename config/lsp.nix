@@ -16,7 +16,7 @@ _:
         html.enable = true;
         jsonls.enable = true;
         nil_ls.enable = true;
-        pyright.enable = true;
+        ruff-lsp.enable = true;
         tailwindcss.enable = true;
         typst-lsp.enable = true;
         terraformls.enable = true;
