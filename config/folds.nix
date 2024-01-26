@@ -4,6 +4,11 @@
   extraConfigVim =
     lib.concatStringsSep "\n" [ (builtins.readFile ./folds.vim) ];
 
+  keymaps = [{
+    key = "<leader>A";
+    action = "<CMD>call AutoFold()<CR>";
+  }];
+
   extraPlugins = [{
     plugin = pkgs.vimPlugins.pretty-fold-nvim;
     config = ''

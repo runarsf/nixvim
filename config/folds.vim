@@ -37,12 +37,26 @@ function! MoveAndFoldVert(dir)
   exec ":" . l:nxt
 endfunction
 
+function! AutoFold()
+  if exists("g:autofold_enabled")
+    echom "Disabling auto-fold"
+    unlet g:autofold_enabled
+    unmap <Down>
+    unmap j
+    unmap <Up>
+    unmap k
+  else
+    echom "Enabling auto-fold"
+    let g:autofold_enabled = 1
+    nnoremap <silent> <Down>  <CMD>call MoveAndFoldVert(1)<CR>
+    nnoremap <silent> j       <CMD>call MoveAndFoldVert(1)<CR>
+    nnoremap <silent> <Up>    <CMD>call MoveAndFoldVert(-1)<CR>
+    nnoremap <silent> k       <CMD>call MoveAndFoldVert(-1)<CR>
+  endif
+endfunction
+
 nnoremap <silent> <Left>  <CMD>call MoveAndFoldLeft()<CR>
 nnoremap <silent> h       <CMD>call MoveAndFoldLeft()<CR>
 nnoremap <silent> <Right> <CMD>call MoveAndFoldRight()<CR>
 nnoremap <silent> l       <CMD>call MoveAndFoldRight()<CR>
 
-nnoremap <silent> <Down>  <CMD>call MoveAndFoldVert(1)<CR>
-nnoremap <silent> j       <CMD>call MoveAndFoldVert(1)<CR>
-nnoremap <silent> <Up>    <CMD>call MoveAndFoldVert(-1)<CR>
-nnoremap <silent> k       <CMD>call MoveAndFoldVert(-1)<CR>
