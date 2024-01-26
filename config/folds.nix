@@ -1,6 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
+  extraConfigVim =
+    lib.concatStringsSep "\n" [ (builtins.readFile ./folds.vim) ];
+
   extraPlugins = [{
     plugin = pkgs.vimPlugins.pretty-fold-nvim;
     config = ''
