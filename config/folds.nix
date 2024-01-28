@@ -5,7 +5,7 @@
     lib.concatStringsSep "\n" [ (builtins.readFile ./folds.vim) ];
 
   keymaps = [{
-    key = "<leader>A";
+    key = "zF";
     action = "<CMD>call AutoFold()<CR>";
   }];
 
@@ -17,7 +17,7 @@
       \   fill_char = ' ',
       \   sections = {
       \     left = {
-      \       '»', 'content', function() return string.rep('›', vim.v.foldlevel - 1) end
+      \       function() return string.rep(' ', vim.fn.indent(vim.v.foldstart)) end, '»', 'content', function() return string.rep('›', vim.v.foldlevel - 1) end
       \     },
       \     right = {
       \       '{ ', 'number_of_folded_lines', ' }  ',

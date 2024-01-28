@@ -6,9 +6,9 @@ function! MoveAndFoldLeft()
 
     if l:col ==# 1 && foldlevel(l:line)
         execute "foldclose"
-    else    
+    else
         execute "normal! h"
-    endif   
+    endif
 endfunction
 
 function! MoveAndFoldRight()
@@ -16,9 +16,9 @@ function! MoveAndFoldRight()
 
     if foldlevel(line) && foldclosed(line) != -1
         execute "foldopen"
-    else    
+    else
         execute "normal! l"
-    endif   
+    endif
 endfunction
 
 function! MoveAndFoldVert(dir)
