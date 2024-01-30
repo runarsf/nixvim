@@ -167,10 +167,6 @@
       action = "<CMD>UndotreeToggle<CR>";
     }
     {
-      key = "<C-n>";
-      action = "<CMD>lua MiniFiles.open()<CR>";
-    }
-    {
       key = "<leader>t";
       action = "<CMD>TroubleToggle<CR>";
     }

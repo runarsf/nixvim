@@ -1,6 +1,33 @@
 _:
 
 {
+  extraConfigVim = ''
+    function DoIfEmpty()
+      if @% == ""
+        lua MiniFiles.open()
+      elseif filereadable(@%) == 0
+        startinsert
+      " elseif line('$') == 1 && col('$') == 1
+      "   echom "file is empty"
+      endif
+    endfunction
+  '';
+
+  autoCmd = [
+    { # Open files if vim started with no arguments
+      event = [ "VimEnter" ];
+      pattern = [ "*" ];
+      command = "call DoIfEmpty()";
+    }
+  ];
+
+  keymaps = [
+    {
+      key = "<C-n>";
+      action = "<CMD>lua MiniFiles.open()<CR>";
+    }
+  ];
+
   plugins.mini = {
     enable = true;
     modules = {
