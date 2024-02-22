@@ -3,14 +3,12 @@
 let
   plugins = [
     "nix"
-    "telescope"
+    "gitsigns"
     "harpoon"
     "trouble"
     "presence-nvim"
     "nvim-colorizer"
-    "flash"
     "which-key"
-    "gitsigns"
     "wilder"
     "lastplace"
     "rainbow-delimiters"
@@ -23,6 +21,9 @@ let
     "intellitab" # keymap set in ./completions.nix
     "multicursors"
     "undotree"
+    "image"
+    "dap"
+    # "flash"
     # "alpha"
     # "cursorline"
     # "bufferline"
@@ -31,6 +32,7 @@ let
 
 in {
   imports = [
+    ./ayu.nix
     ./sniprun.nix
     ./toggleterm.nix
     ./hop.nix
@@ -43,8 +45,10 @@ in {
     ./treesitter.nix
     ./notify.nix
     ./todo-comments.nix
+    ./telescope.nix
     ./noice.nix
     ./lualine.nix
+    ./otter.nix
   ];
 
   plugins = builtins.listToAttrs (map (name: {
