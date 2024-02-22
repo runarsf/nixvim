@@ -4,7 +4,6 @@
   imports = [
     ./options.nix
     ./autocommands.nix
-    ./theme.nix
     ./plugins.nix
     ./keymaps.nix
   ];

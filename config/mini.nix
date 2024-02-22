@@ -5,8 +5,8 @@ _:
     function DoIfEmpty()
       if @% == ""
         lua MiniFiles.open()
-      elseif filereadable(@%) == 0
-        startinsert
+      " elseif filereadable(@%) == 0
+      "   echom "new file"
       " elseif line('$') == 1 && col('$') == 1
       "   echom "file is empty"
       endif
@@ -34,10 +34,11 @@ _:
       pairs = { };
       comment = { };
       align = { };
-      hipatterns = { };
+      # hipatterns = { };
       bufremove = { };
-      # animate = { };
-      # tabline = { };
+      move = { };
+      trailspace = { };
+      tabline = { };
       files = {
         # TODO Multiple mappings https://github.com/echasnovski/mini.nvim/discussions/409
         #  Enter / e for go_in

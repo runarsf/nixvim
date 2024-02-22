@@ -54,9 +54,6 @@
       enable = true;
       imageProvider = "image.nvim";
     };
-    image = {
-      enable = true;
-      package = pkgs.stable.vimPlugins.image-nvim;
-    };
+    image.enable = true;
   };
 }

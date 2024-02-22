@@ -1,4 +1,4 @@
-_:
+{ config, ... }:
 
 {
   plugins = {
@@ -44,6 +44,7 @@ _:
         { name = "path"; }
         { name = "buffer"; }
         { name = "copilot.lua"; }
+        { name = "dap"; }
       ];
       mapping = {
         "<C-d>" = "cmp.mapping.scroll_docs(-4)";
@@ -85,8 +86,11 @@ _:
               elseif HasWordsBefore() then
                 cmp.complete()
               else
-                vim.cmd[[silent! lua require("intellitab").indent()]]
-                -- fallback()
+                ${if config.plugins.intellitab.enable then
+                  "vim.cmd[[silent! lua require('intellitab').indent()]]"
+                else
+                  "fallback()"
+                }
               end
             end, { "i", "s" })
           '';

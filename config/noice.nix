@@ -1,6 +1,7 @@
 _:
 
 {
+  # FIXME <Tab> in cmdline selects the incorrect entry but displaying correct one
   plugins.noice = {
     enable = true;
     presets = {

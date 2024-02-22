@@ -39,7 +39,7 @@ _:
       pattern = [ "*" ];
       command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o";
     }
-    {
+    { # Forbid replace mode
       event = [ "InsertEnter" "InsertChange" ];
       pattern = [ "*" ];
       command = "call ForbidReplace()";

@@ -25,6 +25,7 @@ function! MoveAndFoldVert(dir)
   let pos = getcurpos()[1]
   " FIXME Don't close if the entered line was open
   "  let was = foldclosed(l:nxt)
+  " TODO Allow only folding foldlevel 1 automatically so you get to see a whole Class with methods
   let nxt = l:pos + a:dir
   let src = foldlevel(l:pos)
   let dst = foldlevel(l:nxt)
