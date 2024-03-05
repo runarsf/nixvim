@@ -49,6 +49,7 @@ in {
     ./noice.nix
     ./lualine.nix
     ./otter.nix
+    ./duck.nix
   ];
 
   plugins = builtins.listToAttrs (map (name: {
@@ -62,6 +63,7 @@ in {
     popup-nvim
     nui-nvim
     nvim-web-devicons
+    hologram-nvim
 
     {
       plugin = dressing-nvim;
@@ -69,6 +71,7 @@ in {
     }
     vim-sleuth
     {
+      # TODO Use https://github.com/kawre/neotab.nvim
       plugin = tabout-nvim;
       config = ''
         lua require("tabout").setup({
@@ -86,6 +89,21 @@ in {
     # Filetypes
     yuck-vim
     vim-just
+
+    {
+      plugin = (pkgs.vimUtils.buildVimPlugin {
+        name = "pets.nvim";
+        src = pkgs.fetchFromGitHub {
+            owner = "giusgad";
+            repo = "pets.nvim";
+            rev = "747eb5e54fe8b10f4c7ce2881637d1c17b04f229";
+            hash = "sha256-77+mDpI51L8jjyOGURzruDdXwkc855tc/Mv+CfnX2io=";
+        };
+      });
+      config = ''
+        lua require("pets").setup()
+      '';
+    }
   ];
 
   # Disable some builtin plugins
