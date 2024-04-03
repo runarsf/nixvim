@@ -11,10 +11,12 @@
     {
       key = "s";
       action = "<CMD>HopPattern<CR>";
+      options.desc = "Hop (pattern)";
     }
     {
       key = "S";
       action = "<CMD>HopAnywhere<CR>";
+      options.desc = "Hop";
     }
   ];
 }

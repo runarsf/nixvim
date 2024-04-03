@@ -14,6 +14,7 @@ let
     "rainbow-delimiters"
     "typst-vim"
     "marks"
+    "parinfer-rust"
     "barbar"
     "diffview"
     "hmts"

@@ -7,6 +7,7 @@
   keymaps = [{
     key = "zF";
     action = "<CMD>call AutoFold()<CR>";
+    options.desc = "Toggle auto fold";
   }];
 
   extraPlugins = [{

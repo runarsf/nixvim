@@ -25,6 +25,7 @@ _:
     {
       key = "<C-n>";
       action = "<CMD>lua MiniFiles.open()<CR>";
+      options.desc = "Open file browser";
     }
   ];
 
