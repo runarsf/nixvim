@@ -7,6 +7,18 @@
       enable = true;
       suggestion.enabled = false;
       panel.enabled = false;
+      filetypes = {
+        yaml = false;
+        markdown = false;
+        help = false;
+        gitcommit = false;
+        gitrebase = false;
+        hgcommit = false;
+        svn = false;
+        cvs = false;
+        "*" = true;
+        "." = true;
+      };
     };
 
     luasnip = {
@@ -17,41 +29,41 @@
       };
     };
 
-    nvim-cmp = {
+    cmp = {
       enable = true;
       autoEnableSources = true;
-      preselect = "None";
-      matching.disallowPartialFuzzyMatching = false;
-      snippet.expand = "luasnip";
-      window = {
-        completion = {
-          scrollbar = false;
-          scrolloff = 2;
-          border = "rounded";
-          winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None";
+      settings = {
+        window = {
+          completion = {
+            scrollbar = false;
+            scrolloff = 2;
+            border = "rounded";
+            winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None";
+          };
+          documentation.maxHeight = "math.floor(vim.o.lines / 2)";
         };
-        documentation.maxHeight = "math.floor(vim.o.lines / 2)";
-      };
-      sources = [
-        { name = "nvim_lsp"; }
-        { name = "luasnip"; }
-        { name = "calc"; }
-        { name = "emoji"; }
-        { name = "treesitter"; }
-        { name = "nerdfont"; }
-        { name = "git"; }
-        { name = "fuzzy-path"; }
-        { name = "path"; }
-        { name = "buffer"; }
-        { name = "copilot.lua"; }
-        { name = "dap"; }
-      ];
-      mapping = {
-        "<C-d>" = "cmp.mapping.scroll_docs(-4)";
-        "<C-e>" = "cmp.mapping.close()";
-        "<C-f>" = "cmp.mapping.scroll_docs(4)";
-        "<CR>" = {
-          action = ''
+        preselect = "None";
+        snippet.expand = "luasnip";
+        matching.disallowPartialFuzzyMatching = false;
+        sources = [
+          { name = "nvim_lsp"; }
+          { name = "luasnip"; }
+          { name = "calc"; }
+          { name = "emoji"; }
+          { name = "treesitter"; }
+          { name = "nerdfont"; }
+          { name = "git"; }
+          { name = "fuzzy-path"; }
+          { name = "path"; }
+          { name = "buffer"; }
+          { name = "copilot.lua"; }
+          { name = "dap"; }
+        ];
+        mapping = {
+          "<C-d>" = "cmp.mapping.scroll_docs(-4)";
+          "<C-e>" = "cmp.mapping.close()";
+          "<C-f>" = "cmp.mapping.scroll_docs(4)";
+          "<CR>" = ''
             cmp.mapping({
               i = function(fallback)
                 if cmp.visible() and cmp.get_active_entry() then
@@ -64,9 +76,7 @@
               c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
             })
           '';
-        };
-        "<C-Space>" = {
-          action = ''
+          "<C-Space>" = ''
             cmp.mapping(function(fallback)
               if cmp.visible() then
                 cmp.close()
@@ -75,28 +85,24 @@
               end
             end)
           '';
-        };
-        "<Tab>" = {
-          action = ''
-            cmp.mapping(function(fallback)
-              if cmp.visible() then
-                cmp.select_next_item()
-              elseif luasnip.expand_or_jumpable() then
-                luasnip.expand_or_locally_jumpable()
-              elseif HasWordsBefore() then
-                cmp.complete()
-              else
-                ${if config.plugins.intellitab.enable then
-                  "vim.cmd[[silent! lua require('intellitab').indent()]]"
-                else
-                  "fallback()"
-                }
-              end
-            end, { "i", "s" })
+          "<Tab>" = ''
+           cmp.mapping(function(fallback)
+             if cmp.visible() then
+               cmp.select_next_item()
+             elseif luasnip.expand_or_jumpable() then
+               luasnip.expand_or_locally_jumpable()
+             elseif HasWordsBefore() then
+               cmp.complete()
+             else
+               ${if config.plugins.intellitab.enable then
+                 "vim.cmd[[silent! lua require('intellitab').indent()]]"
+               else
+                 "fallback()"
+               }
+             end
+           end, { "i", "s" })
           '';
-        };
-        "<S-Tab>" = {
-          action = ''
+          "<S-Tab>" = ''
             cmp.mapping(function(fallback)
               if cmp.visible() then
                 cmp.select_prev_item()

@@ -3,7 +3,7 @@
 {
   config = {
     luaLoader.enable = true;
-    options = {
+    opts = {
       number = true;
       relativenumber = true;
       list = true;

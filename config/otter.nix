@@ -8,7 +8,7 @@
     }
   ];
 
-  plugins.nvim-cmp.sources = [
+  plugins.cmp.settings.sources = [
     { name = "otter"; }
   ];
 }

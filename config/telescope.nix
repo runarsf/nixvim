@@ -5,11 +5,13 @@ _:
     enable = true;
     extensions = {
       ui-select.enable = true;
-      file_browser.enable = true;
+      file-browser.enable = true;
       fzy-native = {
         enable = true;
-        overrideFileSorter = true;
-        overrideGenericSorter = true;
+        settings = {
+          override_file_sorter = true;
+          override_generic_sorter = true;
+        };
       };
     };
   };
