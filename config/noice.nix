@@ -1,9 +1,9 @@
 _:
 
 {
-  # FIXME <Tab> in cmdline selects the incorrect entry but displaying correct one
   plugins.noice = {
     enable = true;
+    cmdline.enabled = false;
     presets = {
       bottom_search = true;
       command_palette = false;

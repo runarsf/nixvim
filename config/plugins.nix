@@ -9,7 +9,6 @@ let
     "presence-nvim"
     "nvim-colorizer"
     "which-key"
-    "wilder"
     "lastplace"
     "rainbow-delimiters"
     "typst-vim"
@@ -29,11 +28,11 @@ let
     "undotree"
     "image"
     "dap"
+    "fidget"
     # "flash"
     # "alpha"
     # "cursorline"
     # "bufferline"
-    # "fidget" # Alternative to nvim-notify
   ];
 
 in {
@@ -51,8 +50,8 @@ in {
     ./treesitter.nix
     ./notify.nix
     ./todo-comments.nix
+    ./wilder.nix
     ./telescope.nix
-    ./noice.nix
     ./lualine.nix
     ./otter.nix
     ./duck.nix
