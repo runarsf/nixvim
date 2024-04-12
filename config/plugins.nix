@@ -1,9 +1,13 @@
 { pkgs, ... }:
 
+# TODO https://nix-community.github.io/nixvim/plugins/vim-slime/index.html
+# TODO https://nix-community.github.io/nixvim/plugins/barbar/index.html
+
 let
   plugins = [
     "nix"
     "gitsigns"
+    "barbar"
     "trouble"
     "nvim-colorizer"
     "neocord"
@@ -29,7 +33,7 @@ let
     "autoclose"     # automatically match brackets
     "barbar"        # tab bar
     "barbecue"      # breadcrumbs
-    "multicursors"  # TODO
+    "multicursors"  # TODO 
     "navbuddy"
     "undotree"
     "image"

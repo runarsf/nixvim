@@ -1,6 +1,24 @@
 { config, ... }:
 
 {
+  extraConfigVim = ''
+    function! CloseVimOrDeleteBuffer()
+        " Check if there is only one tab open
+        if tabpagenr('$') == 1
+            " Check how many buffers are visible in the current tab
+            let l:visible_buffers = len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+            " Close Vim if this is the only visible buffer in the last tab
+            if l:visible_buffers == 1
+                quit
+            else
+                BufferClose
+            endif
+        else
+            BufferClose
+        endif
+    endfunction
+  '';
+
   globals = {
     mapleader = ",";
     maplocalleader = "<Space>";
@@ -162,9 +180,15 @@
       action = "<CMD>lua CopyMode()<CR>";
       options.desc = "Toggle copy-mode";
     }
+    # {
+    #   key = "<leader>q";
+    #   action = "<CMD>q<CR>";
+    #   options.desc = "Quit";
+    # }
     {
       key = "<leader>q";
-      action = "<CMD>q<CR>";
+      action = "<CMD>call CloseVimOrDeleteBuffer()<CR>";
+      # action = "<CMD>lua vim.cmd(vim.fn.tabpagenr('$') > 1 and 'BufferClose' or 'quit')<CR>";
       options.desc = "Quit";
     }
     {
