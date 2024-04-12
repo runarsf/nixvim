@@ -4,14 +4,16 @@ let
   plugins = [
     "nix"
     "gitsigns"
-    "harpoon"
     "trouble"
-    "presence-nvim"
     "nvim-colorizer"
+    "neocord"
+    "neogen"
     "which-key"
+    "headlines"
     "lastplace"
     "rainbow-delimiters"
     "typst-vim"
+    "plantuml-syntax"
     "marks"
     "jupytext"
     "parinfer-rust"
@@ -21,18 +23,19 @@ let
     "clangd-extensions"
     "barbar"
     "diffview"
-    "hmts"
-    "instant"
-    "intellitab" # keymap set in ./completions.nix
-    "multicursors"
+    "hmts"          # treesitter queries for home manager
+    "instant"       # collaborative editing
+    "intellitab"    # keymap set in ./completions.nix
+    "autoclose"     # automatically match brackets
+    "barbar"        # tab bar
+    "barbecue"      # breadcrumbs
+    "multicursors"  # TODO
+    "navbuddy"
     "undotree"
     "image"
-    "dap"
-    "fidget"
+    # "fidget"
     # "flash"
-    # "alpha"
     # "cursorline"
-    # "bufferline"
   ];
 
 in {
@@ -41,7 +44,8 @@ in {
     ./sniprun.nix
     ./toggleterm.nix
     ./hop.nix
-    ./rest-client.nix
+    ./rest.nix
+    ./dap.nix
     ./completions.nix
     ./conform.nix
     ./lsp.nix
@@ -49,10 +53,11 @@ in {
     ./mini.nix
     ./treesitter.nix
     ./notify.nix
+    ./noice.nix
     ./todo-comments.nix
-    ./wilder.nix
     ./telescope.nix
     ./lualine.nix
+    ./instant.nix
     ./otter.nix
     ./duck.nix
   ];

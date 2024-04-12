@@ -3,7 +3,7 @@ _:
 {
   plugins.noice = {
     enable = true;
-    cmdline.enabled = false;
+    notify.view = "mini";
     presets = {
       bottom_search = true;
       command_palette = false;

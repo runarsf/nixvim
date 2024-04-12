@@ -56,8 +56,7 @@
           { name = "fuzzy-path"; }
           { name = "path"; }
           { name = "buffer"; }
-          { name = "copilot.lua"; }
-          { name = "dap"; }
+          { name = "copilot"; }
         ];
         mapping = {
           "<C-d>" = "cmp.mapping.scroll_docs(-4)";
