@@ -10,7 +10,7 @@ _:
     {
       key = "<leader>dc";
       action = "<CMD>lua require'dap'.continue()<CR>";
-      options.desc = "(debug) Continue";
+      options.desc = "(debug) Start / Continue";
     }
     {
       key = "<leader>do";
@@ -18,16 +18,66 @@ _:
       options.desc = "(debug) Step over";
     }
     {
+      key = "<leader>di";
+      action = "<CMD>lua require'dap'.step_into()<CR>";
+      options.desc = "(debug) Step into";
+    }
+    {
+      key = "<leader>dO";
+      action = "<CMD>lua require'dap'.step_out()<CR>";
+      options.desc = "(debug) Step out";
+    }
+    {
       key = "<leader>dr";
-      action = "<CMD>lua require'dap'.repl.open()<CR>";
+      action = "<CMD>lua require'dap'.repl.toggle()<CR>";
       options.desc = "(debug) REPL";
+    }
+    {
+      key = "<leader>ds";
+      action = "<CMD>lua require'dap'.close()<CR>";
+      options.desc = "(debug) Stop";
     }
   ];
 
   plugins = {
+    rustaceanvim.enable = true;
+
     dap = {
       enable = true;
-      extensions.dap-ui.enable = true;
+      signs.dapBreakpoint.text = "";
+      extensions = {
+        dap-ui.enable = true;
+        dap-virtual-text.enable = true;
+        dap-go.enable = true;
+        dap-python = {
+          enable = true;
+          console = "integratedTerminal";
+          # FIXME use resolvePython instead?
+          adapterPythonPath = "~/.nix-profile/bin/python";
+        };
+      };
+
+      # adapters.executables = {
+      #   gdb = {
+      #     command = "gdb";
+      #     args = [ "-i" "dap" ];
+      #   };
+
+      #   lldb = {
+      #     command = "lldb-dap";
+      #     name = "lldb";
+      #   };
+
+      #   dart = {
+      #     command = "dart";
+      #     args = [ "debug_adapter" ];
+      #   };
+
+      #   flutter = {
+      #     command = "flutter";
+      #     args = [ "debug_adapter" ];
+      #   };
+      # };
     };
 
     cmp.settings.sources = [

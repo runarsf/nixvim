@@ -3,9 +3,11 @@
 {
   plugins.toggleterm = {
     enable = true;
-    direction = "float";
-    openMapping = "<M-n>";
-    floatOpts.border = "curved";
+    settings = {
+      direction = "float";
+      open_mapping = "[[<M-n>]]";
+      float_opts.border = "curved";
+    };
   };
 
   extraConfigLuaPre = ''

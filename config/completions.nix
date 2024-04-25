@@ -85,21 +85,21 @@
             end)
           '';
           "<Tab>" = ''
-           cmp.mapping(function(fallback)
-             if cmp.visible() then
-               cmp.select_next_item()
-             elseif luasnip.expand_or_jumpable() then
-               luasnip.expand_or_locally_jumpable()
-             elseif HasWordsBefore() then
-               cmp.complete()
-             else
-               ${if config.plugins.intellitab.enable then
-                 "vim.cmd[[silent! lua require('intellitab').indent()]]"
-               else
-                 "fallback()"
-               }
-             end
-           end, { "i", "s" })
+            cmp.mapping(function(fallback)
+              if cmp.visible() then
+                cmp.select_next_item()
+              elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_locally_jumpable()
+              elseif HasWordsBefore() then
+                cmp.complete()
+              else
+                ${if config.plugins.intellitab.enable then
+                  "vim.cmd[[silent! lua require('intellitab').indent()]]"
+                else
+                  "fallback()"
+                }
+              end
+            end, { "i", "s" })
           '';
           "<S-Tab>" = ''
             cmp.mapping(function(fallback)

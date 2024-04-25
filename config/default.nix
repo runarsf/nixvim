@@ -8,6 +8,8 @@
     ./keymaps.nix
   ];
 
+  enableMan = false;
+
   extraPackages = with pkgs; [ glow ];
 
   extraConfigLuaPre =

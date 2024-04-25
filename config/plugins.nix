@@ -100,10 +100,16 @@ in {
         let g:SimpylFold_fold_docstring = 0
       '';
     }
+    codi-vim
 
     # Filetypes
     yuck-vim
     vim-just
+
+    {
+      plugin = statuscol-nvim;
+      config = ''lua require("statuscol").setup()'';
+    }
 
     {
       plugin = (pkgs.vimUtils.buildVimPlugin {
