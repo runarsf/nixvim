@@ -7,11 +7,37 @@ _:
         call feedkeys("\<Insert>", "n")
       endif
     endfunction
+
+    function DisableSyntax()
+      echo("Big file, disabling syntax, treesitter and folding")
+      if exists(':TSBufDisable')
+        exec 'TSBufDisable autotag'
+        exec 'TSBufDisable highlight'
+      endif
+
+      set foldmethod=manual
+      syntax clear
+      syntax off
+      filetype off
+      set noundofile
+      set noswapfile
+      set noloadplugins
+    endfunction
   '';
 
-  autoGroups = { CursorLine.clear = true; ForbidReplaceMode.clear = true; };
+  autoGroups = {
+    CursorLine.clear = true;
+    ForbidReplaceMode.clear = true;
+    BigFile.clear = true;
+  };
 
   autoCmd = [
+    { # Disable syntax, treesitter, and folding for big files
+      group = "BigFile";
+      event = [ "BufWinEnter" "BufReadPre" "FileReadPre" ];
+      pattern = [ "*" ];
+      command = "if getfsize(expand('%')) > 512 * 1024 | exec DisableSyntax() | endif";
+    }
     { # Show cursor-line
       group = "CursorLine";
       event = [ "InsertLeave" "WinEnter" ];
