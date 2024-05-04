@@ -20,6 +20,10 @@ _:
           go_out_plus = "<Left>";
           synchronize = "W";
         };
+        windows = {
+          preview = true;
+          width_preview = 50;
+        };
       };
     };
   };
