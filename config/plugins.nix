@@ -106,6 +106,7 @@ in {
     # Filetypes
     yuck-vim
     vim-just
+    openingh-nvim
 
     {
       plugin = statuscol-nvim;
