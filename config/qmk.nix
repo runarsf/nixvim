@@ -9,17 +9,23 @@ let
     in
       lib.replicate rows row;
 
-  createKeyboardCallback = name: layout: {
-    __raw = ''
-      function() require('qmk').setup({
-        name = '${name}',
-        comment_preview = { position = 'inside' },
-        layout = {
-          ${layoutToString layout}
-        }
-      }) end
-    '';
-  };
+  createKeyboardCallback = args:
+    let
+      name = builtins.elemAt args 0;
+      layout = builtins.elemAt args 1;
+      variant = if builtins.length args > 2 then builtins.elemAt args 2 else "qmk";
+    in {
+      __raw = ''
+        function() require('qmk').setup({
+          name = '${name}',
+          variant = '${variant}',
+          comment_preview = { position = 'inside' },
+          layout = {
+            ${layoutToString layout}
+          }
+        }) end
+      '';
+    };
 
 in {
   plugins.qmk = {
@@ -36,25 +42,25 @@ in {
       group = "Qmk";
       event = [ "BufEnter" ];
       pattern = [ "*preonic/keymap.c" ];
-      callback = createKeyboardCallback "LAYOUT_preonic_grid" (generateLayout 5 12);
+      callback = createKeyboardCallback [ "LAYOUT_preonic_grid" (generateLayout 5 12) ];
     }
     {
       group = "Qmk";
       event = [ "BufEnter" ];
       pattern = [ "*planck/keymap.c" ];
-      callback = createKeyboardCallback "LAYOUT_planck_grid" (generateLayout 4 12);
+      callback = createKeyboardCallback [ "LAYOUT_planck_grid" (generateLayout 4 12) ];
     }
     {
       group = "Qmk";
       event = [ "BufEnter" ];
       pattern = [ "*framework/keymap.c" ];
-      callback = createKeyboardCallback "LAYOUT_ortho_5x12" (generateLayout 5 12);
+      callback = createKeyboardCallback [ "LAYOUT_ortho_5x12" (generateLayout 5 12) ];
     }
     {
       group = "Qmk";
       event = [ "BufEnter" ];
       pattern = [ "*air40/keymap.c" ];
-      callback = createKeyboardCallback "LAYOUT_ortho_4x12" (generateLayout 4 12);
+      callback = createKeyboardCallback [ "LAYOUT_ortho_4x12" (generateLayout 4 12) ];
     }
     {
       group = "Qmk";
@@ -74,12 +80,7 @@ in {
       group = "Qmk";
       event = [ "BufEnter" ];
       pattern = [ "*.keymap" ];
-      callback = { __raw = "function() require('qmk').setup({
-                    name = 'meh',
-                    variant = 'zmk',
-                    layout = {
-                      ${layoutToString (generateLayout 4 12)}
-                    }}) end"; };
+      callback = createKeyboardCallback [ "LAYOUT_blank" (generateLayout 4 12) "zmk" ];
     }
   ];
 }
