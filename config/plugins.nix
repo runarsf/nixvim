@@ -36,12 +36,12 @@ let
     "autoclose"     # automatically match brackets
     "barbar"        # tab bar
     "barbecue"      # breadcrumbs
-    "multicursors"  # TODO
     "navbuddy"
     "undotree"
     "image"
     "comment"
     "sleuth"
+    # "multicursors"
     # "fidget"
     # "flash"
     # "cursorline"
@@ -53,11 +53,11 @@ in {
     ./sniprun.nix
     ./toggleterm.nix
     ./hop.nix
-    ./rest.nix
     ./dap.nix
     ./completions.nix
     ./conform.nix
     ./lsp.nix
+    ./cloak.nix
     ./folds.nix
     ./mini.nix
     ./treesitter.nix
