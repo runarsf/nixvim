@@ -44,6 +44,7 @@ _:
     { # Open files if vim started with no arguments
       event = [ "VimEnter" ];
       pattern = [ "*" ];
+      # TODO Turn into callback instead of command
       command = "call DoIfEmpty()";
     }
   ];

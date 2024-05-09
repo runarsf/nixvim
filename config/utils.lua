@@ -24,6 +24,7 @@ CopyMode = function()
   g.def_list           = g.def_list ~= nil and true or g.def_list
   g.def_signcolumn     = g.def_signcolumn ~= nil and "yes" or g.def_signcolumn
   g.def_mouse          = g.def_mouse ~= nil and "vc" or g.def_mouse
+  g.def_virtcolumn     = g.def_virtcolumn ~= nil and true or g.def_virtcolumn
 
   -- vim.wo always returns a number, but expects a bool when assigning
   local int_to_bool = function(int)
@@ -33,6 +34,7 @@ CopyMode = function()
   end
 
   local has_blankline, _ = pcall(require, "indent_blankline")
+  local has_virtcol, virtcolumn = pcall(require, "virt-column")
 
   if w.number or w.relativenumber then
     g.def_number         = int_to_bool(w.number)
@@ -44,6 +46,7 @@ CopyMode = function()
 
     -- Disable
     if has_blankline then vim.cmd[[IndentBlanklineDisable]] end
+    if has_virtcol then virtcolumn.update { enabled = false } end
     w.number         = false
     w.relativenumber = false
     w.wrap           = false
@@ -55,6 +58,7 @@ CopyMode = function()
   else
     -- Restore previous state
     if has_blankline then vim.cmd[[IndentBlanklineEnable]] end
+    if has_virtcol then virtcolumn.update { enabled = true } end
     w.number         = g.def_number
     w.relativenumber = g.def_relativenumber
     w.wrap           = g.def_wrap

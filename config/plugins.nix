@@ -3,6 +3,7 @@
 # TODO https://nix-community.github.io/nixvim/plugins/vim-slime/index.html
 # TODO https://nix-community.github.io/nixvim/plugins/barbar/index.html
 # TODO https://github.com/chrisgrieser/nvim-origami
+# TODO A similar plugin to gremlins https://marketplace.visualstudio.com/items?itemName=nhoizey.gremlins
 
 let
   plugins = [
@@ -25,6 +26,7 @@ let
     "rustaceanvim"
     "crates-nvim"
     "ccc"
+    "improved-search"
     "clangd-extensions"
     "barbar"
     "diffview"
@@ -34,10 +36,12 @@ let
     "autoclose"     # automatically match brackets
     "barbar"        # tab bar
     "barbecue"      # breadcrumbs
-    "multicursors"  # TODO 
+    "multicursors"  # TODO
     "navbuddy"
     "undotree"
     "image"
+    "comment"
+    "sleuth"
     # "fidget"
     # "flash"
     # "cursorline"
@@ -66,6 +70,8 @@ in {
     ./instant.nix
     ./otter.nix
     ./duck.nix
+    ./virt-column.nix
+    ./qmk.nix
   ];
 
   plugins = builtins.listToAttrs (map (name: {
@@ -85,7 +91,6 @@ in {
       plugin = dressing-nvim;
       config = ''lua require("dressing").setup()'';
     }
-    vim-sleuth
     {
       # TODO Use https://github.com/kawre/neotab.nvim
       plugin = tabout-nvim;
