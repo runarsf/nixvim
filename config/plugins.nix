@@ -41,6 +41,7 @@ let
     "image"
     "comment"
     "sleuth"
+    "dressing"
     # "multicursors"
     # "fidget"
     # "flash"

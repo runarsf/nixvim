@@ -94,7 +94,7 @@
                 cmp.complete()
               else
                 ${if config.plugins.intellitab.enable then
-                  "vim.cmd[[silent! lua require('intellitab').indent()]]"
+                  "require('intellitab').indent()"
                 else
                   "fallback()"
                 }
@@ -110,7 +110,7 @@
               else
                 fallback()
               end
-            end, { "i", "s" })
+            end, { "i", "s", "c" })
           '';
         };
       };
