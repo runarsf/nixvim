@@ -1,11 +1,11 @@
-#! /usr/bin/env nix-shell
+#! /usr/bin/env cached-nix-shell
 #! nix-shell -i python3 -p python3Packages.requests python3Packages.humanize
 
 import requests
 import json
 import humanize
 import os
-import sys
+import argparse
 from datetime import datetime
 
 def get_commit(repo_owner, repo_name, sha, token):
@@ -49,6 +49,7 @@ def get_commit_files(user, repo, commit_sha, token):
         'Accept': 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28'
     }
+    files = []
     for commit in commits:
         try:
             commit_details = requests.get(commit['url'], headers=headers).json()
@@ -66,14 +67,26 @@ def get_commit_files(user, repo, commit_sha, token):
                 continue
 
             print(f"{file['filename']} ({time_ago})")
+            files.append(file['filename'])
+
+    if len(files) <= 0:
+        print("No new plugins found")
 
 
-if __name__ == '__main__':
-    user = 'nix-community'
-    repo = 'nixvim'
-    token = os.getenv('GITHUB_TOKEN', sys.argv[1])
-
+locked_commit_sha = None
+if os.path.isfile("flake.lock"):
     with open("flake.lock", "r") as lockfile:
-        commit_sha = json.load(lockfile)['nodes']['nixvim']['locked']['rev']
+        locked_commit_sha = json.load(lockfile)['nodes']['nixvim']['locked']['rev']
 
-    files = get_commit_files(user, repo, commit_sha, token)
+parser = argparse.ArgumentParser(description='List plugin releases')
+
+parser.add_argument('commit_sha', nargs='?', type=str, help='The commit SHA to start from, defaults to locked sha', default=locked_commit_sha)
+parser.add_argument('-t', '--token', type=str, help='GitHub API token', default=os.getenv('GITHUB_TOKEN', None))
+
+args = parser.parse_args()
+
+if args.token is None:
+    print("Please provide a GitHub token")
+    exit(1)
+
+get_commit_files('nix-community', 'nixvim', args.commit_sha, args.token)
