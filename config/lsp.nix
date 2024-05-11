@@ -16,7 +16,9 @@ _:
         html.enable = true;
         jsonls.enable = true;
         nil_ls.enable = true;
-        ruff-lsp.enable = true;
+        ruff.enable = true;
+        # FIXME Autostart ruff for files that exist on disk
+        ruff.autostart = false;
         tailwindcss.enable = true;
         typst-lsp.enable = true;
         terraformls.enable = true;

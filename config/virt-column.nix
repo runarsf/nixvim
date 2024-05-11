@@ -3,6 +3,9 @@ _:
 {
   plugins.virt-column = {
     enable = true;
-    settings.virtcolumn = "80,100,120";
+    settings = {
+      char = "▕";
+      virtcolumn = "80,100,120";
+    };
   };
 }
