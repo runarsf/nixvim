@@ -5,6 +5,7 @@
 # TODO https://nix-community.github.io/nixvim/plugins/barbar/index.html
 # TODO https://github.com/chrisgrieser/nvim-origami
 # TODO A similar plugin to gremlins https://marketplace.visualstudio.com/items?itemName=nhoizey.gremlins
+# TODO e.g. with symbols outline: https://github.com/folke/edgy.nvim
 
 let
   plugins = [
@@ -33,7 +34,7 @@ let
     "diffview"
     "hmts"          # treesitter queries for home manager
     "instant"       # collaborative editing
-    "intellitab"    # keymap set in ./completions.nix
+    # "intellitab"    # keymap set in ./completions.nix
     "autoclose"     # automatically match brackets
     "barbar"        # tab bar
     "barbecue"      # breadcrumbs
@@ -75,6 +76,7 @@ in {
     ./virt-column.nix
     ./qmk.nix
     ./indent-blankline.nix
+    ./outline.nix
   ];
 
   plugins = builtins.listToAttrs (map (name: {

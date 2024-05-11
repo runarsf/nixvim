@@ -180,16 +180,15 @@
       action = "<CMD>lua CopyMode()<CR>";
       options.desc = "Toggle copy-mode";
     }
-    # {
-    #   key = "<leader>q";
-    #   action = "<CMD>q<CR>";
-    #   options.desc = "Quit";
-    # }
     {
       key = "<leader>q";
       action = "<CMD>call CloseVimOrDeleteBuffer()<CR>";
-      # action = "<CMD>lua vim.cmd(vim.fn.tabpagenr('$') > 1 and 'BufferClose' or 'quit')<CR>";
       options.desc = "Quit";
+    }
+    {
+      key = "<leader>Q";
+      action = "<CMD>qa!<CR>";
+      options.desc = "Quit all";
     }
     {
       key = "<leader>T";
