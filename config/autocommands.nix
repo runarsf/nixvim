@@ -38,6 +38,11 @@ _:
       pattern = [ "*" ];
       command = "if getfsize(expand('%')) > 512 * 1024 | exec DisableSyntax() | endif";
     }
+    # {
+    #   event = [ "CursorMoved", "CursorMovedI " ];
+    #   pattern = [ "*" ];
+    #   command = "if col('.') >= 80 | echo 'hi' | endif";
+    # }
     { # Show cursor-line
       group = "CursorLine";
       event = [ "InsertLeave" "WinEnter" ];

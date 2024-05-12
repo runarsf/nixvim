@@ -32,3 +32,12 @@ Install neovim normally, system-wide or using home-manager. The overlay ensures 
 home.packages = [ pkgs.neovim ];
 environment.systemPackages = [ pkgs.neovim ];
 ```
+
+## Checking for new plugins
+
+
+`list-plugin-releases.py` will check for new plugin releases since the currently locked nixvim sha.
+
+```bash
+./list-plugin-releases.py -t [github_token]
+```

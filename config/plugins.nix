@@ -34,7 +34,7 @@ let
     "diffview"
     "hmts"          # treesitter queries for home manager
     "instant"       # collaborative editing
-    # "intellitab"    # keymap set in ./completions.nix
+    "intellitab"    # keymap set in ./completions.nix
     "autoclose"     # automatically match brackets
     "barbar"        # tab bar
     "barbecue"      # breadcrumbs
@@ -76,7 +76,7 @@ in {
     ./virt-column.nix
     ./qmk.nix
     ./indent-blankline.nix
-    ./outline.nix
+    ./aerial.nix
   ];
 
   plugins = builtins.listToAttrs (map (name: {

@@ -45,11 +45,6 @@
         "<CMD>echo v:errmsg<CR>";
       options.desc = "Show last error message";
     }
-    {
-      key = "<C-p>";
-      action = "<CMD>lua require'telescope.builtin'.live_grep()<CR>";
-      options.desc = "Live grep";
-    }
 
     # Better window navigation
     {
