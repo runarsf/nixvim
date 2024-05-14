@@ -1,8 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, helpers, ... }:
 
 {
   plugins.telescope = {
     enable = true;
+    settings.defaults.mappings.i."<esc>" = helpers.mkRaw "require('telescope.actions').close";
     extensions = {
       ui-select.enable = true;
       file-browser.enable = true;

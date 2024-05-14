@@ -1,4 +1,4 @@
-#! /usr/bin/env cached-nix-shell
+#! /usr/bin/env nix-shell
 #! nix-shell -i python3 -p python3Packages.requests python3Packages.humanize
 
 import requests

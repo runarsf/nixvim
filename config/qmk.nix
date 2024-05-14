@@ -1,8 +1,6 @@
-{ lib, ...}:
+{ lib, helpers, ... }:
 
 let
-  layoutToString = layout: lib.strings.concatMapStringsSep ",\n" (s: "'${s}'") layout;
-
   generateLayout = rows: cols:
     let
       row = lib.concatStringsSep " " (lib.replicate cols "x");
@@ -14,18 +12,16 @@ let
       name = builtins.elemAt args 0;
       layout = builtins.elemAt args 1;
       variant = if builtins.length args > 2 then builtins.elemAt args 2 else "qmk";
-    in {
-      __raw = ''
-        function() require('qmk').setup({
-          name = '${name}',
-          variant = '${variant}',
-          comment_preview = { position = 'inside' },
-          layout = {
-            ${layoutToString layout}
-          }
-        }) end
-      '';
-    };
+    in helpers.mkRaw ''
+      function() require('qmk').setup({
+        name = '${name}',
+        variant = '${variant}',
+        comment_preview = { position = 'inside' },
+        layout = {
+          ${helpers.toLuaObject layout}
+        }
+      }) end
+    '';
 
 in {
   plugins.qmk = {
@@ -66,15 +62,16 @@ in {
       group = "Qmk";
       event = [ "BufEnter" ];
       pattern = [ "*lulu/keymap.c" ];
-      callback = { __raw = "function() require('qmk').setup({
-                    name = 'LAYOUT',
-                    layout = {
-                      'x x x x x x _ _ _ x x x x x x',
-                      'x x x x x x _ _ _ x x x x x x',
-                      'x x x x x x _ _ _ x x x x x x',
-                      'x x x x x x x _ x x x x x x x',
-                      '_ _ _ x x x x _ x x x x _ _ _'
-                    }}) end"; };
+      callback = helpers.mkRaw
+        "function() require('qmk').setup({
+           name = 'LAYOUT',
+           layout = {
+             'x x x x x x _ _ _ x x x x x x',
+             'x x x x x x _ _ _ x x x x x x',
+             'x x x x x x _ _ _ x x x x x x',
+             'x x x x x x x _ x x x x x x x',
+             '_ _ _ x x x x _ x x x x _ _ _'
+         }}) end";
     }
     { # Blank space layout, currently doesn't work
       group = "Qmk";
