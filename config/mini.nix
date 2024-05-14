@@ -8,6 +8,7 @@ _:
       comment = { };
       align = { };
       # hipatterns = { };
+      surround = { };
       bufremove = { };
       move = { };
       trailspace = { };

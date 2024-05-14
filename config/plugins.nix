@@ -17,7 +17,7 @@ let
     "neocord"
     "neogen"
     "which-key"
-    "headlines"
+    # "headlines"
     "lastplace"
     "rainbow-delimiters"
     "typst-vim"
@@ -35,7 +35,7 @@ let
     "hmts"          # treesitter queries for home manager
     "instant"       # collaborative editing
     "intellitab"    # keymap set in ./completions.nix
-    "autoclose"     # automatically match brackets
+    # "autoclose"     # automatically match brackets
     "barbar"        # tab bar
     "barbecue"      # breadcrumbs
     "navbuddy"
@@ -52,7 +52,7 @@ let
 
 in {
   imports = [
-    ./ayu.nix
+    ./colorscheme.nix
     ./sniprun.nix
     ./toggleterm.nix
     ./hop.nix
@@ -117,6 +117,8 @@ in {
     yuck-vim
     vim-just
     openingh-nvim
+
+    legendary-nvim
 
     {
       plugin = statuscol-nvim;
