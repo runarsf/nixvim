@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+_:
 
 {
   # TODO hover and goto binds: https://nix-community.github.io/nixvim/plugins/lsp/keymaps/index.html

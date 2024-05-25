@@ -1,6 +1,5 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
-# TODO https://github.com/Bekaboo/deadcolumn.nvim
 # TODO https://nix-community.github.io/nixvim/plugins/vim-slime/index.html
 # TODO https://nix-community.github.io/nixvim/plugins/barbar/index.html
 # TODO https://github.com/chrisgrieser/nvim-origami
@@ -8,6 +7,11 @@
 # TODO e.g. with symbols outline: https://github.com/folke/edgy.nvim
 
 let
+  # TODO Enable plugin from function by providing strings or packages.
+  #  For strings, <string>.enable will be set to true.
+  #  All files should be imported and create an option to enable that file, like
+  #  plugin.enable. This means strings can also be config-defined enables.
+  #  For packages, they will be added to the extraPlugins list.
   plugins = [
     "nix"
     "gitsigns"
@@ -74,7 +78,6 @@ in {
     ./otter.nix
     ./duck.nix
     ./virt-column.nix
-    ./qmk.nix
     ./indent-blankline.nix
     ./aerial.nix
   ];
@@ -91,18 +94,20 @@ in {
     nui-nvim
     nvim-web-devicons
     hologram-nvim
+    bigfile-nvim
 
     {
       plugin = dressing-nvim;
-      config = ''lua require("dressing").setup()'';
+      config = lib.luaToViml ''require("dressing").setup()'';
     }
     {
       # TODO Use https://github.com/kawre/neotab.nvim
       plugin = tabout-nvim;
-      config = ''
-        lua require("tabout").setup({
-        \   skip_ssl_verification = true,
-        \ })
+      # TODO vimlify lua
+      config = lib.luaToViml ''
+        require("tabout").setup({
+          skip_ssl_verification = true,
+        })
       '';
     }
     {
@@ -122,7 +127,20 @@ in {
 
     {
       plugin = statuscol-nvim;
-      config = ''lua require("statuscol").setup()'';
+      config = lib.luaToViml ''require("statuscol").setup()'';
+    }
+
+    {
+      plugin = (pkgs.vimUtils.buildVimPlugin {
+        name = "tiny-devicons-auto-colors.nvim";
+        src = pkgs.fetchFromGitHub {
+            owner = "rachartier";
+            repo = "tiny-devicons-auto-colors.nvim";
+            rev = "699381f502a9c4e8d95925083765768545e994b4";
+            hash = "sha256-4cXaGvptqE9Vktj4hERokdA1DYzYi1r+UopEBxuBd2U=";
+        };
+      });
+      config = lib.luaToViml ''require('tiny-devicons-auto-colors').setup()'';
     }
 
     {
@@ -135,9 +153,7 @@ in {
             hash = "sha256-77+mDpI51L8jjyOGURzruDdXwkc855tc/Mv+CfnX2io=";
         };
       });
-      config = ''
-        lua require("pets").setup()
-      '';
+      config = lib.luaToViml ''require("pets").setup()'';
     }
   ];
 

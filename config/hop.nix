@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   extraPlugins = [{
     plugin = pkgs.vimPlugins.hop-nvim;
-    config = ''
-      lua require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
+    config = lib.luaToViml ''
+      require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
     '';
   }];
   keymaps = [

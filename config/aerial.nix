@@ -1,12 +1,12 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   extraPlugins = with pkgs.vimPlugins; [
     {
       plugin = aerial-nvim;
-      config = ''lua
-        \ require("aerial").setup();
-        \ require("telescope").load_extension("aerial")
+      config = lib.luaToViml ''
+        require("aerial").setup();
+        require("telescope").load_extension("aerial")
       '';
     }
   ];

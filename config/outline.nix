@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   extraPlugins = with pkgs.vimPlugins; [
     {
       plugin = outline-nvim;
-      config = ''lua require("outline").setup { }'';
+      config = lib.luaToViml ''require("outline").setup()'';
     }
   ];
 

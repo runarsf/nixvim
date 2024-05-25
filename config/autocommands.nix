@@ -1,4 +1,4 @@
-_:
+{ lib, ... }:
 
 {
   extraConfigVim = ''
@@ -36,7 +36,11 @@ _:
       group = "BigFile";
       event = [ "BufWinEnter" "BufReadPre" "FileReadPre" ];
       pattern = [ "*" ];
-      command = "if getfsize(expand('%')) > 512 * 1024 | exec DisableSyntax() | endif";
+      command = lib.joinViml ''
+        if getfsize(expand('%')) > 512 * 1024
+          exec DisableSyntax()
+        endif
+      '';
     }
     # {
     #   event = [ "CursorMoved", "CursorMovedI " ];

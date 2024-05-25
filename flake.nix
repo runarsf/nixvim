@@ -3,36 +3,31 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
-    flake-utils.url = "github:numtide/flake-utils";
+    utils.url = "github:numtide/flake-utils";
+
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixpkgs, nixvim, flake-utils, ... }@inputs:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs = inputs@{ nixpkgs, nixvim, utils, ... }:
+    utils.lib.eachDefaultSystem (system:
       let
-        stable-packages = final: prev: {
-          stable = import inputs.nixpkgs-stable {
-            system = final.system;
-            config.allowUnfree = true;
-            config.allowBroken = true;
-          };
+        lib = import ./lib.nix {
+          inherit inputs system;
         };
-        overlays = [ stable-packages ];
-        pkgs = import nixpkgs { inherit system overlays; };
+        pkgs = import nixpkgs { inherit system; };
         nixvimLib = nixvim.lib.${system};
         nixvim' = nixvim.legacyPackages.${system};
         nvim = nixvim'.makeNixvimWithModule {
           inherit pkgs;
           module = import ./config;
-          extraSpecialArgs = { inherit inputs; };
+          extraSpecialArgs = { inherit inputs lib; };
         };
       in {
         checks.default = nixvimLib.check.mkTestDerivationFromNvim {
-          inherit nvim;
+          inherit nvim lib;
           name = "Personal Neovim configuration";
         };
         packages.default = nvim;

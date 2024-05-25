@@ -1,4 +1,4 @@
-{ pkgs, helpers, ... }:
+{ pkgs, lib, helpers, ... }:
 
 {
   plugins.telescope = {
@@ -28,8 +28,8 @@
             hash = "sha256-nLDwEkpu+SmcJgnjhtqaXkeeX8YwPp3S2QYKNXaTJCI=";
         };
       });
-      config = ''
-        lua require("search").setup()
+      config = lib.luaToViml ''
+        require("search").setup()
       '';
     }
   ];

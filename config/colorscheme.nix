@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 let
+  active = "ayu";
+
   colorscheme = name: plugins: {
     colorscheme = name;
     extraPlugins = map (plugin:
@@ -10,7 +12,7 @@ let
     ) (if builtins.isList plugins then plugins else [ plugins ]);
   };
 
-in colorscheme "ayu" [ "neovim-ayu" "tokyonight-nvim"
+in colorscheme active [ "neovim-ayu" "tokyonight-nvim"
   {
     plugin = pkgs.vimUtils.buildVimPlugin {
       name = "github-nvim-theme";

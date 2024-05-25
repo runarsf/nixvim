@@ -1,6 +1,8 @@
 { lib, helpers, ... }:
 
 let
+  layoutToString = layout: lib.strings.concatMapStringsSep ",\n" (s: "'${s}'") layout;
+
   generateLayout = rows: cols:
     let
       row = lib.concatStringsSep " " (lib.replicate cols "x");
@@ -18,7 +20,7 @@ let
         variant = '${variant}',
         comment_preview = { position = 'inside' },
         layout = {
-          ${helpers.toLuaObject layout}
+          ${layoutToString layout}
         }
       }) end
     '';

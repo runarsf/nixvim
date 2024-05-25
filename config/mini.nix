@@ -1,4 +1,4 @@
-_:
+{ helpers, ... }:
 
 {
   plugins.mini = {
@@ -29,24 +29,21 @@ _:
     };
   };
 
-  extraConfigVim = ''
-    function DoIfEmpty()
-      if @% == ""
-        lua MiniFiles.open()
-      " elseif filereadable(@%) == 0
-      "   echom "new file"
-      " elseif line('$') == 1 && col('$') == 1
-      "   echom "file is empty"
-      endif
-    endfunction
-  '';
-
   autoCmd = [
     { # Open files if vim started with no arguments
       event = [ "VimEnter" ];
       pattern = [ "*" ];
-      # TODO Turn into callback instead of command
-      command = "call DoIfEmpty()";
+      callback = helpers.mkRaw ''
+        function()
+          if (vim.fn.expand("%") == "") then
+            MiniFiles.open()
+          -- elseif filereadable(@%) == 0
+          --   echom "new file"
+          -- elseif line('$') == 1 && col('$') == 1
+          --   echom "file is empty"
+          end
+        end
+      '';
     }
   ];
 

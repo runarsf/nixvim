@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   extraPlugins = with pkgs.vimPlugins; [
     {
       plugin = otter-nvim;
-      config = ''lua require("otter").setup()'';
+      config = lib.luaToViml ''require("otter").setup()'';
     }
   ];
 
