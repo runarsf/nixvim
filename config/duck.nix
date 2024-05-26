@@ -15,11 +15,11 @@
   ];
 
   extraPlugins = [
-    (pkgs.vimUtils.buildVimPlugin {
+    (pkgs.vimUtils.buildVimPlugin rec {
         name = "duck.nvim";
         src = pkgs.fetchFromGitHub {
             owner = "tamton-aquib";
-            repo = "duck.nvim";
+            repo = name;
             rev = "0ca969d549f5d546ae395e163130024b51694235";
             hash = "sha256-meATA9jsIrRUAZ+5PkznR8RADAC3KbmTHaG4p0oietw=";
         };

@@ -24,7 +24,6 @@ let
     # "headlines"
     "lastplace"
     "rainbow-delimiters"
-    "typst-vim"
     "plantuml-syntax"
     "marks"
     "jupytext"
@@ -64,6 +63,7 @@ in {
     ./completions.nix
     ./conform.nix
     ./lsp.nix
+    ./typst.nix
     ./cloak.nix
     ./folds.nix
     ./mini.nix
@@ -131,11 +131,11 @@ in {
     }
 
     {
-      plugin = (pkgs.vimUtils.buildVimPlugin {
+      plugin = (pkgs.vimUtils.buildVimPlugin rec {
         name = "tiny-devicons-auto-colors.nvim";
         src = pkgs.fetchFromGitHub {
             owner = "rachartier";
-            repo = "tiny-devicons-auto-colors.nvim";
+            repo = name;
             rev = "699381f502a9c4e8d95925083765768545e994b4";
             hash = "sha256-4cXaGvptqE9Vktj4hERokdA1DYzYi1r+UopEBxuBd2U=";
         };
@@ -144,11 +144,11 @@ in {
     }
 
     {
-      plugin = (pkgs.vimUtils.buildVimPlugin {
+      plugin = (pkgs.vimUtils.buildVimPlugin rec {
         name = "pets.nvim";
         src = pkgs.fetchFromGitHub {
             owner = "giusgad";
-            repo = "pets.nvim";
+            repo = name;
             rev = "747eb5e54fe8b10f4c7ce2881637d1c17b04f229";
             hash = "sha256-77+mDpI51L8jjyOGURzruDdXwkc855tc/Mv+CfnX2io=";
         };

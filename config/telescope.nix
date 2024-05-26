@@ -19,11 +19,11 @@
 
   extraPlugins = [
     {
-      plugin = (pkgs.vimUtils.buildVimPlugin {
+      plugin = (pkgs.vimUtils.buildVimPlugin rec {
         name = "search.nvim";
         src = pkgs.fetchFromGitHub {
             owner = "FabianWirth";
-            repo = "search.nvim";
+            repo = name;
             rev = "cfde7b91c713d17e590aad2f0d22a68ddeba3043";
             hash = "sha256-nLDwEkpu+SmcJgnjhtqaXkeeX8YwPp3S2QYKNXaTJCI=";
         };
