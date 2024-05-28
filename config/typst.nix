@@ -39,4 +39,14 @@
       action = "<CMD>Telescope aerial<CR>";
     }
   ];
+
+  # https://vi.stackexchange.com/a/36442
+  files."ftplugin/typst.lua" = {
+    opts = {
+      wrap = true;
+      breakindent = true;
+      linebreak = true;
+      # breakindentopt = "br,list:-1";
+    };
+  };
 }

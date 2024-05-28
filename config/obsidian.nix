@@ -19,7 +19,11 @@
       };
     };
   };
+
   files."ftplugin/markdown.lua" = {
-    opts.conceallevel = 2;
+    opts = {
+      conceallevel = 2;
+      wrap = true;
+    };
   };
 }

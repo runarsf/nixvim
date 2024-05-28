@@ -34,7 +34,7 @@
       foldopen = "block,hor,insert,jump,mark,percent,quickfix,search,tag,undo";
       grepprg = "${pkgs.ripgrep}/bin/rg --vimgrep --hidden --glob '!.git'";
 
-      # Also handled by vim-sleuth
+      # Also handled by sleuth
       shiftround = true;
       smartindent = true;
       shiftwidth = 2;

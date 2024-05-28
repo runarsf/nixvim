@@ -1,9 +1,11 @@
 _:
 
 {
+  # FIXME mini mode doesn't work consistently, and sometimes switches off
   plugins.noice = {
     enable = true;
-    notify.enabled = true;
+    notify.enabled = false;
+    messages.enabled = false;
     notify.view = "mini";
     messages.view = "mini";
     presets = {

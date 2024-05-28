@@ -47,8 +47,9 @@ let
     "comment"
     "sleuth"
     "dressing"
+    "fidget"
+    "wilder"
     # "multicursors"
-    # "fidget"
     # "flash"
     # "cursorline"
   ];
@@ -84,7 +85,7 @@ in {
 
   plugins = builtins.listToAttrs (map (name: {
     name = name;
-    value = { enable = true; };
+    value.enable = true;
   }) plugins);
 
   extraPlugins = with pkgs.vimPlugins; [

@@ -1,6 +1,14 @@
-{ config, ... }:
+{ config, lib, ... }:
 
-{
+let
+  mkSources = sources: map (source:
+    if lib.isAttrs source then
+      source
+    else
+      { name = source; }
+  ) sources;
+
+in {
   plugins = {
     copilot-cmp.enable = true;
     copilot-lua = {
@@ -43,38 +51,21 @@
           documentation.maxHeight = "math.floor(vim.o.lines / 2)";
         };
         preselect = "None";
-        snippet.expand = "luasnip";
+        snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
         matching.disallowPartialFuzzyMatching = false;
-        sources = [
-          { name = "nvim_lsp"; }
-          { name = "luasnip"; }
-          { name = "calc"; }
-          { name = "emoji"; }
-          { name = "treesitter"; }
-          { name = "nerdfont"; }
-          { name = "git"; }
-          { name = "fuzzy-path"; }
-          { name = "path"; }
-          { name = "buffer"; }
-          { name = "copilot"; }
+        sources = mkSources [
+          "nvim_lsp"
+          "treesitter"
+          "fuzzy-path"
+          "path"
+          "buffer"
+          "copilot"
         ];
         mapping = {
           "<C-d>" = "cmp.mapping.scroll_docs(-4)";
           "<C-e>" = "cmp.mapping.close()";
           "<C-f>" = "cmp.mapping.scroll_docs(4)";
-          "<CR>" = ''
-            cmp.mapping({
-              i = function(fallback)
-                if cmp.visible() and cmp.get_active_entry() then
-                  cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-                else
-                  fallback()
-                end
-              end,
-              s = cmp.mapping.confirm({ select = true }),
-              c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
-            })
-          '';
+          "<CR>" = "cmp.mapping.confirm({ select = false })";
           "<C-Space>" = ''
             cmp.mapping(function(fallback)
               if cmp.visible() then
