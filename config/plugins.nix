@@ -81,6 +81,7 @@ in {
     ./virt-column.nix
     ./indent-blankline.nix
     ./aerial.nix
+    ./zen.nix
   ];
 
   plugins = builtins.listToAttrs (map (name: {
