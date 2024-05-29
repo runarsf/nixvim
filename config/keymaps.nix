@@ -23,31 +23,22 @@
     mapleader = ",";
     maplocalleader = "<Space>";
   };
-  keymaps = [
-    { # https://stackoverflow.com/a/21000307
-      key = "<up>";
-      action = "(v:count == 0 ? 'gk' : 'k')";
-      mode = [ "n" ];
+  keymaps = let
+    mkMove = key: dir: {
+      inherit key;
+      action = "<CMD>lua vim.api.nvim_command('normal! ' .. (vim.v.count == 0 and 1 or vim.v.count) .. 'g${dir}')<CR>";
+      mode = [ "n" "i" "v" ];
       options = {
-        desc = "Move cursor up (including wrapped lines)";
         noremap = true;
-        expr = true;
         nowait = true;
         silent = true;
       };
-    }
-    {
-      key = "<down>";
-      action = "(v:count == 0 ? 'gj' : 'j')";
-      mode = [ "n" ];
-      options = {
-        desc = "Move cursor down (including wrapped lines)";
-        noremap = true;
-        expr = true;
-        nowait = true;
-        silent = true;
-      };
-    }
+    };
+  in [
+    (mkMove "<Up>" "k")
+    (mkMove "<Down>" "j")
+    (mkMove "<Home>" "^")
+    (mkMove "<End>" "$")
 
     {
       key = "<leader><Space>";

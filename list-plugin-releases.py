@@ -61,6 +61,8 @@ def get_commit_files(user, repo, commit_sha, token):
         time_ago = humanize.naturaltime(datetime.now() - commit_time)
 
         for file in files:
+            if (type(file)) is str:
+                continue
             if file['status'] != 'added':
                 continue
             if not file['filename'].startswith('plugins/'):

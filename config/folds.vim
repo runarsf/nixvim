@@ -1,24 +1,24 @@
 " https://vi.stackexchange.com/q/5658
 
 function! MoveAndFoldLeft()
-    let line = getpos('.')[1]
-    let col  = getpos('.')[2]
+  let line = getpos('.')[1]
+  let col  = getpos('.')[2]
 
-    if l:col ==# 1 && foldlevel(l:line)
-        execute "foldclose"
-    else
-        execute "normal! h"
-    endif
+  if l:col ==# 1 && foldlevel(l:line)
+    execute "foldclose"
+  else
+    execute "normal! h"
+  endif
 endfunction
 
 function! MoveAndFoldRight()
-    let line = getpos('.')[1]
+  let line = getpos('.')[1]
 
-    if foldlevel(line) && foldclosed(line) != -1
-        execute "foldopen"
-    else
-        execute "normal! l"
-    endif
+  if foldlevel(line) && foldclosed(line) != -1
+    execute "foldopen"
+  else
+    execute "normal! l"
+  endif
 endfunction
 
 function! MoveAndFoldVert(dir)

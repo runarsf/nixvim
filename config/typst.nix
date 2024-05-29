@@ -40,6 +40,7 @@
     }
   ];
 
+  # TODO Spellcheck
   # https://vi.stackexchange.com/a/36442
   files."ftplugin/typst.lua" = {
     opts = {
