@@ -23,11 +23,13 @@
     function Move(motion)
       vim.api.nvim_command('normal! ' .. (vim.v.count == 0 and 1 or vim.v.count) .. 'g' .. motion)
 
-      local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-      local line = vim.api.nvim_get_current_line()
+      if motion == '$' then
+        local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+        local line = vim.api.nvim_get_current_line()
 
-      if col == #line and motion == '$' then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<End>', true, false, true), 'n', false)
+        if col == #line then
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<End>', true, false, true), 'n', false)
+        end
       end
     end
   '';
