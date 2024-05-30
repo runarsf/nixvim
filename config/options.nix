@@ -11,13 +11,12 @@
       timeoutlen = 300;
       ttimeoutlen = 50;
       mouse = "vc";
-      foldmethod = "marker";
       conceallevel = 0;
       filetype = "on";
       confirm = true;
       backup = false;
       swapfile = false;
-      pumblend = 10;
+      pumblend = 0;
       splitbelow = true;
       splitright = true;
       ignorecase = true;
@@ -31,6 +30,7 @@
       linebreak = true;
       synmaxcol = 1000;
       cursorline = true;
+      foldmethod = "marker";
       foldopen = "block,hor,insert,jump,mark,percent,quickfix,search,tag,undo";
       grepprg = "${pkgs.ripgrep}/bin/rg --vimgrep --hidden --glob '!.git'";
 
