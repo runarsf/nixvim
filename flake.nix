@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
     utils.url = "github:numtide/flake-utils";
 
     nixvim = {
@@ -17,7 +18,18 @@
         lib = import ./lib.nix {
           inherit inputs system;
         };
-        pkgs = import nixpkgs { inherit system; };
+        overlays = [
+          (final: _: {
+            master = import inputs.nixpkgs-master {
+              system = final.system;
+              config = {
+                allowUnfree = true;
+                allowBroken = true;
+              };
+            };
+          })
+        ];
+        pkgs = import nixpkgs { inherit system overlays; };
         nixvimLib = nixvim.lib.${system};
         nixvim' = nixvim.legacyPackages.${system};
         nvim = nixvim'.makeNixvimWithModule {
