@@ -20,20 +20,26 @@ let
             lib.last values);
     in merge [ ] attrs;
 
-in with inputs; deepMerge [
+in with inputs;
+deepMerge [
   lib
   utils.lib
   nixvim.lib.${system}
 
   {
-    luaToViml = s: let
-      lines = lib.splitString "\n" s;
-      nonEmptyLines = builtins.filter (line: line != "") lines;
-      processed = map (line: if line == builtins.head nonEmptyLines then "lua " + line else "\\ " + line) nonEmptyLines;
-    in
-      lib.concatStringsSep "\n" processed;
+    luaToViml = s:
+      let
+        lines = lib.splitString "\n" s;
+        nonEmptyLines = builtins.filter (line: line != "") lines;
+        processed = map (line:
+          if line == builtins.head nonEmptyLines then
+            "lua " + line
+          else
+            "\\ " + line) nonEmptyLines;
+      in lib.concatStringsSep "\n" processed;
 
     joinViml = s:
-      lib.concatStringsSep " | " (lib.filter (line: line != "") (lib.splitString "\n" s));
+      lib.concatStringsSep " | "
+      (lib.filter (line: line != "") (lib.splitString "\n" s));
   }
 ]

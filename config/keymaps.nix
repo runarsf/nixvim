@@ -19,16 +19,29 @@
     endfunction
   '';
 
+  # TODO If motion = ^ and cursor at ^, move to 0
   extraConfigLua = ''
     function Move(motion)
+      local col = vim.api.nvim_win_get_cursor(0)[2]
+
       vim.api.nvim_command('normal! ' .. (vim.v.count == 0 and 1 or vim.v.count) .. 'g' .. motion)
 
       if motion == '$' then
-        local col = vim.api.nvim_win_get_cursor(0)[2] + 1
         local line = vim.api.nvim_get_current_line()
+        local col = vim.api.nvim_win_get_cursor(0)[2] + 1
 
         if col == #line then
           vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<End>', true, false, true), 'n', false)
+        end
+      elseif motion == '^' then
+        local new_col = vim.api.nvim_win_get_cursor(0)[2]
+
+        if col == new_col then
+          if col == 0 then
+            vim.api.nvim_command('normal! g^')
+          else
+            vim.api.nvim_command('normal! g0')
+          end
         end
       end
     end
