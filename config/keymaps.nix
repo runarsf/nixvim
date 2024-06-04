@@ -19,9 +19,8 @@
     endfunction
   '';
 
-  # TODO If motion = ^ and cursor at ^, move to 0
   extraConfigLua = ''
-    function Move(motion)
+    function CursorMove(motion)
       local col = vim.api.nvim_win_get_cursor(0)[2]
 
       vim.api.nvim_command('normal! ' .. (vim.v.count == 0 and 1 or vim.v.count) .. 'g' .. motion)
@@ -54,7 +53,7 @@
   keymaps = let
     mkMove = key: motion: {
       inherit key;
-      action = "<CMD>lua Move('${motion}')<CR>";
+      action = "<CMD>lua CursorMove('${motion}')<CR>";
       mode = [ "n" "i" "v" ];
       options = {
         noremap = true;
