@@ -72,7 +72,7 @@ in {
     ./obsidian.nix
     ./notify.nix
     ./noice.nix
-    ./todo-comments.nix
+    ./todo-comments.nix # TODO Add ??? !!! etc https://peps.python.org/pep-0350/#mnemonics
     ./telescope.nix
     ./lualine.nix
     ./instant.nix
@@ -143,19 +143,6 @@ in {
         };
       });
       config = lib.luaToViml ''require('tiny-devicons-auto-colors').setup()'';
-    }
-
-    {
-      plugin = (pkgs.vimUtils.buildVimPlugin rec {
-        name = "pets.nvim";
-        src = pkgs.fetchFromGitHub {
-            owner = "giusgad";
-            repo = name;
-            rev = "747eb5e54fe8b10f4c7ce2881637d1c17b04f229";
-            hash = "sha256-77+mDpI51L8jjyOGURzruDdXwkc855tc/Mv+CfnX2io=";
-        };
-      });
-      config = lib.luaToViml ''require("pets").setup()'';
     }
   ];
 

@@ -12,7 +12,11 @@ let
     ) (if builtins.isList plugins then plugins else [ plugins ]);
   };
 
-in colorscheme active [ "neovim-ayu" "tokyonight-nvim"
+in colorscheme active [
+  "neovim-ayu"
+  "tokyonight-nvim"
+  "catppuccin-nvim"
+  "kanagawa-nvim"
   {
     plugin = pkgs.vimUtils.buildVimPlugin rec {
       name = "github-nvim-theme";
