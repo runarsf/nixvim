@@ -13,7 +13,7 @@
       }
 
       require('telescope.pickers').new({}, {
-        prompt_title = 'Select Item',
+        prompt_title = 'Select Pet',
         finder = require('telescope.finders').new_table({
           results = pets,
         }),
@@ -29,7 +29,7 @@
 
               if speed == nil then
                 local input_opts = {
-                  prompt = 'Speed',
+                  prompt = 'Choose Speed',
                   default = '7',
                 }
 
