@@ -19,6 +19,7 @@
     endfunction
   '';
 
+  # TODO If the cursor is at the last column, and on the second last column when pressing up/down, move to end
   extraConfigLua = ''
     function CursorMove(motion)
       local col = vim.api.nvim_win_get_cursor(0)[2]

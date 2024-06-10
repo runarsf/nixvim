@@ -41,5 +41,15 @@ deepMerge [
     joinViml = s:
       lib.concatStringsSep " | "
       (lib.filter (line: line != "") (lib.splitString "\n" s));
+
+    enable = attrs: builtins.listToAttrs (map (name: {
+      name = name;
+      value.enable = true;
+    }) attrs);
+
+    disable = attrs: builtins.listToAttrs (map (name: {
+      name = name;
+      value.enable = false;
+    }) attrs);
   }
 ]

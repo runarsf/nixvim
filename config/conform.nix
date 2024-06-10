@@ -1,11 +1,18 @@
 _:
 
 {
-  keymaps = [{
-    key = "<leader>f";
-    action = "<CMD>w | sleep 200m | lua require'conform'.format()<CR>";
-    options.desc = "Format active file";
-  }];
+  keymaps = [
+    {
+      key = "<leader>f";
+      action = "<CMD>lua require'conform'.format()<CR>";
+      options.desc = "Format active file";
+    }
+    {
+      key = "<leader>F";
+      action = "<CMD>w | sleep 200m | lua require'conform'.format()<CR>";
+      options.desc = "Write and format active file";
+    }
+  ];
 
   plugins.conform-nvim = {
     enable = true;
@@ -27,6 +34,7 @@ _:
       cpp = [ "clang-format" ];
       python = [ "isort" "ruff_fix" "ruff_format" ];
       javascript = [[ "prettierd" "prettier" ]];
+      typescript = [[ "prettierd" "prettier" ]];
       typst = [ "typstfmt" ];
     };
   };

@@ -35,12 +35,12 @@ let
     "clangd-extensions"
     "barbar"
     "diffview"
-    "hmts"          # treesitter queries for home manager
-    "instant"       # collaborative editing
-    "intellitab"    # keymap set in ./completions.nix
+    "hmts" # treesitter queries for home manager
+    "instant" # collaborative editing
+    "intellitab" # keymap set in ./completions.nix
     # "autoclose"     # automatically match brackets
-    "barbar"        # tab bar
-    "barbecue"      # breadcrumbs
+    "barbar" # tab bar
+    "barbecue" # breadcrumbs
     "navbuddy"
     "undotree"
     "image"
@@ -72,7 +72,7 @@ in {
     ./obsidian.nix
     ./notify.nix
     ./noice.nix
-    ./todo-comments.nix # TODO Add ??? !!! etc https://peps.python.org/pep-0350/#mnemonics
+    ./todo-comments.nix
     ./telescope.nix
     ./lualine.nix
     ./instant.nix
@@ -105,7 +105,6 @@ in {
     {
       # TODO Use https://github.com/kawre/neotab.nvim
       plugin = tabout-nvim;
-      # TODO vimlify lua
       config = lib.luaToViml ''
         require("tabout").setup({
           skip_ssl_verification = true,
@@ -136,13 +135,13 @@ in {
       plugin = (pkgs.vimUtils.buildVimPlugin rec {
         name = "tiny-devicons-auto-colors.nvim";
         src = pkgs.fetchFromGitHub {
-            owner = "rachartier";
-            repo = name;
-            rev = "699381f502a9c4e8d95925083765768545e994b4";
-            hash = "sha256-4cXaGvptqE9Vktj4hERokdA1DYzYi1r+UopEBxuBd2U=";
+          owner = "rachartier";
+          repo = name;
+          rev = "699381f502a9c4e8d95925083765768545e994b4";
+          hash = "sha256-4cXaGvptqE9Vktj4hERokdA1DYzYi1r+UopEBxuBd2U=";
         };
       });
-      config = lib.luaToViml ''require('tiny-devicons-auto-colors').setup()'';
+      config = lib.luaToViml "require('tiny-devicons-auto-colors').setup()";
     }
   ];
 
