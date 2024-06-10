@@ -9,6 +9,7 @@
       servers = lib.enable [
         "tsserver"
         "bashls"
+        "dartls"
         "clangd"
         "cssls"
         "lua-ls"
@@ -20,8 +21,8 @@
         "ruff"
         "tailwindcss"
         "typst-lsp"
-        "terraformls"
         "yamlls"
+        "docker-compose-language-service"
       ] // {
         # FIXME Autostart ruff for files that exist on disk
         ruff.autostart = false;

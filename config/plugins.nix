@@ -7,6 +7,7 @@
 # TODO e.g. with symbols outline: https://github.com/folke/edgy.nvim
 
 let
+  # FIXME Laggy mouse scrolling
   # TODO Enable plugin from function by providing strings or packages.
   #  For strings, <string>.enable will be set to true.
   #  All files should be imported and create an option to enable that file, like
