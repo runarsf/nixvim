@@ -17,6 +17,7 @@ in colorscheme active [
   "tokyonight-nvim"
   "catppuccin-nvim"
   "kanagawa-nvim"
+  "vscode-nvim"
   {
     plugin = pkgs.vimUtils.buildVimPlugin rec {
       name = "github-nvim-theme";

@@ -5,6 +5,8 @@
 # TODO https://github.com/chrisgrieser/nvim-origami
 # TODO A similar plugin to gremlins https://marketplace.visualstudio.com/items?itemName=nhoizey.gremlins
 # TODO e.g. with symbols outline: https://github.com/folke/edgy.nvim
+# TODO https://github.com/jecxjo/rest-client.vim
+# TODO https://www.reddit.com/r/neovim/comments/1d5ub7d/lazydevnvim_much_faster_luals_setup_for_neovim/
 
 let
   # FIXME Laggy mouse scrolling

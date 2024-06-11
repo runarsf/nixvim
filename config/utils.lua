@@ -3,6 +3,7 @@ if not ok then return end
 local ok, cmp = pcall(require, "cmp")
 if not ok then return end
 
+-- FIXME It don't work :(
 ToggleMouse = function()
   vim.g.def_mouse = vim.g.def_mouse ~= nil and "vc" or vim.g.def_mouse
   if #vim.o.mouse > 0 then

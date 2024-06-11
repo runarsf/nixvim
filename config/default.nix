@@ -10,7 +10,7 @@
 
   enableMan = false;
 
-  extraPackages = with pkgs; [ glow ];
+  extraPackages = with pkgs; [ glow sqlite ];
 
   extraConfigLuaPre =
     lib.concatStringsSep "\n" [ (builtins.readFile ./utils.lua) ];
