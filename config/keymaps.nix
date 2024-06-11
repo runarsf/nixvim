@@ -20,6 +20,7 @@
   '';
 
   # TODO If the cursor is at the last column, and on the second last column when pressing up/down, move to end
+  # FIXME If the line is wider than the screen, pressing home/end will not leave the screen
   extraConfigLua = ''
     function CursorMove(motion)
       local col = vim.api.nvim_win_get_cursor(0)[2]

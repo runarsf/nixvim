@@ -2,6 +2,7 @@
 
 {
   # TODO hover and goto binds: https://nix-community.github.io/nixvim/plugins/lsp/keymaps/index.html
+  # TODO Native lsp: https://github.com/akinsho/flutter-tools.nvim?tab=readme-ov-file#new-to-neovims-lsp-client
   plugins = {
     lspkind.enable = true;
     lsp = {
@@ -9,7 +10,8 @@
       servers = lib.enable [
         "tsserver"
         "bashls"
-        "dartls"
+        "dartls" # FIXME dartls sends a notification every time it analyzes, which is every character typed...
+        "csharp-ls"
         "clangd"
         "cssls"
         "lua-ls"

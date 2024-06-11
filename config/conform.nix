@@ -36,6 +36,7 @@ _:
       javascript = [[ "prettierd" "prettier" ]];
       typescript = [[ "prettierd" "prettier" ]];
       typst = [ "typstfmt" ];
+      cs = [[ "uncrustify" "csharpier" ]];
     };
   };
 }

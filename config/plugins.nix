@@ -17,7 +17,6 @@ let
     "nix"
     "gitsigns"
     "barbar"
-    "trouble"
     "nvim-colorizer"
     "neocord"
     "neogen"
@@ -68,6 +67,7 @@ in {
     ./typst.nix
     ./cloak.nix
     ./folds.nix
+    ./trouble.nix
     ./mini.nix
     ./treesitter.nix
     ./obsidian.nix
@@ -98,6 +98,8 @@ in {
     nvim-web-devicons
     hologram-nvim
     bigfile-nvim
+
+    # TODO flutter-tools-nvim
 
     {
       plugin = dressing-nvim;
