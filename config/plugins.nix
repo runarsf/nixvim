@@ -23,7 +23,7 @@ let
     "neocord"
     "neogen"
     "which-key"
-    # "headlines"
+    "headlines"
     "lastplace"
     "rainbow-delimiters"
     "plantuml-syntax"
@@ -106,15 +106,6 @@ in {
     {
       plugin = dressing-nvim;
       config = lib.luaToViml ''require("dressing").setup()'';
-    }
-    {
-      # TODO Use https://github.com/kawre/neotab.nvim
-      plugin = tabout-nvim;
-      config = lib.luaToViml ''
-        require("tabout").setup({
-          skip_ssl_verification = true,
-        })
-      '';
     }
     {
       plugin = SimpylFold;
