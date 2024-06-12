@@ -88,6 +88,17 @@ HasWordsBefore = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+HasWordsAfter = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local current_line = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
+  if col >= #current_line then
+    return false -- Cursor is at or beyond the end of the line
+  else
+    return current_line:sub(col + 1, col + 1):match("%S") ~= nil -- Checks if the next character is not a space
+  end
+end
+
 IsWrapped = function()
   -- Check if the current line is wrapped
 

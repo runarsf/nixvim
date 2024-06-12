@@ -61,6 +61,9 @@ in {
           "buffer"
           "copilot"
         ];
+        # TODO More consistent Tab binds
+        # TODO Better smart indent https://www.reddit.com/r/neovim/comments/101kqds/comment/j2p5xe4
+        # QUESTION Fix binds like the quickfix menu in vscode?
         mapping = {
           "<C-d>" = "cmp.mapping.scroll_docs(-4)";
           "<C-e>" = "cmp.mapping.close()";
