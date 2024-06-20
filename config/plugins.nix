@@ -1,5 +1,6 @@
 { pkgs, lib, ... }:
 
+# TODO Lazy loading https://github.com/nvim-neorocks/lz.n
 # TODO https://nix-community.github.io/nixvim/plugins/vim-slime/index.html
 # TODO https://nix-community.github.io/nixvim/plugins/barbar/index.html
 # TODO https://github.com/chrisgrieser/nvim-origami

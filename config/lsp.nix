@@ -1,6 +1,24 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 {
+  keymaps = [
+    {
+      key = "<M-CR>";
+      action = "<CMD>lua vim.lsp.buf.code_action()<CR>";
+      mode = [ "i" "n" ];
+    }
+  ];
+
+  extraPackages = with pkgs; [
+    csharpier
+    isort
+    ruff
+    stylua
+    typstfmt
+    uncrustify
+    prettierd
+  ];
+
   # TODO hover and goto binds: https://nix-community.github.io/nixvim/plugins/lsp/keymaps/index.html
   # TODO Native lsp: https://github.com/akinsho/flutter-tools.nvim?tab=readme-ov-file#new-to-neovims-lsp-client
   plugins = {

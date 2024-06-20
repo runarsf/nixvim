@@ -76,7 +76,7 @@ in {
               else
                 cmp.complete()
               end
-            end)
+            end, { "i", "n", "v" })
           '';
           "<Tab>" = ''
             cmp.mapping(function(fallback)

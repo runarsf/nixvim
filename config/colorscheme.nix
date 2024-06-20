@@ -12,16 +12,21 @@ let
     ) (if builtins.isList plugins then plugins else [ plugins ]);
   };
 
-in colorscheme active [
+in with pkgs;
+colorscheme active [
   "neovim-ayu"
   "tokyonight-nvim"
   "catppuccin-nvim"
   "kanagawa-nvim"
-  "vscode-nvim"
+  # "vscode-nvim" # TODO Replace vim-code-dark when this is closed https://github.com/Mofiqul/vscode.nvim/issues/136
   {
-    plugin = pkgs.vimUtils.buildVimPlugin rec {
+    plugin = pkgs.vimPlugins.vim-code-dark;
+    config = "let g:codedark_modern=1";
+  }
+  {
+    plugin = vimUtils.buildVimPlugin rec {
       name = "github-nvim-theme";
-      src = pkgs.fetchFromGitHub {
+      src = fetchFromGitHub {
         owner = "projekt0n";
         repo = name;
         rev = "d832925e77cef27b16011a8dfd8835f49bdcd055";
@@ -30,9 +35,9 @@ in colorscheme active [
     };
   }
   {
-    plugin = pkgs.vimUtils.buildVimPlugin rec {
+    plugin = vimUtils.buildVimPlugin rec {
       name = "monochrome.nvim";
-      src = pkgs.fetchFromGitHub {
+      src = fetchFromGitHub {
         owner = "kdheepak";
         repo = name;
         rev = "2de78d9688ea4a177bcd9be554ab9192337d35ff";
