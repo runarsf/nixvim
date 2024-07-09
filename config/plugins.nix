@@ -8,6 +8,7 @@
 # TODO e.g. with symbols outline: https://github.com/folke/edgy.nvim
 # TODO https://github.com/jecxjo/rest-client.vim
 # TODO https://www.reddit.com/r/neovim/comments/1d5ub7d/lazydevnvim_much_faster_luals_setup_for_neovim/
+# TODO https://github.com/altermo/ultimate-autopair.nvim
 
 let
   # FIXME Laggy mouse scrolling
