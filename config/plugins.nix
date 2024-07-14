@@ -74,7 +74,6 @@ in {
     ./trouble.nix
     ./mini.nix
     ./treesitter.nix
-    ./obsidian.nix
     ./notify.nix
     ./noice.nix
     ./todo-comments.nix
