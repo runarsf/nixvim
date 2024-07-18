@@ -37,7 +37,7 @@
         "hls"
         "html"
         "jsonls"
-        "nil_ls"
+        "nil-ls"
         "ruff"
         "tailwindcss"
         "typst-lsp"
@@ -47,7 +47,7 @@
         # FIXME Autostart ruff for files that exist on disk
         ruff.autostart = false;
         rust-analyzer = {
-          enable = true;
+          enable = false; # Handled by rustacean
           installCargo = true;
           installRustc = true;
         };

@@ -70,18 +70,6 @@ CopyMode = function()
   end
 end
 
-Glow = function()
-  local ok, toggleterm = pcall(require, "toggleterm.terminal")
-  if not ok then return end
-  local Terminal = toggleterm.Terminal
-  local file = vim.fn.expand("%:p") -- current file
-  if file:sub(-#'.md') ~= '.md' then
-    file = vim.fn.expand("%:p:h") -- current directory
-  end
-  local glow = Terminal:new({ cmd="PAGER='less -r' glow -s dark -p "..file, hidden=false })
-  glow:toggle()
-end
-
 HasWordsBefore = function()
   unpack = unpack or table.unpack
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))

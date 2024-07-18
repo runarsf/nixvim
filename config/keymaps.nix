@@ -251,11 +251,6 @@
       options.desc = "Toggle word wrap";
     }
     {
-      key = "<leader>G";
-      action = "<CMD>w<CR><CMD>lua Glow()<CR>";
-      options.desc = "Preview markdown with glow";
-    }
-    {
       key = "<leader>u";
       action = "<CMD>UndotreeToggle<CR>";
       options.desc = "Toggle undo tree";

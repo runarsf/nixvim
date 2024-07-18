@@ -21,33 +21,25 @@ let
     "nix"
     "gitsigns"
     "barbar"
-    "nvim-colorizer"
     "neocord"
-    "neogen"
     "which-key"
-    "headlines"
     "lastplace"
-    "rainbow-delimiters"
-    "plantuml-syntax"
+    # "rainbow-delimiters"
+    # "plantuml-syntax"
     "marks"
     "jupytext"
-    "parinfer-rust"
+    # "parinfer-rust"
     "rustaceanvim"
-    "crates-nvim"
-    "ccc"
+    # "crates-nvim"
     "improved-search"
     "clangd-extensions"
-    "barbar"
     "diffview"
     "hmts" # treesitter queries for home manager
-    "instant" # collaborative editing
     "intellitab" # keymap set in ./completions.nix
     # "autoclose"     # automatically match brackets
-    "barbar" # tab bar
     "barbecue" # breadcrumbs
-    "navbuddy"
     "undotree"
-    "image"
+    # "image"
     "comment"
     "sleuth"
     "dressing"
@@ -69,23 +61,23 @@ in {
     ./conform.nix
     ./lsp.nix
     ./typst.nix
-    ./cloak.nix
     ./folds.nix
     ./trouble.nix
     ./mini.nix
     ./treesitter.nix
+    ./markdown.nix
     ./notify.nix
-    ./noice.nix
+    # ./noice.nix
     ./todo-comments.nix
     ./telescope.nix
     ./lualine.nix
-    ./instant.nix
     ./otter.nix
     ./duck.nix
     ./virt-column.nix
     ./indent-blankline.nix
-    ./aerial.nix
+    ./outline.nix
     ./zen.nix
+    ./colors.nix
   ];
 
   plugins = builtins.listToAttrs (map (name: {
@@ -95,39 +87,10 @@ in {
 
   extraPlugins = with pkgs.vimPlugins; [
     # APIs and Functions
-    plenary-nvim
-    popup-nvim
-    nui-nvim
+    # plenary-nvim
+    # popup-nvim
+    # nui-nvim
     nvim-web-devicons
-    hologram-nvim
-    bigfile-nvim
-
-    # TODO flutter-tools-nvim
-
-    {
-      plugin = dressing-nvim;
-      config = lib.luaToViml ''require("dressing").setup()'';
-    }
-    {
-      plugin = SimpylFold;
-      config = ''
-        let g:SimpylFold_fold_docstring = 0
-      '';
-    }
-    codi-vim
-
-    # Filetypes
-    yuck-vim
-    vim-just
-    openingh-nvim
-
-    legendary-nvim
-
-    {
-      plugin = statuscol-nvim;
-      config = lib.luaToViml ''require("statuscol").setup()'';
-    }
-
     {
       plugin = (pkgs.vimUtils.buildVimPlugin rec {
         name = "tiny-devicons-auto-colors.nvim";
@@ -138,8 +101,30 @@ in {
           hash = "sha256-4cXaGvptqE9Vktj4hERokdA1DYzYi1r+UopEBxuBd2U=";
         };
       });
-      config = lib.luaToViml "require('tiny-devicons-auto-colors').setup()";
+      config = lib.luaToViml ''require("tiny-devicons-auto-colors").setup()'';
     }
+
+    # TODO flutter-tools-nvim
+    codi-vim
+    legendary-nvim
+
+    {
+      plugin = hologram-nvim;
+      config = lib.luaToViml ''require("hologram").setup({})'';
+    }
+    {
+      plugin = bigfile-nvim;
+      config = lib.luaToViml ''require("bigfile").setup()'';
+    }
+    {
+      plugin = SimpylFold;
+      config = ''let g:SimpylFold_fold_docstring = 0'';
+    }
+
+    # Filetypes
+    yuck-vim
+    vim-just
+    openingh-nvim
   ];
 
   # Disable some builtin plugins
