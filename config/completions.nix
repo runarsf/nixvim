@@ -1,32 +1,31 @@
 { config, lib, ... }:
 
 let
-  mkSources = sources: map (source:
-    if lib.isAttrs source then
-      source
-    else
-      { name = source; }
-  ) sources;
+  mkSources = sources:
+    map (source: if lib.isAttrs source then source else { name = source; })
+    sources;
 
 in {
   plugins = {
+    copilot-chat = {
+      enable = true;
+      settings.window.border = "rounded";
+    };
     copilot-cmp.enable = true;
     copilot-lua = {
       enable = true;
       suggestion.enabled = false;
       panel.enabled = false;
-      filetypes = {
-        yaml = false;
-        markdown = false;
-        help = false;
-        gitcommit = false;
-        gitrebase = false;
-        hgcommit = false;
-        svn = false;
-        cvs = false;
-        "*" = true;
-        "." = true;
-      };
+      filetypes = lib.true [ "*" "." ] // lib.false [
+        "yaml"
+        "markdown"
+        "help"
+        "gitcommit"
+        "gitrebase"
+        "hgcommit"
+        "svn"
+        "cvs"
+      ];
     };
 
     luasnip = {
@@ -51,7 +50,8 @@ in {
           documentation.maxHeight = "math.floor(vim.o.lines / 2)";
         };
         preselect = "None";
-        snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
+        snippet.expand =
+          "function(args) require('luasnip').lsp_expand(args.body) end";
         matching.disallowPartialFuzzyMatching = false;
         sources = mkSources [
           "nvim_lsp"
@@ -87,10 +87,11 @@ in {
               elseif HasWordsBefore() then
                 cmp.complete()
               else
-                ${if config.plugins.intellitab.enable then
-                  "vim.cmd[[silent! lua require('intellitab').indent()]]"
-                else
-                  "fallback()"
+                ${
+                  if config.plugins.intellitab.enable then
+                    "vim.cmd[[silent! lua require('intellitab').indent()]]"
+                  else
+                    "fallback()"
                 }
               end
             end, { "i", "s" })

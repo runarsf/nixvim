@@ -51,5 +51,15 @@ deepMerge [
       name = name;
       value.enable = false;
     }) attrs);
+
+    true = attrs: builtins.listToAttrs (map (name: {
+      name = name;
+      value = true;
+    }) attrs);
+
+    false = attrs: builtins.listToAttrs (map (name: {
+      name = name;
+      value = false;
+    }) attrs);
   }
 ]

@@ -28,7 +28,6 @@
       servers = lib.enable [
         "tsserver"
         "bashls"
-        "dartls" # FIXME dartls sends a notification every time it analyzes, which is every character typed...
         "csharp-ls"
         "clangd"
         "cssls"
@@ -38,19 +37,23 @@
         "html"
         "jsonls"
         "nil-ls"
-        "ruff"
         "tailwindcss"
         "typst-lsp"
         "yamlls"
         "docker-compose-language-service"
       ] // {
         # FIXME Autostart ruff for files that exist on disk
-        ruff.autostart = false;
-        rust-analyzer = { # Handled by rustacean
+        ruff = {
+          enable = true;
+          autostart = false;
+        };
+        rust-analyzer = {
+          enable = false; # Handled by rustacean
           installCargo = true;
           installRustc = true;
         };
         dartls = {
+          enable = true;
           settings = {
             lineLength = 120;
             showTodos = true;
