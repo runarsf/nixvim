@@ -46,8 +46,7 @@
       ] // {
         # FIXME Autostart ruff for files that exist on disk
         ruff.autostart = false;
-        rust-analyzer = {
-          enable = false; # Handled by rustacean
+        rust-analyzer = { # Handled by rustacean
           installCargo = true;
           installRustc = true;
         };

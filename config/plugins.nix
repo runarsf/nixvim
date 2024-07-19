@@ -66,7 +66,7 @@ in {
     ./treesitter.nix
     ./markdown.nix
     ./notify.nix
-    # ./noice.nix
+    ./noice.nix
     ./todo-comments.nix
     ./telescope.nix
     ./lualine.nix
