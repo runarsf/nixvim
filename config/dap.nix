@@ -76,6 +76,7 @@ _:
             name = "Dart";
             type = "dart";
             request = "launch";
+            autoReload.enable = true;
             # program = "\${file}";
             # cwd = "\${workspaceFolder}";
           }
@@ -84,6 +85,7 @@ _:
             name = "Flutter";
             type = "flutter";
             request = "launch";
+            autoReload.enable = true;
             # program = "\${file}";
             # cwd = "\${workspaceFolder}";
           }
