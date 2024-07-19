@@ -8,7 +8,7 @@ _:
       options.desc = "(debug) Add breakpoint";
     }
     {
-      key = "<leader>dc";
+      key = "<leader>ds";
       action = "<CMD>lua require'dap'.continue()<CR>";
       options.desc = "(debug) Start / Continue";
     }
@@ -33,7 +33,7 @@ _:
       options.desc = "(debug) REPL";
     }
     {
-      key = "<leader>ds";
+      key = "<leader>dS";
       action = "<CMD>lua require'dap'.close()<CR>";
       options.desc = "(debug) Stop";
     }
@@ -52,36 +52,45 @@ _:
         dap-python = {
           enable = true;
           console = "integratedTerminal";
-          # FIXME use resolvePython instead?
+          # FIXME use resolvePython instead? or directly from pkgs
           adapterPythonPath = "~/.nix-profile/bin/python";
         };
       };
 
-      # adapters.executables = {
-      #   gdb = {
-      #     command = "gdb";
-      #     args = [ "-i" "dap" ];
-      #   };
+      adapters = {
+        executables = {
+          dart = {
+            command = "dart";
+            args = [ "debug_adapter" ];
+          };
+          flutter = {
+            command = "flutter";
+            args = [ "debug_adapter" ];
+          };
+        };
+      };
 
-      #   lldb = {
-      #     command = "lldb-dap";
-      #     name = "lldb";
-      #   };
+      configurations = {
+        dart = [
+          {
+            name = "Dart";
+            type = "dart";
+            request = "launch";
+            # program = "\${file}";
+            # cwd = "\${workspaceFolder}";
+          }
 
-      #   dart = {
-      #     command = "dart";
-      #     args = [ "debug_adapter" ];
-      #   };
-
-      #   flutter = {
-      #     command = "flutter";
-      #     args = [ "debug_adapter" ];
-      #   };
-      # };
+          {
+            name = "Flutter";
+            type = "flutter";
+            request = "launch";
+            # program = "\${file}";
+            # cwd = "\${workspaceFolder}";
+          }
+        ];
+      };
     };
 
-    cmp.settings.sources = [
-      { name = "dap"; }
-    ];
+    cmp.settings.sources = [{ name = "dap"; }];
   };
 }
