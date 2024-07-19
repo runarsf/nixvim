@@ -51,7 +51,6 @@ let
 in {
   imports = [
     ./colorscheme.nix
-    ./fidget.nix
     ./sniprun.nix
     ./toggleterm.nix
     ./hop.nix
@@ -90,18 +89,19 @@ in {
     # popup-nvim
     # nui-nvim
     nvim-web-devicons
-    {
-      plugin = (pkgs.vimUtils.buildVimPlugin rec {
-        name = "tiny-devicons-auto-colors.nvim";
-        src = pkgs.fetchFromGitHub {
-          owner = "rachartier";
-          repo = name;
-          rev = "699381f502a9c4e8d95925083765768545e994b4";
-          hash = "sha256-4cXaGvptqE9Vktj4hERokdA1DYzYi1r+UopEBxuBd2U=";
-        };
-      });
-      config = lib.luaToViml ''require("tiny-devicons-auto-colors").setup()'';
-    }
+
+    # {
+    #   plugin = (pkgs.vimUtils.buildVimPlugin rec {
+    #     name = "tiny-devicons-auto-colors.nvim";
+    #     src = pkgs.fetchFromGitHub {
+    #       owner = "rachartier";
+    #       repo = name;
+    #       rev = "699381f502a9c4e8d95925083765768545e994b4";
+    #       hash = "sha256-4cXaGvptqE9Vktj4hERokdA1DYzYi1r+UopEBxuBd2U=";
+    #     };
+    #   });
+    #   config = lib.luaToViml ''require("tiny-devicons-auto-colors").setup()'';
+    # }
 
     # TODO flutter-tools-nvim
     codi-vim
