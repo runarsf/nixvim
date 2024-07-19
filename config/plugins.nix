@@ -42,7 +42,6 @@ let
     # "image"
     "sleuth"
     "dressing"
-    "fidget"
     "wilder"
     # "multicursors"
     # "flash"
@@ -52,6 +51,7 @@ let
 in {
   imports = [
     ./colorscheme.nix
+    ./fidget.nix
     ./sniprun.nix
     ./toggleterm.nix
     ./hop.nix
