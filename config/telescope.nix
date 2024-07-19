@@ -18,16 +18,17 @@
   };
 
   extraPlugins = with pkgs.vimPlugins; [
-    # {
-    #   plugin = (pkgs.vimUtils.buildVimPlugin rec {
-    #     name = "search.nvim";
-    #     src = pkgs.fetchFromGitHub {
-    #         owner = "FabianWirth";
-    #         repo = name;
-    #         rev = "7b8f2315d031be73e14bc2d82386dfac15952614";
-    #         hash = "sha256-88rMEtHTk5jEQ00YleSr8x32Q3m0VFZdxSE2vQ+f0rM=";
-    #     };
-    #   });
+    {
+      plugin = (pkgs.vimUtils.buildVimPlugin rec {
+        name = "search.nvim";
+        src = pkgs.fetchFromGitHub {
+            owner = "FabianWirth";
+            repo = name;
+            rev = "7b8f2315d031be73e14bc2d82386dfac15952614";
+            hash = "sha256-88rMEtHTk5jEQ00YleSr8x32Q3m0VFZdxSE2vQ+f0rM=";
+        };
+      });
+      config = lib.luaToViml ''require("search").setup()'';
     #   config = lib.luaToViml ''
     #     require("search").setup({
     #       tabs = {
@@ -45,7 +46,7 @@
     #       }
     #     })
     #   '';
-    # }
+    }
 
     sqlite-lua
     {
@@ -63,14 +64,14 @@
   ];
 
   keymaps = [
-    # {
-    #   key = "<C-p>";
-    #   action = "<CMD>lua require'search'.open()<CR>";
-    #   options.desc = "Live grep";
-    #   mode = [ "i" "n" ];
-    # }
-    { # TODO Make this a pane in search
+    {
       key = "<C-p>";
+      action = "<CMD>lua require'search'.open()<CR>";
+      options.desc = "Live grep";
+      mode = [ "i" "n" ];
+    }
+    { # TODO Make this a pane in search
+      key = "<C-p><C-p>";
       action = "<CMD>lua require'telescope'.extensions.smart_open.smart_open()<CR>";
       mode = [ "i" "n" ];
     }

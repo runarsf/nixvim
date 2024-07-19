@@ -51,6 +51,14 @@
           installCargo = true;
           installRustc = true;
         };
+        dartls = {
+          settings = {
+            lineLength = 120;
+            showTodos = true;
+            updateImportsOnRename = true;
+            enableSnippets = true;
+          };
+        };
       };
     };
   };

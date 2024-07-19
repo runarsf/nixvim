@@ -40,7 +40,6 @@ let
     "barbecue" # breadcrumbs
     "undotree"
     # "image"
-    "comment"
     "sleuth"
     "dressing"
     "fidget"
