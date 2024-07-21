@@ -6,6 +6,7 @@
     ./autocommands.nix
     ./plugins.nix
     ./keymaps.nix
+    ./colorscheme.nix
   ];
 
   enableMan = false;

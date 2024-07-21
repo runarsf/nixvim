@@ -6,10 +6,10 @@ let
   colorscheme = name: plugins: {
     colorscheme = name;
     extraPlugins = map (plugin:
-      if builtins.isString plugin
-      then builtins.getAttr plugin pkgs.vimPlugins
-      else plugin
-    ) (if builtins.isList plugins then plugins else [ plugins ]);
+      if builtins.isString plugin then
+        builtins.getAttr plugin pkgs.vimPlugins
+      else
+        plugin) (if builtins.isList plugins then plugins else [ plugins ]);
   };
 
 in with pkgs;

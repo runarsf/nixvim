@@ -5,6 +5,10 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
     utils.url = "github:numtide/flake-utils";
+    nypkgs = {
+      url = "github:yunfachi/nypkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixvim = {
       url = "github:nix-community/nixvim";
@@ -15,9 +19,7 @@
   outputs = inputs@{ nixpkgs, nixvim, utils, ... }:
     utils.lib.eachDefaultSystem (system:
       let
-        lib = import ./lib.nix {
-          inherit inputs system;
-        };
+        lib = import ./lib.nix { inherit inputs system; };
         overlays = [
           (final: _: {
             master = import inputs.nixpkgs-master {

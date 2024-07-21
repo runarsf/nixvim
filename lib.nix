@@ -25,8 +25,11 @@ deepMerge [
   lib
   utils.lib
   nixvim.lib.${system}
+  nypkgs.lib.${system}
 
   {
+    inherit deepMerge;
+
     luaToViml = s:
       let
         lines = lib.splitString "\n" s;

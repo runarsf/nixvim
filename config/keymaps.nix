@@ -1,6 +1,7 @@
 { config, ... }:
 
 {
+  # TODO :close splits before
   extraConfigVim = ''
     function! CloseVimOrDeleteBuffer()
         " Check if there is only one tab open

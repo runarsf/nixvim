@@ -1,8 +1,10 @@
-{ pkgs, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  extraPlugins = with pkgs.vimPlugins; [
-    {
+  options.modules.outline.enable = lib.mkEnableOption "outline";
+
+  config = lib.mkIf config.modules.outline.enable {
+    extraPlugins = with pkgs.vimPlugins; [{
       plugin = aerial-nvim;
       config = lib.luaToViml ''
         require("aerial").setup();
@@ -13,24 +15,24 @@
     #   plugin = outline-nvim;
     #   config = lib.luaToViml ''require("outline").setup()'';
     # }
-  ];
+      ];
 
-  plugins.navbuddy = {
-    enable = true;
-    lsp.autoAttach = true;
-    mappings = {
-      "<Left>" = "parent";
-      "<Right>" = "children";
-      "-" = "hsplit";
-      "|" = "vsplit";
+    plugins.navbuddy = {
+      enable = true;
+      lsp.autoAttach = true;
+      mappings = {
+        "<Left>" = "parent";
+        "<Right>" = "children";
+        "-" = "hsplit";
+        "|" = "vsplit";
+      };
     };
-  };
 
-  keymaps = [
-    {
+    keymaps = [{
       key = "<C-l>";
       options.silent = true;
-      action = ":try | execute 'Navbuddy' | catch | execute 'Telescope aerial' | endtry<CR>";
+      action =
+        ":try | execute 'Navbuddy' | catch | execute 'Telescope aerial' | endtry<CR>";
     }
     # {
     #   key = "<leader>o";
@@ -42,5 +44,6 @@
     #   action = "<CMD>Outline<CR>";
     #   options.desc = "Toggle outline";
     # }
-  ];
+      ];
+  };
 }
