@@ -21,13 +21,38 @@
         key = "gd";
         action = "<CMD>lua vim.lsp.buf.definition()<CR>";
         mode = [ "n" ];
+        options.desc = "(lsp) Go to definition";
+      }
+      {
+        key = "gD";
+        action = "<CMD>lua vim.lsp.buf.declaration()<CR>";
+        mode = [ "n" ];
+        options.desc = "(lsp) Go to declaration";
+      }
+      {
+        key = "gr";
+        action = "<CMD>lua vim.lsp.buf.references()<CR>";
+        mode = [ "n" ];
+        options.desc = "(lsp) Go to references";
+      }
+      {
+        key = "K";
+        action = "<CMD>lua vim.lsp.buf.hover()<CR>";
+        mode = [ "n" ];
         options.desc = "(lsp) Hover";
       }
-      # {
-      #   key = "<leader>h";
-      #   action = "<CMD>lua require('lspconfig').inlay_hint.enable(0, not require('lspconfig').inlay_hint.is_enabled())<CR>";
-      #   options.desc = "Toggle inlay hints";
-      # }
+      {
+        key = "<leader>R";
+        action = "<CMD>lua vim.lsp.buf.rename()<CR>";
+        mode = [ "n" ];
+        options.desc = "(lsp) Rename";
+      }
+      {
+        key = "<leader>h";
+        # action = "<CMD>lua require('lspconfig').inlay_hint.enable(0, not require('lspconfig').inlay_hint.is_enabled())<CR>";
+        action = "<CMD>InlayHintsToggle<CR>";
+        options.desc = "Toggle inlay hints";
+      }
     ];
 
     extraPackages = with pkgs; [
@@ -40,8 +65,6 @@
       prettierd
     ];
 
-    # TODO hover and goto binds: https://nix-community.github.io/nixvim/plugins/lsp/keymaps/index.html
-    # TODO Native lsp: https://github.com/akinsho/flutter-tools.nvim?tab=readme-ov-file#new-to-neovims-lsp-client
     plugins = {
       lspkind.enable = true;
       lsp = {
@@ -87,11 +110,24 @@
       };
     };
 
-    # extraPlugins = with pkgs.vimPlugins; [
-    #   {
-    #     plugin = lsp_signature-nvim;
-    #     config = ''lua require("lsp_signature").setup()'';
-    #   }
-    # ];
+    extraPlugins = with pkgs;
+      [
+        # {
+        #   plugin = lsp_signature-nvim;
+        #   config = ''lua require("lsp_signature").setup()'';
+        # }
+        {
+          plugin = vimUtils.buildVimPlugin rec {
+            name = "inlay-hints.nvim";
+            src = fetchFromGitHub {
+              owner = "MysticalDevil";
+              repo = name;
+              rev = "1d5bd49a43f8423bc56f5c95ebe8fe3f3b96ed58";
+              hash = "sha256-E6+h9YIMRlot0umYchGYRr94bimBosunVyyvhmdwjIo=";
+            };
+          };
+          config = lib.luaToViml ''require("inlay-hints").setup({})'';
+        }
+      ];
   };
 }

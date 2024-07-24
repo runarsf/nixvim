@@ -30,6 +30,12 @@ deepMerge [
   {
     inherit deepMerge;
 
+    # TODO Use EOF for luaToViml instead
+    # luaToViml = s:
+    #   ''lua << EOF
+    #     ${s}
+    #   EOF
+    #   '';
     luaToViml = s:
       let
         lines = lib.splitString "\n" s;

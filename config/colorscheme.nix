@@ -20,7 +20,7 @@ colorscheme active [
   "kanagawa-nvim"
   # "vscode-nvim" # TODO Replace vim-code-dark when this is closed https://github.com/Mofiqul/vscode.nvim/issues/136
   {
-    plugin = pkgs.vimPlugins.vim-code-dark;
+    plugin = vimPlugins.vim-code-dark;
     config = "let g:codedark_modern=1";
   }
   {
