@@ -6,6 +6,8 @@ let
     sources;
 
 in {
+  # FIXME Error detected while processing function CloseVimOrDeleteBuffer:                                                                                                 lin
+  #  Error executing vim.schedule lua callback: ...yNeovimPackages/start/copilot.lua/lua/copilot/client.lua:21: unexpectedly started multiple copilot server
   options.modules.cmp.enable = lib.mkEnableOption "cmp";
 
   config = lib.mkIf config.modules.cmp.enable {
@@ -16,7 +18,7 @@ in {
       };
       copilot-cmp.enable = true;
       copilot-lua = {
-        enable = true;
+      #   enable = true;
         suggestion.enabled = false;
         panel.enabled = false;
         filetypes = lib.true [ "*" "." ] // lib.false [

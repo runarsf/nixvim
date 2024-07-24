@@ -7,7 +7,7 @@
       number = true;
       relativenumber = true;
       list = true;
-      listchars = "tab:┊»,trail:·,nbsp:⎵";
+      listchars = "tab:┊»,trail:·,nbsp:⎵,precedes:«,extends:»";
       timeoutlen = 300;
       ttimeoutlen = 50;
       mouse = "vc";

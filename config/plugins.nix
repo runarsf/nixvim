@@ -3,7 +3,6 @@
 # Lazy loading https://github.com/nix-community/nixvim/issues/421
 # TODO https://nix-community.github.io/nixvim/plugins/vim-slime/index.html
 # TODO https://github.com/chrisgrieser/nvim-origami
-# TODO A similar plugin to gremlins https://marketplace.visualstudio.com/items?itemName=nhoizey.gremlins
 # TODO e.g. with symbols outline: https://github.com/folke/edgy.nvim
 # TODO https://github.com/jecxjo/rest-client.vim
 # TODO https://www.reddit.com/r/neovim/comments/1d5ub7d/lazydevnvim_much_faster_luals_setup_for_neovim/
@@ -55,6 +54,7 @@ in lib.deepMerge [
       "markdown"
       "noice"
       "todo"
+      "gremlins"
 
       # Plugins
       "which-key"
@@ -69,14 +69,14 @@ in lib.deepMerge [
       "improved-search"
       "clangd-extensions"
       "diffview"
-      # "hmts" # treesitter queries for home manager
+      "hmts" # treesitter queries for home manager
       "intellitab" # keymap set in ./completions.nix
       # "autoclose"     # automatically match brackets
       "barbecue" # breadcrumbs
       # "image"
       "sleuth"
       "dressing"
-      "wilder"
+      # "wilder"
       # "multicursors"
       # "flash"
       "nix"
@@ -84,12 +84,28 @@ in lib.deepMerge [
       "barbar"
       "neocord"
       "undotree"
+      "better-escape"
 
       # extraPlugins
+      # lz-n
+      {
+        plugin = flutter-tools-nvim;
+        config = lib.luaToViml ''
+          require("flutter-tools").setup({});
+          require("telescope").load_extension("flutter");
+        '';
+        # config = lib.luaToViml ''
+        #   require("lz.n").load {
+        #     "flutter-tools",
+        #     ft = "dart",
+        #   }
+        # '';
+      }
+
       # APIs and Functions
-      # plenary-nvim
-      # popup-nvim
-      # nui-nvim
+      plenary-nvim
+      popup-nvim
+      nui-nvim
       nvim-web-devicons
 
       # {

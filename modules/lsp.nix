@@ -4,17 +4,31 @@
   options.modules.lsp.enable = lib.mkEnableOption "lsp";
 
   config = lib.mkIf config.modules.lsp.enable {
-    keymaps = [{
-      key = "<M-CR>";
-      action = "<CMD>lua vim.lsp.buf.code_action()<CR>";
-      mode = [ "i" "n" ];
-    }
-    # {
-    #   key = "<leader>h";
-    #   action = "<CMD>lua require('lspconfig').inlay_hint.enable(0, not require('lspconfig').inlay_hint.is_enabled())<CR>";
-    #   options.desc = "Toggle inlay hints";
-    # }
-      ];
+    keymaps = [
+      {
+        key = "<C-.>";
+        action = "<CMD>lua vim.lsp.buf.code_action()<CR>";
+        mode = [ "i" "n" ];
+        options.desc = "(lsp) Code actions";
+      }
+      {
+        key = "<C-.>";
+        action = "<CMD>lua vim.lsp.buf.range_code_action()<CR>";
+        mode = [ "x" ];
+        options.desc = "(lsp) Code actions";
+      }
+      {
+        key = "gd";
+        action = "<CMD>lua vim.lsp.buf.definition()<CR>";
+        mode = [ "n" ];
+        options.desc = "(lsp) Hover";
+      }
+      # {
+      #   key = "<leader>h";
+      #   action = "<CMD>lua require('lspconfig').inlay_hint.enable(0, not require('lspconfig').inlay_hint.is_enabled())<CR>";
+      #   options.desc = "Toggle inlay hints";
+      # }
+    ];
 
     extraPackages = with pkgs; [
       csharpier

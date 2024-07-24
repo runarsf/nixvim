@@ -243,7 +243,7 @@
     }
     {
       key = "<leader>wq";
-      action = "<CMD>wq!<CR>";
+      action = "<CMD>w!<CR><CMD>call CloseVimOrDeleteBuffer()<CR>";
       options.desc = "Write and quit";
     }
     {
