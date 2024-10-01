@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, utils, ... }:
 
 {
   options.modules.lsp.enable = lib.mkEnableOption "lsp";
@@ -70,7 +70,7 @@
       lsp = {
         enable = true;
         inlayHints = true;
-        servers = lib.enable [
+        servers = utils.enable [
           "tsserver"
           "bashls"
           "csharp-ls"
@@ -126,7 +126,7 @@
               hash = "sha256-E6+h9YIMRlot0umYchGYRr94bimBosunVyyvhmdwjIo=";
             };
           };
-          config = lib.luaToViml ''require("inlay-hints").setup({})'';
+          config = utils.luaToViml ''require("inlay-hints").setup({})'';
         }
       ];
   };

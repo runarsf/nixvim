@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, utils, ... }:
 
 {
   extraConfigVim = ''
@@ -36,7 +36,7 @@
       group = "BigFile";
       event = [ "BufWinEnter" "BufReadPre" "FileReadPre" ];
       pattern = [ "*" ];
-      command = lib.joinViml ''
+      command = utils.joinViml ''
         if getfsize(expand('%')) > 512 * 1024
           exec DisableSyntax()
         endif

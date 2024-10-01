@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, utils, ... }:
 
 {
   options.modules.folds.enable = lib.mkEnableOption "folds";
@@ -26,7 +26,7 @@
           hash = "sha256-KeRc1Jc6CSW8qeyiJZhbGelxewviL/jPFDxRW1HsfAk=";
         };
       };
-      config = lib.luaToViml ''
+      config = utils.luaToViml ''
         require("pretty-fold").setup({
           keep_indentation = false,
           fill_char = ' ',

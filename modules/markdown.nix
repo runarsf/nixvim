@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, utils, ... }:
 
 {
   options.modules.markdown.enable = lib.mkEnableOption "markdown";
@@ -15,9 +15,12 @@
       };
     };
 
-    extraPlugins = with pkgs.vimPlugins; [{
-      plugin = markview-nvim;
-      config = lib.luaToViml ''require("markview").setup()'';
-    }];
+    extraPlugins = with pkgs.vimPlugins; [
+      {
+        plugin = markview-nvim;
+        config = utils.luaToViml ''require("markview").setup()'';
+      }
+      helpview-nvim
+    ];
   };
 }

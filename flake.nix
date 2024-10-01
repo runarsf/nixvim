@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    utils.url = "github:numtide/flake-utils";
+    flake-utils.url = "github:numtide/flake-utils";
     nypkgs = {
       url = "github:yunfachi/nypkgs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,10 +16,14 @@
     };
   };
 
-  outputs = inputs@{ nixpkgs, nixvim, utils, ... }:
-    utils.lib.eachDefaultSystem (system:
+  outputs = inputs@{ nixpkgs, nixvim, flake-utils, ... }:
+    flake-utils.lib.eachDefaultSystem (system:
       let
-        lib = import ./lib.nix { inherit inputs system; };
+        # lib = import ./lib.nix { inherit inputs system; };
+        utils = import ./utils.nix {
+          inherit inputs system;
+          lib = inputs.nixpkgs.lib;
+        };
         overlays = [
           (final: _: {
             master = import inputs.nixpkgs-master {
@@ -34,16 +38,14 @@
         pkgs = import nixpkgs { inherit system overlays; };
         nixvimLib = nixvim.lib.${system};
         nixvim' = nixvim.legacyPackages.${system};
-        nvim = nixvim'.makeNixvimWithModule {
+        nixvimModule = {
           inherit pkgs;
           module = import ./config;
-          extraSpecialArgs = { inherit inputs lib; };
+          extraSpecialArgs = { inherit inputs utils; };
         };
+        nvim = nixvim'.makeNixvimWithModule nixvimModule;
       in {
-        checks.default = nixvimLib.check.mkTestDerivationFromNvim {
-          inherit nvim lib;
-          name = "Personal Neovim configuration";
-        };
+        checks.default = nixvimLib.check.mkTestDerivationFromNvim nixvimModule;
         packages.default = nvim;
         formatter = pkgs.nixfmt;
       });

@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   options.modules.formatter.enable = lib.mkEnableOption "formatter";
@@ -20,8 +20,9 @@
     plugins.conform-nvim = {
       enable = true;
       formattersByFt = {
+        bash = [ "shellcheck" ];
         nix = [ "nixfmt" ];
-        dart = [ "dart_format" ];
+        dart = [ "dart_format" ]; # TODO 120 line length
         lua = [ "stylua" ];
         c = [ "clang-format" ];
         cpp = [ "clang-format" ];
@@ -30,7 +31,11 @@
         typescript = [[ "prettierd" "prettier" ]];
         typst = [ "typstfmt" ];
         cs = [[ "uncrustify" "csharpier" ]];
+        html = [ "htmlbeautifier" ];
+        css = [ "stylelint" ];
+        _ = "trim_whitespace";
       };
+      formatters = { shellcheck = { command = lib.getExe pkgs.shellcheck; }; };
     };
   };
 }

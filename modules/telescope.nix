@@ -1,9 +1,11 @@
-{ config, lib, pkgs, helpers, ... }:
+{ config, lib, pkgs, helpers, utils, ... }:
 
 {
   options.modules.telescope.enable = lib.mkEnableOption "telescope";
 
   config = lib.mkIf config.modules.telescope.enable {
+    plugins.sqlite-lua.enable = true;
+
     plugins.telescope = {
       enable = true;
       settings.defaults.mappings.i."<esc>" =
@@ -21,7 +23,7 @@
       };
     };
 
-    extraPlugins = with pkgs.vimPlugins; [
+    extraPlugins = [
       {
         plugin = (pkgs.vimUtils.buildVimPlugin rec {
           name = "search.nvim";
@@ -32,8 +34,8 @@
             hash = "sha256-88rMEtHTk5jEQ00YleSr8x32Q3m0VFZdxSE2vQ+f0rM=";
           };
         });
-        config = lib.luaToViml ''require("search").setup()'';
-        #   config = lib.luaToViml ''
+        config = utils.luaToViml ''require("search").setup()'';
+        #   config = utils.luaToViml ''
         #     require("search").setup({
         #       tabs = {
         #         {
@@ -52,20 +54,19 @@
         #   '';
       }
 
-      sqlite-lua
-      {
-        plugin = (pkgs.vimUtils.buildVimPlugin rec {
-          name = "smart-open.nvim";
-          src = pkgs.fetchFromGitHub {
-            owner = "danielfalk";
-            repo = name;
-            rev = "f4e39e9a1b05a6b82b1182a013677acc44b27abb";
-            hash = "sha256-bEo5p7tHeoE13P8QsjC8RqNA0NMogjdYzN0oatQaIJY=";
-          };
-        });
-        config =
-          lib.luaToViml ''require("telescope").load_extension("smart_open")'';
-      }
+      # {
+      #   plugin = (pkgs.vimUtils.buildVimPlugin rec {
+      #     name = "smart-open.nvim";
+      #     src = pkgs.fetchFromGitHub {
+      #       owner = "danielfalk";
+      #       repo = name;
+      #       rev = "f4e39e9a1b05a6b82b1182a013677acc44b27abb";
+      #       hash = "sha256-bEo5p7tHeoE13P8QsjC8RqNA0NMogjdYzN0oatQaIJY=";
+      #     };
+      #   });
+      #   config =
+      #     utils.luaToViml ''require("telescope").load_extension("smart_open")'';
+      # }
     ];
 
     keymaps = [
@@ -75,12 +76,12 @@
         options.desc = "Live grep";
         mode = [ "i" "n" ];
       }
-      { # TODO Make this a pane in search
-        key = "<C-p><C-p>";
-        action =
-          "<CMD>lua require'telescope'.extensions.smart_open.smart_open()<CR>";
-        mode = [ "i" "n" ];
-      }
+      # {
+      #   key = "<C-p><C-p>";
+      #   action =
+      #     "<CMD>lua require'telescope'.extensions.smart_open.smart_open()<CR>";
+      #   mode = [ "i" "n" ];
+      # }
     ];
   };
 }

@@ -1,12 +1,12 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, utils, ... }:
 
 # Lazy loading https://github.com/nix-community/nixvim/issues/421
 # TODO https://nix-community.github.io/nixvim/plugins/vim-slime/index.html
 # TODO https://github.com/chrisgrieser/nvim-origami
-# TODO e.g. with symbols outline: https://github.com/folke/edgy.nvim
 # TODO https://github.com/jecxjo/rest-client.vim
 # TODO https://www.reddit.com/r/neovim/comments/1d5ub7d/lazydevnvim_much_faster_luals_setup_for_neovim/
 # TODO https://github.com/altermo/ultimate-autopair.nvim
+# TODO https://github.com/Tyler-Barham/floating-help.nvim
 # FIXME Laggy mouse scrolling
 
 let
@@ -26,7 +26,7 @@ let
       extraPlugins = builtins.filter (p: !builtins.isString p) plugins;
     };
 
-in lib.deepMerge [
+in utils.deepMerge [
   (with pkgs.vimPlugins;
     mkPlugins [
       # Modules
@@ -55,9 +55,11 @@ in lib.deepMerge [
       "noice"
       "todo"
       "gremlins"
+      "smart-splits"
 
       # Plugins
       "which-key"
+      "smart-splits"
       "lastplace"
       # "rainbow-delimiters"
       # "plantuml-syntax"
@@ -65,6 +67,7 @@ in lib.deepMerge [
       "jupytext"
       # "parinfer-rust"
       "rustaceanvim"
+      "edgy"
       # "crates-nvim"
       "improved-search"
       "clangd-extensions"
@@ -77,7 +80,7 @@ in lib.deepMerge [
       "sleuth"
       "dressing"
       # "wilder"
-      # "multicursors"
+      "multicursors"
       # "flash"
       "nix"
       "gitsigns"
@@ -90,11 +93,11 @@ in lib.deepMerge [
       # lz-n
       {
         plugin = flutter-tools-nvim;
-        config = lib.luaToViml ''
+        config = utils.luaToViml ''
           require("flutter-tools").setup({});
           require("telescope").load_extension("flutter");
         '';
-        # config = lib.luaToViml ''
+        # config = utils.luaToViml ''
         #   require("lz.n").load {
         #     "flutter-tools",
         #     ft = "dart",
@@ -118,20 +121,39 @@ in lib.deepMerge [
       #       hash = "sha256-4cXaGvptqE9Vktj4hERokdA1DYzYi1r+UopEBxuBd2U=";
       #     };
       #   });
-      #   config = lib.luaToViml ''require("tiny-devicons-auto-colors").setup()'';
+      #   config = utils.luaToViml ''require("tiny-devicons-auto-colors").setup()'';
       # }
 
       # TODO flutter-tools-nvim
       codi-vim
-      legendary-nvim
+      {
+        plugin = legendary-nvim;
+        config = utils.luaToViml ''
+          require("legendary").setup({
+            extensions = {
+              smart_splits = {
+                directions = { 'Left', 'Down', 'Up', 'Right', },
+                mods = {
+                  move = '<S>',
+                  resize = '<M-S>',
+                },
+              },
+              which_key = {
+                auto_register = true,
+              },
+              diffview = true,
+            },
+          })
+        '';
+      }
 
       {
         plugin = hologram-nvim;
-        config = lib.luaToViml ''require("hologram").setup({})'';
+        config = utils.luaToViml ''require("hologram").setup({})'';
       }
       {
         plugin = bigfile-nvim;
-        config = lib.luaToViml ''require("bigfile").setup()'';
+        config = utils.luaToViml ''require("bigfile").setup()'';
       }
       {
         plugin = SimpylFold;
@@ -143,5 +165,5 @@ in lib.deepMerge [
       vim-just
       openingh-nvim
     ])
-  { imports = lib.umport { path = ../modules; }; }
+  { imports = utils.umport { path = ../modules; }; }
 ]

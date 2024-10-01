@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, utils, ... }:
 
 {
   options.modules.typst.enable = lib.mkEnableOption "typst";
@@ -16,7 +16,7 @@
           hash = "sha256-33clHm4XRfbYKSYrofm1TEaUV2UCIFVqNAc6Js8sTzY=";
         };
       });
-      config = lib.luaToViml ''require("typst-preview").setup()'';
+      config = utils.luaToViml ''require("typst-preview").setup()'';
     }];
 
     # https://www.dogeystamp.com/typst-notes/

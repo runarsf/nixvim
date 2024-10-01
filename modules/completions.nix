@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, utils, ... }:
 
 let
   mkSources = sources:
@@ -6,6 +6,9 @@ let
     sources;
 
 in {
+  # TODO Limit width and line count of completions and documentation
+  # TODO Add border to docs
+  # TODO https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-get-types-on-the-left-and-offset-the-menu
   # FIXME Error detected while processing function CloseVimOrDeleteBuffer:                                                                                                 lin
   #  Error executing vim.schedule lua callback: ...yNeovimPackages/start/copilot.lua/lua/copilot/client.lua:21: unexpectedly started multiple copilot server
   options.modules.cmp.enable = lib.mkEnableOption "cmp";
@@ -21,7 +24,7 @@ in {
       #   enable = true;
         suggestion.enabled = false;
         panel.enabled = false;
-        filetypes = lib.true [ "*" "." ] // lib.false [
+        filetypes = utils.true [ "*" "." ] // utils.false [
           "yaml"
           "markdown"
           "help"

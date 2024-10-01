@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, utils, ... }:
 
 {
   options.modules.noice.enable = lib.mkEnableOption "noice";
@@ -9,13 +9,13 @@
       messages.view = "mini";
       notify.view = "mini";
       lsp.progress.enabled = false;
-      presets = {
-        bottom_search = true;
-        command_palette = true;
-        long_message_to_split = true;
-        inc_rename = true;
-        lsp_doc_border = true;
-      };
+      presets = utils.enable [
+        "bottom_search"
+        "command_palette"
+        "long_message_to_split"
+        "inc_rename"
+        "lsp_doc_border"
+      ];
     };
   };
 }

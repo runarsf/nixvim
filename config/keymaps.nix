@@ -25,17 +25,17 @@
   extraConfigLua = ''
     function CursorMove(motion)
       local col = vim.api.nvim_win_get_cursor(0)[2]
+      local move = function(motion)
+        vim.api.nvim_command('normal! ' .. (vim.v.count == 0 and 1 or vim.v.count) .. 'g' .. motion)
+      end
 
-      vim.api.nvim_command('normal! ' .. (vim.v.count == 0 and 1 or vim.v.count) .. 'g' .. motion)
+      if motion == 'up' then
+        move('k')
+      elseif motion == 'down' then
+        move('j')
+      elseif motion == 'home' then
+        move('^')
 
-      if motion == '$' then
-        local line = vim.api.nvim_get_current_line()
-        local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-
-        if col == #line then
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<End>', true, false, true), 'n', false)
-        end
-      elseif motion == '^' then
         local new_col = vim.api.nvim_win_get_cursor(0)[2]
 
         if col == new_col then
@@ -45,6 +45,14 @@
             vim.api.nvim_command('normal! g0')
           end
         end
+      elseif motion == 'end' then
+        move('$')
+      --   local line = vim.api.nvim_get_current_line()
+      --   local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+
+      --   if col == #line then
+      --     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<End>', true, false, true), 'n', false)
+      --   end
       end
     end
   '';
@@ -65,10 +73,10 @@
       };
     };
   in [
-    (mkMove "<Up>" "k")
-    (mkMove "<Down>" "j")
-    (mkMove "<Home>" "^") # or 0
-    (mkMove "<End>" "$")
+    (mkMove "<Up>" "up")
+    (mkMove "<Down>" "down")
+    (mkMove "<Home>" "home")
+    (mkMove "<End>" "end")
 
     {
       key = "<leader><Space>";

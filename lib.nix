@@ -1,5 +1,7 @@
 { inputs, system, ... }:
 
+# TODO Waiting for better lib handling in nixvim https://github.com/nix-community/nixvim/pull/2328
+
 let
   lib = inputs.nixpkgs.lib;
 
@@ -23,12 +25,14 @@ let
 in with inputs;
 deepMerge [
   lib
-  utils.lib
-  nixvim.lib.${system}
+  flake-utils.lib
+  # nixvim.lib.${system}
   nypkgs.lib.${system}
 
   {
     inherit deepMerge;
+
+    nixvim = nixvim.lib.${system};
 
     # TODO Use EOF for luaToViml instead
     # luaToViml = s:
@@ -51,24 +55,28 @@ deepMerge [
       lib.concatStringsSep " | "
       (lib.filter (line: line != "") (lib.splitString "\n" s));
 
-    enable = attrs: builtins.listToAttrs (map (name: {
-      name = name;
-      value.enable = true;
-    }) attrs);
+    enable = attrs:
+      builtins.listToAttrs (map (name: {
+        name = name;
+        value.enable = true;
+      }) attrs);
 
-    disable = attrs: builtins.listToAttrs (map (name: {
-      name = name;
-      value.enable = false;
-    }) attrs);
+    disable = attrs:
+      builtins.listToAttrs (map (name: {
+        name = name;
+        value.enable = false;
+      }) attrs);
 
-    true = attrs: builtins.listToAttrs (map (name: {
-      name = name;
-      value = true;
-    }) attrs);
+    true = attrs:
+      builtins.listToAttrs (map (name: {
+        name = name;
+        value = true;
+      }) attrs);
 
-    false = attrs: builtins.listToAttrs (map (name: {
-      name = name;
-      value = false;
-    }) attrs);
+    false = attrs:
+      builtins.listToAttrs (map (name: {
+        name = name;
+        value = false;
+      }) attrs);
   }
 ]

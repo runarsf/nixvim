@@ -25,6 +25,17 @@ colorscheme active [
   }
   {
     plugin = vimUtils.buildVimPlugin rec {
+      name = "Mountain";
+      src = "${fetchFromGitHub {
+        owner = "mountain-theme";
+        repo = name;
+        rev = "48b5732a2368a0ff75081108a88c126ded5ab73d";
+        hash = "sha256-2I21DAbmVueyhRXJUcokiB5iXt2YzlvAV/YLR+CCL3Y=";
+      }}/vim";
+    };
+  }
+  {
+    plugin = vimUtils.buildVimPlugin rec {
       name = "github-nvim-theme";
       src = fetchFromGitHub {
         owner = "projekt0n";
