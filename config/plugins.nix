@@ -88,6 +88,7 @@ in utils.deepMerge [
       "neocord"
       "undotree"
       "better-escape"
+      "symbols"
 
       # extraPlugins
       # lz-n

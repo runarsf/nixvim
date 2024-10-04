@@ -25,6 +25,17 @@ colorscheme active [
   }
   {
     plugin = vimUtils.buildVimPlugin rec {
+      name = "yugen.nvim";
+      src = fetchFromGitHub {
+        owner = "bettervim";
+        repo = name;
+        rev = "ce74413d31ca14f59aecb04b1eb60b33f431db8c";
+        hash = "sha256-Y6LLu1cvT2SyJ9BeFu4C0WnbRmp2Evb7VrTOkmLqQeg=";
+      };
+    };
+  }
+  {
+    plugin = vimUtils.buildVimPlugin rec {
       name = "Mountain";
       src = "${fetchFromGitHub {
         owner = "mountain-theme";

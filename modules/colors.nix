@@ -14,7 +14,7 @@
     keymaps = [{
       key = "<leader>c";
       action = "<CMD>lua require('minty.huefy').open( { border = true } )<CR>";
-      options.desc = "Hop";
+      options.desc = "Color picker";
     }];
 
     extraPlugins = with pkgs; [
