@@ -15,13 +15,15 @@
 
     plugins.lualine = {
       enable = true;
-      theme = "ayu_dark";
-      componentSeparators.left = "";
-      componentSeparators.right = "";
-      sectionSeparators.left = "";
-      sectionSeparators.right = "";
-      extensions = [ "trouble" "toggleterm" "symbols-outline" ];
-      sections.lualine_x = [ "StatusPaste()" "StatusMouse()" "encoding" ];
+      settings = {
+        theme = "ayu_dark";
+        component_separators.left = "";
+        component_separators.right = "";
+        section_separators.left = "";
+        section_separators.right = "";
+        extensions = [ "trouble" "toggleterm" "symbols-outline" ];
+        sections.lualine_x = [ "StatusPaste()" "StatusMouse()" "encoding" ];
+      };
     };
   };
 }

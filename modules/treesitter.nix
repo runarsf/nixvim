@@ -9,7 +9,10 @@
       enable = true;
       # indent = false;
       settings = {
-        highlight = { additional_vim_regex_highlighting = false; };
+        highlight = {
+          enable = true;
+          additional_vim_regex_highlighting = false;
+        };
       };
     };
   };

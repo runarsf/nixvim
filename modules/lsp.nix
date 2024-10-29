@@ -71,28 +71,27 @@
         enable = true;
         inlayHints = true;
         servers = utils.enable [
-          "tsserver"
+          "ts_ls"
           "bashls"
-          "csharp-ls"
+          "csharp_ls"
           "clangd"
           "cssls"
-          "lua-ls"
+          "lua_ls"
           "eslint"
-          "hls"
           "html"
           "jsonls"
-          "nil-ls"
+          "nil_ls"
           "tailwindcss"
-          "typst-lsp"
+          "typst_lsp"
           "yamlls"
-          "docker-compose-language-service"
+          "docker_compose_language_service"
         ] // {
           # FIXME Autostart ruff for files that exist on disk
           ruff = {
             enable = true;
             autostart = false;
           };
-          rust-analyzer = {
+          rust_analyzer = {
             enable = false; # Handled by rustacean
             installCargo = true;
             installRustc = true;
@@ -105,6 +104,10 @@
               updateImportsOnRename = true;
               enableSnippets = true;
             };
+          };
+          hls = {
+            enable = true;
+            installGhc = true;
           };
         };
       };

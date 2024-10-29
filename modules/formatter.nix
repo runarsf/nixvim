@@ -19,23 +19,25 @@
 
     plugins.conform-nvim = {
       enable = true;
-      formattersByFt = {
-        bash = [ "shellcheck" ];
-        nix = [ "nixfmt" ];
-        dart = [ "dart_format" ]; # TODO 120 line length
-        lua = [ "stylua" ];
-        c = [ "clang-format" ];
-        cpp = [ "clang-format" ];
-        python = [ "isort" "ruff_fix" "ruff_format" ];
-        javascript = [[ "prettierd" "prettier" ]];
-        typescript = [[ "prettierd" "prettier" ]];
-        typst = [ "typstfmt" ];
-        cs = [[ "uncrustify" "csharpier" ]];
-        html = [ "htmlbeautifier" ];
-        css = [ "stylelint" ];
-        _ = "trim_whitespace";
+      settings = {
+        formatters_by_ft = {
+          bash = [ "shellcheck" ];
+          nix = [ "nixfmt" ];
+          dart = [ "dart_format" ]; # TODO 120 line length
+          lua = [ "stylua" ];
+          c = [ "clang-format" ];
+          cpp = [ "clang-format" ];
+          python = [ "isort" "ruff_fix" "ruff_format" ];
+          javascript = [[ "prettierd" "prettier" ]];
+          typescript = [[ "prettierd" "prettier" ]];
+          typst = [ "typstfmt" ];
+          cs = [[ "uncrustify" "csharpier" ]];
+          html = [ "htmlbeautifier" ];
+          css = [ "stylelint" ];
+          _ = "trim_whitespace";
+        };
+        formatters = { shellcheck = { command = lib.getExe pkgs.shellcheck; }; };
       };
-      formatters = { shellcheck = { command = lib.getExe pkgs.shellcheck; }; };
     };
   };
 }

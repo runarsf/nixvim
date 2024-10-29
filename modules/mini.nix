@@ -26,7 +26,9 @@
             width_preview = 50;
           };
         };
+        icons = { };
       };
+      mockDevIcons = true;
     };
 
     autoCmd = [
