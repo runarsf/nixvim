@@ -1,5 +1,7 @@
 { config, lib, pkgs, utils, ... }:
 
+# TODO https://github.com/OXY2DEV/foldtext.nvim
+
 {
   options.modules.folds.enable = lib.mkEnableOption "folds";
 

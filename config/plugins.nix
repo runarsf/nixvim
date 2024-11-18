@@ -7,6 +7,7 @@
 # TODO https://www.reddit.com/r/neovim/comments/1d5ub7d/lazydevnvim_much_faster_luals_setup_for_neovim/
 # TODO https://github.com/altermo/ultimate-autopair.nvim
 # TODO https://github.com/Tyler-Barham/floating-help.nvim
+# TODO https://github.com/tris203/precognition.nvim
 # FIXME Laggy mouse scrolling
 
 let
@@ -111,6 +112,18 @@ in utils.deepMerge [
       popup-nvim
       nui-nvim
       nvim-web-devicons
+
+        # {
+        #   plugin = (pkgs.vimUtils.buildVimPlugin rec {
+        #     name = "vim-longlines";
+        #     src = pkgs.fetchFromGitHub {
+        #       owner = "manu-mannattil";
+        #       repo = name;
+        #       rev = "1750f070441c77e31e4cdeb7b35bf833133a5567";
+        #       hash = "sha256-1gX1Johyq8rZbsURAyk2NZEmJwux1z5NGcFa1yehmCI=";
+        #     };
+        #   });
+        # }
 
       # {
       #   plugin = (pkgs.vimUtils.buildVimPlugin rec {

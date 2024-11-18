@@ -23,31 +23,61 @@
   # TODO If the cursor is at the last column, and on the second last column when pressing up/down, move to end
   # FIXME If the line is wider than the screen, pressing home/end will not leave the screen
   extraConfigLua = ''
+    -- Function to check if a specific line is soft-wrapped
+    -- @param bufnr: Buffer number (0 for current buffer)
+    -- @param linenr: Line number (1-based index)
+    -- @return: Boolean indicating if the line is soft-wrapped
+    local function is_line_soft_wrapped(bufnr, linenr)
+      -- Get the content of the specified line
+      local line = vim.api.nvim_buf_get_lines(bufnr, linenr - 1, linenr, false)[1]
+      -- Get the display width of the line
+      local line_display_width = vim.fn.strdisplaywidth(line)
+      -- Get the current window width
+      local win_width = vim.api.nvim_win_get_width(0)
+      -- Check if the line's display width exceeds the window width
+      return line_display_width > win_width
+    end
+
     function CursorMove(motion)
-      local col = vim.api.nvim_win_get_cursor(0)[2]
+      local getcol = function() return vim.api.nvim_win_get_cursor(0)[2] end
+      local start_col = getcol()
       local move = function(motion)
-        vim.api.nvim_command('normal! ' .. (vim.v.count == 0 and 1 or vim.v.count) .. 'g' .. motion)
+        vim.api.nvim_command('normal! ' .. (vim.v.count == 0 and 1 or vim.v.count) .. motion)
       end
 
       if motion == 'up' then
-        move('k')
+        move('gk')
       elseif motion == 'down' then
-        move('j')
+        move('gj')
       elseif motion == 'home' then
-        move('^')
+        move('g^')
 
-        local new_col = vim.api.nvim_win_get_cursor(0)[2]
+        local new_col = getcol()
 
-        if col == new_col then
+        if start_col == new_col then
           if col == 0 then
-            vim.api.nvim_command('normal! g^')
+            move('g^')
           else
-            vim.api.nvim_command('normal! g0')
+            move('g0')
           end
         end
       elseif motion == 'end' then
-        move('$')
-      --   local line = vim.api.nvim_get_current_line()
+        move('g_')
+        -- vim.wo.wrap
+        --local bufnr = vim.api.nvim_get_current_buf()
+
+        -- Get the current cursor position
+        -- local cursor_position = vim.api.nvim_win_get_cursor(0)
+        -- local linenr = cursor_position[1]
+        -- if is_line_soft_wrapped(bufnr, linenr) then
+--           print("Line " .. linenr .. " is soft-wrapped.")
+   --      else
+   --        print("Line " .. linenr .. " is not soft-wrapped.")
+   --      end
+
+        -- local new_col = getcol()
+        -- local line_cols = #vim.api.nvim_get_current_line()
+        -- print("yous at " .. new_col .. " of " .. line_cols)
       --   local col = vim.api.nvim_win_get_cursor(0)[2] + 1
 
       --   if col == #line then
@@ -65,7 +95,7 @@
     mkMove = key: motion: {
       inherit key;
       action = "<CMD>lua CursorMove('${motion}')<CR>";
-      mode = [ "n" "i" "v" ];
+      mode = [ "n" "i" "x" ];
       options = {
         noremap = true;
         nowait = true;
@@ -73,10 +103,10 @@
       };
     };
   in [
-    (mkMove "<Up>" "up")
-    (mkMove "<Down>" "down")
-    (mkMove "<Home>" "home")
-    (mkMove "<End>" "end")
+    # (mkMove "<Up>" "up")
+    # (mkMove "<Down>" "down")
+    # (mkMove "<Home>" "home")
+    # (mkMove "<End>" "end")
 
     {
       key = "<leader><Space>";
