@@ -82,7 +82,7 @@
           "jsonls"
           "nil_ls"
           "tailwindcss"
-          "typst_lsp"
+          "tinymist"
           "yamlls"
           "docker_compose_language_service"
         ] // {
