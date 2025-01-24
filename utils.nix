@@ -1,6 +1,9 @@
-{ inputs, system, lib, ... }:
+{ pkgs, inputs, system, lib, ... }:
 
-{
+# TODO Rewrite to use custom lib instead of utils.
+#  Waiting for better lib handling in nixvim https://github.com/nix-community/nixvim/pull/2328
+
+rec {
   umport = inputs.nypkgs.lib.${system}.umport;
 
   # Merges a list of attributes into one, including lists and nested attributes.
@@ -20,7 +23,26 @@
             lib.last values);
     in merge [ ] attrs;
 
-  # TODO Use EOF for luaToViml instead
+  mkPlugins = config: plugins:
+    let
+      a = builtins.partition (plugin: lib.hasAttr plugin config.modules)
+        (builtins.filter builtins.isString plugins);
+      b =
+        builtins.partition (plugin: lib.hasAttr plugin pkgs.vimPlugins) a.wrong;
+      toAttrs = plugins:
+        builtins.listToAttrs (map (plugin: {
+          name = plugin;
+          value.enable = true;
+        }) plugins);
+    in {
+      modules = toAttrs a.right;
+      plugins = toAttrs b.wrong;
+      extraPlugins =
+        (builtins.filter (plugin: !builtins.isString plugin) plugins)
+        ++ (map (plugin: builtins.getAttr plugin pkgs.vimPlugins) b.right);
+    };
+
+  # TODO Use EOF for luaToViml instead (:help lua-heredoc)
   # luaToViml = s:
   #   ''lua << EOF
   #     ${s}
@@ -41,27 +63,12 @@
     lib.concatStringsSep " | "
     (lib.filter (line: line != "") (lib.splitString "\n" s));
 
-  enable = attrs:
-    builtins.listToAttrs (map (name: {
-      name = name;
-      value.enable = true;
-    }) attrs);
+  fill = value: elems:
+    lib.foldl' (acc: elem:
+      acc // lib.setAttrByPath (if builtins.isList elem then elem else [ elem ])
+      value) { } elems;
 
-  disable = attrs:
-    builtins.listToAttrs (map (name: {
-      name = name;
-      value.enable = false;
-    }) attrs);
+  enable = elems: fill { enable = true; } elems;
 
-  true = attrs:
-    builtins.listToAttrs (map (name: {
-      name = name;
-      value = true;
-    }) attrs);
-
-  false = attrs:
-    builtins.listToAttrs (map (name: {
-      name = name;
-      value = false;
-    }) attrs);
+  disable = elems: fill { enable = false; } elems;
 }

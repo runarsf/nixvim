@@ -48,8 +48,6 @@
     ];
 
     plugins = {
-      rustaceanvim.enable = true;
-
       dap = {
         enable = true;
         signs.dapBreakpoint.text = "";

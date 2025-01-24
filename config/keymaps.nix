@@ -1,120 +1,45 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
   # TODO :close splits before
   extraConfigVim = ''
     function! CloseVimOrDeleteBuffer()
-        " Check if there is only one tab open
-        if tabpagenr('$') == 1
-            " Check how many buffers are visible in the current tab
-            let l:visible_buffers = len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-            " Close Vim if this is the only visible buffer in the last tab
-            if l:visible_buffers == 1
-                quit
-            else
-                BufferClose
-            endif
+      " Check if there is only one tab open
+      if tabpagenr('$') == 1
+        " Check how many buffers are visible in the current tab
+        let l:visible_buffers = len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+        " Close Vim if this is the only visible buffer in the last tab
+        if l:visible_buffers == 1
+          quit
         else
-            BufferClose
+          BufferClose
         endif
+      else
+        BufferClose
+      endif
     endfunction
-  '';
 
-  # TODO If the cursor is at the last column, and on the second last column when pressing up/down, move to end
-  # FIXME If the line is wider than the screen, pressing home/end will not leave the screen
-  extraConfigLua = ''
-    -- Function to check if a specific line is soft-wrapped
-    -- @param bufnr: Buffer number (0 for current buffer)
-    -- @param linenr: Line number (1-based index)
-    -- @return: Boolean indicating if the line is soft-wrapped
-    local function is_line_soft_wrapped(bufnr, linenr)
-      -- Get the content of the specified line
-      local line = vim.api.nvim_buf_get_lines(bufnr, linenr - 1, linenr, false)[1]
-      -- Get the display width of the line
-      local line_display_width = vim.fn.strdisplaywidth(line)
-      -- Get the current window width
-      local win_width = vim.api.nvim_win_get_width(0)
-      -- Check if the line's display width exceeds the window width
-      return line_display_width > win_width
-    end
-
-    function CursorMove(motion)
-      local getcol = function() return vim.api.nvim_win_get_cursor(0)[2] end
-      local start_col = getcol()
-      local move = function(motion)
-        vim.api.nvim_command('normal! ' .. (vim.v.count == 0 and 1 or vim.v.count) .. motion)
-      end
-
-      if motion == 'up' then
-        move('gk')
-      elseif motion == 'down' then
-        move('gj')
-      elseif motion == 'home' then
-        move('g^')
-
-        local new_col = getcol()
-
-        if start_col == new_col then
-          if col == 0 then
-            move('g^')
-          else
-            move('g0')
-          end
-        end
-      elseif motion == 'end' then
-        move('g_')
-        -- vim.wo.wrap
-        --local bufnr = vim.api.nvim_get_current_buf()
-
-        -- Get the current cursor position
-        -- local cursor_position = vim.api.nvim_win_get_cursor(0)
-        -- local linenr = cursor_position[1]
-        -- if is_line_soft_wrapped(bufnr, linenr) then
---           print("Line " .. linenr .. " is soft-wrapped.")
-   --      else
-   --        print("Line " .. linenr .. " is not soft-wrapped.")
-   --      end
-
-        -- local new_col = getcol()
-        -- local line_cols = #vim.api.nvim_get_current_line()
-        -- print("yous at " .. new_col .. " of " .. line_cols)
-      --   local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-
-      --   if col == #line then
-      --     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<End>', true, false, true), 'n', false)
-      --   end
-      end
-    end
+    function! Preserve(command)
+      " Preserve the cursor location with filters
+      " https://github.com/expipiplus1/update-nix-fetchgit?tab=readme-ov-file#from-vim
+      let w = winsaveview()
+      execute a:command
+      call winrestview(w)
+    endfunction
   '';
 
   globals = {
     mapleader = ",";
     maplocalleader = "<Space>";
   };
-  keymaps = let
-    mkMove = key: motion: {
-      inherit key;
-      action = "<CMD>lua CursorMove('${motion}')<CR>";
-      mode = [ "n" "i" "x" ];
-      options = {
-        noremap = true;
-        nowait = true;
-        silent = true;
-      };
-    };
-  in [
-    # (mkMove "<Up>" "up")
-    # (mkMove "<Down>" "down")
-    # (mkMove "<Home>" "home")
-    # (mkMove "<End>" "end")
-
+  keymaps = [
     {
       key = "<leader><Space>";
       action = "<CMD>nohlsearch<CR>";
       options.desc = "Turn off highlighted matches";
     }
     {
-      key = "<leader>..";
+      key = "<leader>??";
       action = if (config.plugins.notify.enable) then
         "<CMD>Telescope notify<CR>"
       else
@@ -122,7 +47,7 @@
       options.desc = "Show messages";
     }
     {
-      key = "<leader>.";
+      key = "<leader>?";
       action = if (config.plugins.notify.enable) then
         "<CMD>Notifications<CR>"
       else
@@ -190,15 +115,6 @@
       options.desc = "Increase indent";
     }
 
-    # Quickly edit macro
-    {
-      key = "<leader>em";
-      action =
-        "nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>";
-      mode = "n";
-      options.desc = "Edit macro";
-    }
-
     # Quickly move current line
     # https://github.com/mhinz/vim-galore#quickly-move-current-line
     {
@@ -250,16 +166,6 @@
     }
 
     {
-      key = "<leader>m";
-      action = "<CMD>lua ToggleMouse()<CR>";
-      options.desc = "Toggle mouse";
-    }
-    {
-      key = "<leader>n";
-      action = "<CMD>lua CopyMode()<CR>";
-      options.desc = "Toggle copy-mode";
-    }
-    {
       key = "<leader>q";
       action = "<CMD>call CloseVimOrDeleteBuffer()<CR>";
       options.desc = "Quit";
@@ -268,11 +174,6 @@
       key = "<leader>Q";
       action = "<CMD>qa!<CR>";
       options.desc = "Quit all";
-    }
-    {
-      key = "<leader>T";
-      action = "<CMD>TodoTelescope<CR>";
-      options.desc = "Show TODOs";
     }
     {
       key = "<leader>w";
@@ -289,15 +190,16 @@
       action = "<CMD>set wrap!<CR>";
       options.desc = "Toggle word wrap";
     }
+
     {
-      key = "<leader>u";
-      action = "<CMD>UndotreeToggle<CR>";
-      options.desc = "Toggle undo tree";
-    }
-    {
-      key = "<leader>t";
-      action = "<CMD>TroubleToggle<CR>";
-      options.desc = "Toggle trouble";
+      # TODO Move to keymapsOnEvents
+      #  Waiting for: https://github.com/nix-community/nixvim/issues/2359
+      #  Information: https://github.com/expipiplus1/update-nix-fetchgit?tab=readme-ov-file#from-vim 
+      key = "<leader>U";
+      action = ''
+        :call Preserve("%!${pkgs.update-nix-fetchgit}/bin/update-nix-fetchgit --location=" . line(".") . ":" . col("."))<CR>'';
+      options.desc = "Update fetcher under cursor";
+      options.nowait = true;
     }
   ];
 }

@@ -47,16 +47,15 @@
         mode = [ "n" ];
         options.desc = "(lsp) Rename";
       }
-      {
-        key = "<leader>h";
-        # action = "<CMD>lua require('lspconfig').inlay_hint.enable(0, not require('lspconfig').inlay_hint.is_enabled())<CR>";
-        action = "<CMD>InlayHintsToggle<CR>";
-        options.desc = "Toggle inlay hints";
-      }
+      # {
+      #   key = "<leader>h";
+      #   # action = "<CMD>lua require('lspconfig').inlay_hint.enable(0, not require('lspconfig').inlay_hint.is_enabled())<CR>";
+      #   action = "<CMD>InlayHintsToggle<CR>";
+      #   options.desc = "Toggle inlay hints";
+      # }
     ];
 
     extraPackages = with pkgs; [
-      csharpier
       isort
       ruff
       stylua
@@ -73,7 +72,6 @@
         servers = utils.enable [
           "ts_ls"
           "bashls"
-          "csharp_ls"
           "clangd"
           "cssls"
           "lua_ls"
@@ -81,16 +79,12 @@
           "html"
           "jsonls"
           "nil_ls"
-          "tailwindcss"
           "tinymist"
           "yamlls"
           "docker_compose_language_service"
-        ] // {
           # FIXME Autostart ruff for files that exist on disk
-          ruff = {
-            enable = true;
-            autostart = false;
-          };
+          "ruff"
+        ] // {
           rust_analyzer = {
             enable = false; # Handled by rustacean
             installCargo = true;
@@ -113,24 +107,16 @@
       };
     };
 
-    extraPlugins = with pkgs;
+    extraPlugins = with pkgs.vimPlugins;
       [
         # {
         #   plugin = lsp_signature-nvim;
         #   config = ''lua require("lsp_signature").setup()'';
         # }
-        {
-          plugin = vimUtils.buildVimPlugin rec {
-            name = "inlay-hints.nvim";
-            src = fetchFromGitHub {
-              owner = "MysticalDevil";
-              repo = name;
-              rev = "1d5bd49a43f8423bc56f5c95ebe8fe3f3b96ed58";
-              hash = "sha256-E6+h9YIMRlot0umYchGYRr94bimBosunVyyvhmdwjIo=";
-            };
-          };
-          config = utils.luaToViml ''require("inlay-hints").setup({})'';
-        }
+        # {
+        #   plugin = inlay-hints;
+        #   config = utils.luaToViml ''require("inlay-hints").setup({})'';
+        # }
       ];
   };
 }

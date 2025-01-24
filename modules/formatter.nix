@@ -23,7 +23,7 @@
         formatters_by_ft = {
           bash = [ "shellcheck" ];
           nix = [ "nixfmt" ];
-          dart = [ "dart_format" ]; # TODO 120 line length
+          dart = [ "dart_format" ];
           lua = [ "stylua" ];
           c = [ "clang-format" ];
           cpp = [ "clang-format" ];

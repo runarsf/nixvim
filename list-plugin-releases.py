@@ -92,3 +92,4 @@ if args.token is None:
     exit(1)
 
 get_commit_files('nix-community', 'nixvim', args.commit_sha, args.token)
+

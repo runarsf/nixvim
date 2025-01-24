@@ -23,17 +23,9 @@
       };
     };
 
-    extraPlugins = [
+    extraPlugins = with pkgs.vimPlugins; [
       {
-        plugin = (pkgs.vimUtils.buildVimPlugin rec {
-          name = "search.nvim";
-          src = pkgs.fetchFromGitHub {
-            owner = "FabianWirth";
-            repo = name;
-            rev = "7b8f2315d031be73e14bc2d82386dfac15952614";
-            hash = "sha256-88rMEtHTk5jEQ00YleSr8x32Q3m0VFZdxSE2vQ+f0rM=";
-          };
-        });
+        plugin = search;
         config = utils.luaToViml ''require("search").setup()'';
         #   config = utils.luaToViml ''
         #     require("search").setup({
@@ -53,20 +45,6 @@
         #     })
         #   '';
       }
-
-      # {
-      #   plugin = (pkgs.vimUtils.buildVimPlugin rec {
-      #     name = "smart-open.nvim";
-      #     src = pkgs.fetchFromGitHub {
-      #       owner = "danielfalk";
-      #       repo = name;
-      #       rev = "f4e39e9a1b05a6b82b1182a013677acc44b27abb";
-      #       hash = "sha256-bEo5p7tHeoE13P8QsjC8RqNA0NMogjdYzN0oatQaIJY=";
-      #     };
-      #   });
-      #   config =
-      #     utils.luaToViml ''require("telescope").load_extension("smart_open")'';
-      # }
     ];
 
     keymaps = [
@@ -85,3 +63,4 @@
     ];
   };
 }
+

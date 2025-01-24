@@ -64,16 +64,7 @@
       }
     ];
 
-    extraPlugins = [
-      (pkgs.vimUtils.buildVimPlugin rec {
-        name = "duck.nvim";
-        src = pkgs.fetchFromGitHub {
-          owner = "tamton-aquib";
-          repo = name;
-          rev = "d8a6b08af440e5a0e2b3b357e2f78bb1883272cd";
-          hash = "sha256-97QSkZHpHLq1XyLNhPz88i9VuWy6ux7ZFNJx/g44K2A=";
-        };
-      })
-    ];
+    extraPlugins = with pkgs.vimPlugins; [ duck ];
   };
 }
+

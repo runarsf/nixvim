@@ -6,16 +6,8 @@
   config = lib.mkIf config.modules.typst.enable {
     plugins.typst-vim.enable = true;
 
-    extraPlugins = [{
-      plugin = (pkgs.vimUtils.buildVimPlugin rec {
-        name = "typst-preview.nvim";
-        src = pkgs.fetchFromGitHub {
-          owner = "chomosuke";
-          repo = name;
-          rev = "15eaaffc0a2d8cd871f485f399d1d67ed3322a0b";
-          hash = "sha256-33clHm4XRfbYKSYrofm1TEaUV2UCIFVqNAc6Js8sTzY=";
-        };
-      });
+    extraPlugins = with pkgs.vimPlugins; [{
+      plugin = typst-preview;
       config = utils.luaToViml ''require("typst-preview").setup()'';
     }];
 
@@ -30,7 +22,7 @@
 
       function TypstPreview()
         call TypstWatch()
-        silent exec "!zathura --fork " . expand("%:p:r") . ".pdf &"
+        silent exec "!${pkgs.zathura}/bin/zathura --fork " . expand("%:p:r") . ".pdf &"
       endfunc
     '';
 
@@ -39,8 +31,6 @@
       action = "<CMD>Telescope aerial<CR>";
     }];
 
-    # TODO Spellcheck
-    # https://vi.stackexchange.com/a/36442
     files."ftplugin/typst.lua" = {
       opts = {
         wrap = true;
@@ -51,3 +41,4 @@
     };
   };
 }
+

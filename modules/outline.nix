@@ -10,12 +10,7 @@
         require("aerial").setup();
         require("telescope").load_extension("aerial")
       '';
-    }
-    # {
-    #   plugin = outline-nvim;
-    #   config = utils.luaToViml ''require("outline").setup()'';
-    # }
-      ];
+    }];
 
     plugins.navbuddy = {
       enable = true;
@@ -33,17 +28,7 @@
       options.silent = true;
       action =
         ":try | execute 'Navbuddy' | catch | execute 'Telescope aerial' | endtry<CR>";
-    }
-    # {
-    #   key = "<leader>o";
-    #   action = "<CMD>AerialToggle<CR>";
-    #   options.desc = "Toggle outline";
-    # }
-    # {
-    #   key = "<leader>o";
-    #   action = "<CMD>Outline<CR>";
-    #   options.desc = "Toggle outline";
-    # }
-      ];
+    }];
   };
 }
+

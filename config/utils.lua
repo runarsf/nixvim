@@ -3,17 +3,6 @@ if not ok then return end
 local ok, cmp = pcall(require, "cmp")
 if not ok then return end
 
--- FIXME It don't work :(
-ToggleMouse = function()
-  vim.g.def_mouse = vim.g.def_mouse ~= nil and "vc" or vim.g.def_mouse
-  if #vim.o.mouse > 0 then
-    vim.g.def_mouse = vim.o.mouse
-    vim.o.mouse = false
-  else
-    vim.o.mouse = vim.g.def_mouse
-  end
-end
-
 CopyMode = function()
   local g = vim.g
   local o = vim.o
@@ -105,3 +94,4 @@ IsWrapped = function()
   -- A line is wrapped if the start and end positions are on different rows
   return row_start ~= row_end
 end
+

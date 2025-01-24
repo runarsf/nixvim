@@ -21,19 +21,20 @@ in {
       };
       copilot-cmp.enable = true;
       copilot-lua = {
-      #   enable = true;
-        suggestion.enabled = false;
-        panel.enabled = false;
-        filetypes = utils.true [ "*" "." ] // utils.false [
-          "yaml"
-          "markdown"
-          "help"
-          "gitcommit"
-          "gitrebase"
-          "hgcommit"
-          "svn"
-          "cvs"
-        ];
+        settings = {
+          panel.enabled = false;
+          suggestion.enabled = false;
+          filetypes = utils.fill true [ "*" "." ] // utils.fill false [
+            "yaml"
+            "markdown"
+            "help"
+            "gitcommit"
+            "gitrebase"
+            "hgcommit"
+            "svn"
+            "cvs"
+          ];
+        };
       };
 
       luasnip = {
@@ -121,3 +122,4 @@ in {
     };
   };
 }
+

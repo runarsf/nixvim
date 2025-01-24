@@ -16,13 +16,26 @@
     plugins.lualine = {
       enable = true;
       settings = {
-        theme = "ayu_dark";
-        component_separators.left = "";
-        component_separators.right = "";
-        section_separators.left = "";
-        section_separators.right = "";
-        extensions = [ "trouble" "toggleterm" "symbols-outline" ];
+        extensions = [ "trouble" "toggleterm" "symbols-outline" "nvim-dap-ui" ];
         sections.lualine_x = [ "StatusPaste()" "StatusMouse()" "encoding" ];
+        options = {
+          component_separators = {
+            left = "";
+            right = "";
+          };
+          section_separators = {
+            left = "";
+            right = "";
+          };
+        };
+        component_separators = {
+          left = "";
+          right = "";
+        };
+        section_separators = {
+          left = "";
+          right = "";
+        };
       };
     };
   };

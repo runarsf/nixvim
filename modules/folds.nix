@@ -7,7 +7,7 @@
 
   config = lib.mkIf config.modules.folds.enable {
     extraConfigVim =
-      lib.concatStringsSep "\n" [ (builtins.readFile ../config/folds.vim) ];
+      lib.concatStringsSep "\n" [ (builtins.readFile ./folds.vim) ];
 
     keymaps = [{
       key = "zF";
@@ -17,17 +17,9 @@
 
     # TODO https://github.com/AdamWagner/stackline/issues/42
     # FIXME https://github.com/anuvyklack/pretty-fold.nvim/issues/38
-    extraPlugins = [{
+    extraPlugins = with pkgs.vimPlugins; [{
       # plugin = pkgs.vimPlugins.pretty-fold-nvim;
-      plugin = pkgs.vimUtils.buildVimPlugin rec {
-        name = "pretty-fold.nvim";
-        src = pkgs.fetchFromGitHub {
-          owner = "bbjornstad";
-          repo = name;
-          rev = "ce302faec7da79ea8afb5a6eec5096b68ba28cb5";
-          hash = "sha256-KeRc1Jc6CSW8qeyiJZhbGelxewviL/jPFDxRW1HsfAk=";
-        };
-      };
+      plugin = pretty-fold;
       config = utils.luaToViml ''
         require("pretty-fold").setup({
           keep_indentation = false,

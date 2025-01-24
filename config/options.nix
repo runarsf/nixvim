@@ -8,31 +8,29 @@
       relativenumber = true;
       list = true;
       listchars = "tab:┊»,trail:·,nbsp:⎵,precedes:«,extends:»";
-      timeoutlen = 300;
-      ttimeoutlen = 50;
-      mouse = "vc";
-      conceallevel = 0;
+      timeoutlen = 350;
       filetype = "on";
       confirm = true;
       backup = false;
       swapfile = false;
-      pumblend = 0;
-      splitbelow = true;
       splitright = true;
+      splitbelow = true;
       ignorecase = true;
       smartcase = true;
       undofile = true;
       undolevels = 10000;
-      updatetime = 300;
+      updatetime = 1000;
+      synmaxcol = 1000;
       scrolloff = 7;
       sidescrolloff = 5;
-      wrap = false;
-      linebreak = true;
-      synmaxcol = 1000;
       cursorline = true;
-      foldmethod = "marker";
       foldopen = "block,hor,insert,jump,mark,percent,quickfix,search,tag,undo";
       grepprg = "${pkgs.ripgrep}/bin/rg --vimgrep --hidden --glob '!.git'";
+
+      wrap = false;
+      linebreak = true;
+      breakindent = true;
+      showbreak = "↪";
 
       # Also handled by sleuth
       shiftround = true;

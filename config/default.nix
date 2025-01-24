@@ -1,18 +1,10 @@
-{ pkgs, lib, ... }:
+{ utils, ... }:
 
 {
-  imports = [
-    ./options.nix
-    ./autocommands.nix
-    ./plugins.nix
-    ./keymaps.nix
-    ./colorscheme.nix
-  ];
+  imports = [ ./options.nix ./autocommands.nix ./plugins.nix ./keymaps.nix ]
+    ++ utils.umport { path = ../modules; };
+
+  # extraPackages = with pkgs; [ sqlite ];
 
   enableMan = false;
-
-  extraPackages = with pkgs; [ sqlite python311Packages.jupytext ];
-
-  extraConfigLuaPre =
-    lib.concatStringsSep "\n" [ (builtins.readFile ./utils.lua) ];
 }

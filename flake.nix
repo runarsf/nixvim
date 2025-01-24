@@ -4,38 +4,44 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    flake-utils.url = "github:numtide/flake-utils";
-    nypkgs = {
-      url = "github:yunfachi/nypkgs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nypkgs = {
+      url = "github:yunfachi/nypkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs = inputs@{ nixpkgs, nixvim, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        # lib = import ./lib.nix { inherit inputs system; };
         utils = import ./utils.nix {
-          inherit inputs system;
+          inherit inputs system pkgs;
           lib = inputs.nixpkgs.lib;
+        };
+        nixpkgs-config = {
+          allowUnfree = true;
+          allowBroken = true;
         };
         overlays = [
           (final: _: {
             master = import inputs.nixpkgs-master {
-              system = final.system;
-              config = {
-                allowUnfree = true;
-                allowBroken = true;
-              };
+              inherit system;
+              config = nixpkgs-config;
             };
           })
+          (import ./packages.nix)
         ];
-        pkgs = import nixpkgs { inherit system overlays; };
+        pkgs = import nixpkgs {
+          inherit system overlays;
+          config = nixpkgs-config;
+        };
         nixvimLib = nixvim.lib.${system};
         nixvim' = nixvim.legacyPackages.${system};
         nixvimModule = {
