@@ -56,7 +56,7 @@
     "rustaceanvim"
     "clangd-extensions"
     "flutter-tools"
-    # "intellitab"
+    "intellitab"
   ];
 
   extraPlugins = with pkgs.vimPlugins; [

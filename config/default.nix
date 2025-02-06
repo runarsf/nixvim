@@ -7,4 +7,6 @@
   # extraPackages = with pkgs; [ sqlite ];
 
   enableMan = false;
+
+  extraConfigLuaPre = builtins.readFile ./utils.lua;
 }
