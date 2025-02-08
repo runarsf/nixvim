@@ -102,7 +102,6 @@ in {
             "<C-d>" = "cmp.mapping.scroll_docs(-4)";
             "<C-e>" = "cmp.mapping.close()";
             "<C-f>" = "cmp.mapping.scroll_docs(4)";
-            # TODO don't select first one automatically on enter
             "<CR>" = ''
               cmp.mapping({
                 i = function(fallback)
@@ -116,8 +115,8 @@ in {
                     fallback()
                   end
                 end,
-                s = cmp.mapping.confirm({ select = true }),
-                c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+                s = cmp.mapping.confirm({ select = false }),
+                c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
               })
             '';
             "<Tab>" = ''

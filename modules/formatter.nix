@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, inputs, pkgs, lib, ... }:
 
 {
   options.modules.formatter.enable = lib.mkEnableOption "formatter";
@@ -36,7 +36,13 @@
           css = [ "stylelint" ];
           _ = "trim_whitespace";
         };
-        formatters = { shellcheck = { command = lib.getExe pkgs.shellcheck; }; };
+        formatters = {
+          shellcheck = { command = lib.getExe pkgs.shellcheck; };
+          nixfmt = {
+            command = lib.getExe
+              inputs.nixfmt.packages.${pkgs.system}.default;
+          };
+        };
       };
     };
   };

@@ -16,6 +16,9 @@
     };
 
     flake-utils.url = "github:numtide/flake-utils";
+
+    nil_ls.url = "github:oxalica/nil";
+    nixfmt.url = "github:NixOS/nixfmt";
   };
 
   outputs = inputs@{ nixpkgs, nixvim, flake-utils, ... }:

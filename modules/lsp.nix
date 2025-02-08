@@ -1,4 +1,4 @@
-{ config, lib, pkgs, utils, ... }:
+{ config, inputs, lib, pkgs, utils, ... }:
 
 {
   options.modules.lsp.enable = lib.mkEnableOption "lsp";
@@ -77,13 +77,16 @@
           "eslint"
           "html"
           "jsonls"
-          "nil_ls"
           "tinymist"
           "yamlls"
           "docker_compose_language_service"
           # FIXME Autostart ruff for files that exist on disk
           "ruff"
         ] // {
+          nil_ls = {
+            enable = true;
+            package = inputs.nil_ls.packages.${pkgs.system}.default;
+          };
           rust_analyzer = {
             enable = false; # Handled by rustacean
             installCargo = true;
