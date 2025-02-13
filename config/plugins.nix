@@ -18,7 +18,6 @@
     "toggleterm"
     "gremlins"
     "mini"
-    "otter"
     "duck"
     "noice"
     "zen"
