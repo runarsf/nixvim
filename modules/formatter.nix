@@ -1,4 +1,10 @@
-{ config, inputs, pkgs, lib, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   options.modules.formatter.enable = lib.mkEnableOption "formatter";
@@ -27,21 +33,40 @@
           lua = [ "stylua" ];
           c = [ "clang-format" ];
           cpp = [ "clang-format" ];
-          python = [ "isort" "ruff_fix" "ruff_format" ];
-          javascript = [[ "prettierd" "prettier" ]];
-          typescript = [[ "prettierd" "prettier" ]];
+          python = [
+            "isort"
+            "ruff_fix"
+            "ruff_format"
+          ];
+          javascript = [
+            [
+              "prettierd"
+              "prettier"
+            ]
+          ];
+          typescript = [
+            [
+              "prettierd"
+              "prettier"
+            ]
+          ];
           typst = [ "typstfmt" ];
-          cs = [[ "uncrustify" "csharpier" ]];
+          cs = [
+            [
+              "uncrustify"
+              "csharpier"
+            ]
+          ];
           html = [ "htmlbeautifier" ];
           css = [ "stylelint" ];
+          solidity = [ "prettier-solidity" ];
           _ = "trim_whitespace";
         };
         formatters = {
-          shellcheck = { command = lib.getExe pkgs.shellcheck; };
-          nixfmt = {
-            command = lib.getExe
-              inputs.nixfmt.packages.${pkgs.system}.default;
-          };
+          shellcheck.command = lib.getExe pkgs.shellcheck;
+          nixfmt.command = lib.getExe inputs.nixfmt.packages.${pkgs.system}.default;
+          prettier-solidity.command =
+            lib.getExe pkgs.nodePackages.prettier + " --write --plugin=prettier-plugin-solidity";
         };
       };
     };

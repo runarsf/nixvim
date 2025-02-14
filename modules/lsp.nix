@@ -80,6 +80,8 @@
           "tinymist"
           "yamlls"
           "docker_compose_language_service"
+          "solc"
+          # "solidity_ls" # Missing package :⁽
           # FIXME Autostart ruff for files that exist on disk
           "ruff"
         ] // {
