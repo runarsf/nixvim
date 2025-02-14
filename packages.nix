@@ -127,4 +127,20 @@ self: super: {
       doCheck = false;
     };
   };
+
+  nodePackages = super.nodePackages // {
+    prettier-plugin-solidity = super.buildNpmPackage {
+      pname = "prettier-plugin-solidity";
+      version = "1.4.2";
+
+      npmDepsHash = "sha256-832tMzVOx93CYZ8qIEYS5TtGazYTtw9TOzEn1yZiEco=";
+
+      src = super.fetchFromGitHub {
+        owner = "prettier-solidity";
+        repo = "prettier-plugin-solidity";
+        rev = "03b224dc4ecd1030e23be3890abdc1dc3499a058";
+        sha256 = "sha256-t+yRphqFPieQKD7UcaAgI4OnGc8qqyRW3s2yPRIdtro=";
+      };
+    };
+  };
 }

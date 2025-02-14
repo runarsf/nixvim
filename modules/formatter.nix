@@ -23,12 +23,24 @@
       }
     ];
 
+    extraPackages = with pkgs; [ nodePackages.prettier-plugin-solidity ];
+
     plugins.conform-nvim = {
       enable = true;
+      # https://github.com/stevearc/conform.nvim?tab=readme-ov-file#options
       settings = {
+        # `:help conform-formatters`
         formatters_by_ft = {
-          bash = [ "shellcheck" ];
-          nix = [ "nixfmt" ];
+          bash = [
+            "shellcheck"
+            "shellharden"
+            "shfmt"
+          ];
+          nix = {
+            __unkeyed-1 = "alejandra";
+            __unkeyed-2 = "nixfmt";
+            stop_after_first = true;
+          };
           dart = [ "dart_format" ];
           lua = [ "stylua" ];
           c = [ "clang-format" ];
@@ -38,33 +50,44 @@
             "ruff_fix"
             "ruff_format"
           ];
-          javascript = [
-            [
-              "prettierd"
-              "prettier"
-            ]
-          ];
-          typescript = [
-            [
-              "prettierd"
-              "prettier"
-            ]
-          ];
+          javascript = {
+            __unkeyed-1 = "prettierd";
+            __unkeyed-2 = "prettier";
+            stop_after_first = true;
+          };
+          typescript = {
+            __unkeyed-1 = "prettierd";
+            __unkeyed-2 = "prettier";
+            stop_after_first = true;
+          };
           typst = [ "typstfmt" ];
-          cs = [
-            [
-              "uncrustify"
-              "csharpier"
-            ]
-          ];
+          cs = {
+            __unkeyed-1 = "uncrustify";
+            __unkeyed-2 = "csharpier";
+            stop_after_first = true;
+          };
           html = [ "htmlbeautifier" ];
           css = [ "stylelint" ];
-          solidity = [ "prettier-solidity" ];
-          _ = "trim_whitespace";
+          solidity = {
+            __unkeyed-1 = "prettier-solidity";
+            __unkeyed-2 = "prettierd";
+            stop_after_first = true;
+          };
+          _ = [ "trim_whitespace" ];
         };
+        # https://github.com/stevearc/conform.nvim/blob/master/doc/formatter_options.md
         formatters = {
           shellcheck.command = lib.getExe pkgs.shellcheck;
-          nixfmt.command = lib.getExe inputs.nixfmt.packages.${pkgs.system}.default;
+          shellharden.command = lib.getExe pkgs.shellharden;
+          shfmt.command = lib.getExe pkgs.shfmt;
+          alejandra = {
+            command = lib.getExe pkgs.alejandra;
+            args = [
+              "--quiet"
+              "-"
+            ];
+          };
+          # This doesn't actually work...
           prettier-solidity.command =
             lib.getExe pkgs.nodePackages.prettier + " --write --plugin=prettier-plugin-solidity";
         };
