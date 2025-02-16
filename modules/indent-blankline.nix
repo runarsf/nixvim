@@ -1,6 +1,8 @@
-{ config, lib, ... }:
-
 {
+  config,
+  lib,
+  ...
+}: {
   options.modules.indent-blankline.enable =
     lib.mkEnableOption "indent-blankline";
 

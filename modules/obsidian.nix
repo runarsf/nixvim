@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   options.modules.obsidian.enable = lib.mkEnableOption "obsidian";
 
   config = lib.mkIf config.modules.obsidian.enable {
@@ -13,10 +16,12 @@
         enable = true;
         settings = {
           picker.name = "telescope.nvim";
-          workspaces = [{
-            name = "Notes";
-            path = "~/Documents/notes";
-          }];
+          workspaces = [
+            {
+              name = "Notes";
+              path = "~/Documents/notes";
+            }
+          ];
         };
       };
     };

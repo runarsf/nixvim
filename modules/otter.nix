@@ -1,6 +1,8 @@
-{ config, lib, ... }:
-
 {
+  config,
+  lib,
+  ...
+}: {
   options.modules.otter.enable = lib.mkEnableOption "otter";
 
   config = lib.mkIf config.modules.otter.enable {

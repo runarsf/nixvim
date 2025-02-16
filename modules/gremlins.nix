@@ -1,7 +1,10 @@
-{ config, lib, pkgs, ... }:
-
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 # https://vim.fandom.com/wiki/Highlight_unwanted_spaces
-
 {
   options.modules.gremlins.enable = lib.mkEnableOption "gremlins";
 

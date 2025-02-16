@@ -1,6 +1,11 @@
-{ config, inputs, lib, pkgs, utils, ... }:
-
 {
+  config,
+  inputs,
+  lib,
+  pkgs,
+  utils,
+  ...
+}: {
   options.modules.lsp.enable = lib.mkEnableOption "lsp";
 
   config = lib.mkIf config.modules.lsp.enable {
@@ -8,43 +13,43 @@
       {
         key = "<C-.>";
         action = "<CMD>lua vim.lsp.buf.code_action()<CR>";
-        mode = [ "i" "n" ];
+        mode = ["i" "n"];
         options.desc = "(lsp) Code actions";
       }
       {
         key = "<C-.>";
         action = "<CMD>lua vim.lsp.buf.range_code_action()<CR>";
-        mode = [ "x" ];
+        mode = ["x"];
         options.desc = "(lsp) Code actions";
       }
       {
         key = "gd";
         action = "<CMD>lua vim.lsp.buf.definition()<CR>";
-        mode = [ "n" ];
+        mode = ["n"];
         options.desc = "(lsp) Go to definition";
       }
       {
         key = "gD";
         action = "<CMD>lua vim.lsp.buf.declaration()<CR>";
-        mode = [ "n" ];
+        mode = ["n"];
         options.desc = "(lsp) Go to declaration";
       }
       {
         key = "gr";
         action = "<CMD>lua vim.lsp.buf.references()<CR>";
-        mode = [ "n" ];
+        mode = ["n"];
         options.desc = "(lsp) Go to references";
       }
       {
         key = "K";
         action = "<CMD>lua vim.lsp.buf.hover()<CR>";
-        mode = [ "n" ];
+        mode = ["n"];
         options.desc = "(lsp) Hover";
       }
       {
         key = "<leader>R";
         action = "<CMD>lua vim.lsp.buf.rename()<CR>";
-        mode = [ "n" ];
+        mode = ["n"];
         options.desc = "(lsp) Rename";
       }
       # {
@@ -68,59 +73,62 @@
       lsp = {
         enable = true;
         inlayHints = true;
-        servers = utils.enable [
-          "ts_ls"
-          "bashls"
-          "clangd"
-          "cssls"
-          "lua_ls"
-          "eslint"
-          "html"
-          "jsonls"
-          "tinymist"
-          "yamlls"
-          "docker_compose_language_service"
-          "solc"
-          # "solidity_ls" # Missing package :⁽
-          # FIXME Autostart ruff for files that exist on disk
-          "ruff"
-        ] // {
-          nil_ls = {
-            enable = true;
-            package = inputs.nil_ls.packages.${pkgs.system}.default;
-          };
-          rust_analyzer = {
-            enable = false; # Handled by rustacean
-            installCargo = true;
-            installRustc = true;
-          };
-          dartls = {
-            enable = true;
-            settings = {
-              lineLength = 120;
-              showTodos = true;
-              updateImportsOnRename = true;
-              enableSnippets = true;
+        servers =
+          utils.enable [
+            "ts_ls"
+            "bashls"
+            "clangd"
+            "cssls"
+            "lua_ls"
+            "eslint"
+            "html"
+            "jsonls"
+            "tinymist"
+            "yamlls"
+            "docker_compose_language_service"
+            # FIXME Autostart ruff for files that exist on disk
+            "ruff"
+          ]
+          // {
+            nil_ls = {
+              enable = true;
+              package = inputs.nil_ls.packages.${pkgs.system}.default;
+            };
+            # solidity_ls = {
+            #   enable = true;
+            #   package = pkgs.nodePackages.solidity-language-server;
+            # };
+            rust_analyzer = {
+              enable = false; # Handled by rustacean
+              installCargo = true;
+              installRustc = true;
+            };
+            dartls = {
+              enable = true;
+              settings = {
+                lineLength = 120;
+                showTodos = true;
+                updateImportsOnRename = true;
+                enableSnippets = true;
+              };
+            };
+            hls = {
+              enable = true;
+              installGhc = true;
             };
           };
-          hls = {
-            enable = true;
-            installGhc = true;
-          };
-        };
       };
     };
 
-    extraPlugins = with pkgs.vimPlugins;
-      [
-        # {
-        #   plugin = lsp_signature-nvim;
-        #   config = ''lua require("lsp_signature").setup()'';
-        # }
-        # {
-        #   plugin = inlay-hints;
-        #   config = utils.luaToViml ''require("inlay-hints").setup({})'';
-        # }
-      ];
+    extraPlugins = with pkgs.vimPlugins; [
+      # {
+      #   plugin = lsp_signature-nvim;
+      #   config = ''lua require("lsp_signature").setup()'';
+      # }
+      # {
+      #   plugin = inlay-hints;
+      #   config = utils.luaToViml ''require("inlay-hints").setup({})'';
+      # }
+    ];
   };
 }

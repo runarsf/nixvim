@@ -1,6 +1,11 @@
-{ config, lib, pkgs, helpers, utils, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  helpers,
+  utils,
+  ...
+}: {
   options.modules.telescope.enable = lib.mkEnableOption "telescope";
 
   config = lib.mkIf config.modules.telescope.enable {
@@ -52,7 +57,7 @@
         key = "<C-p>";
         action = "<CMD>lua require'search'.open()<CR>";
         options.desc = "Live grep";
-        mode = [ "i" "n" ];
+        mode = ["i" "n"];
       }
       # {
       #   key = "<C-p><C-p>";
@@ -63,4 +68,3 @@
     ];
   };
 }
-

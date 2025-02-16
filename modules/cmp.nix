@@ -1,15 +1,20 @@
-{ config, lib, pkgs, helpers, utils, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  helpers,
+  utils,
+  ...
+}: let
   mkSources = sources:
     map (source:
-      if lib.isAttrs source then
-        source
+      if lib.isAttrs source
+      then source
       else {
         name = source;
         group_index = 2;
-      }) sources;
-
+      })
+    sources;
 in {
   # TODO Limit width and line count of completions and documentation
   # TODO Add border to docs
@@ -32,25 +37,27 @@ in {
           };
           ":" = {
             mapping = helpers.mkRaw "cmp.mapping.preset.cmdline()";
-            sources = mkSources [ "path" "cmdline" "cmdline_history" ];
+            sources = mkSources ["path" "cmdline" "cmdline_history"];
           };
           "?" = {
             mapping = helpers.mkRaw "cmp.mapping.preset.cmdline()";
-            sources = mkSources [ "cmdline_history" ];
+            sources = mkSources ["cmdline_history"];
           };
         };
         filetype = let
           mkFiletypeSettings = names: val:
             builtins.listToAttrs (lib.map (name: {
-              name = name;
-              value = val;
-            }) names);
-        in mkFiletypeSettings [ "dap-repl" "dapui_watches" "dapui_hover" ] {
-          sources = mkSources [ "dap" ];
-        };
+                name = name;
+                value = val;
+              })
+              names);
+        in
+          mkFiletypeSettings ["dap-repl" "dapui_watches" "dapui_hover"] {
+            sources = mkSources ["dap"];
+          };
         settings = {
           formatting = {
-            fields = [ "kind" "abbr" "menu" ];
+            fields = ["kind" "abbr" "menu"];
             format = ''
               function(entry, vim_item)
                 local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
@@ -63,8 +70,7 @@ in {
             '';
           };
           preselect = "cmp.PreselectMode.None";
-          snippet.expand =
-            "function(args) require('luasnip').lsp_expand(args.body) end";
+          snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
           window = {
             completion = {
               scrollbar = false;
@@ -93,10 +99,10 @@ in {
             "treesitter"
             "luasnip"
             "copilot"
-            ({
+            {
               name = "rg";
               keyword_length = 3;
-            })
+            }
           ];
           mapping = {
             "<C-d>" = "cmp.mapping.scroll_docs(-4)";
@@ -131,12 +137,11 @@ in {
                   cmp.complete()
                 else
                   ${
-                    if config.plugins.intellitab.enable then
-                      "require('intellitab').indent()"
-                      # "vim.cmd[[silent! lua require('intellitab').indent()]]"
-                    else
-                      "fallback()"
-                  }
+                if config.plugins.intellitab.enable
+                then "require('intellitab').indent()"
+                # "vim.cmd[[silent! lua require('intellitab').indent()]]"
+                else "fallback()"
+              }
                 end
               end, { "i", "s" })
             '';
@@ -173,7 +178,7 @@ in {
       };
     };
 
-    extraPlugins = with pkgs.vimPlugins; [ lspkind-nvim ];
+    extraPlugins = with pkgs.vimPlugins; [lspkind-nvim];
 
     # highlightOverride = {
     #   PmenuSel = {
@@ -307,4 +312,3 @@ in {
     # };
   };
 }
-

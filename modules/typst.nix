@@ -1,15 +1,21 @@
-{ config, lib, pkgs, utils, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  utils,
+  ...
+}: {
   options.modules.typst.enable = lib.mkEnableOption "typst";
 
   config = lib.mkIf config.modules.typst.enable {
     plugins.typst-vim.enable = true;
 
-    extraPlugins = with pkgs.vimPlugins; [{
-      plugin = typst-preview;
-      config = utils.luaToViml ''require("typst-preview").setup()'';
-    }];
+    extraPlugins = with pkgs.vimPlugins; [
+      {
+        plugin = typst-preview;
+        config = utils.luaToViml ''require("typst-preview").setup()'';
+      }
+    ];
 
     # https://www.dogeystamp.com/typst-notes/
     extraConfigVim = ''
@@ -26,10 +32,12 @@
       endfunc
     '';
 
-    keymaps = [{
-      key = "<leader,>";
-      action = "<CMD>Telescope aerial<CR>";
-    }];
+    keymaps = [
+      {
+        key = "<leader,>";
+        action = "<CMD>Telescope aerial<CR>";
+      }
+    ];
 
     files."ftplugin/typst.lua" = {
       opts = {
@@ -41,4 +49,3 @@
     };
   };
 }
-

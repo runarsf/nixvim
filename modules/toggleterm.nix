@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   options.modules.toggleterm.enable = lib.mkEnableOption "toggleterm";
 
   config = lib.mkIf config.modules.toggleterm.enable {
@@ -30,10 +33,12 @@
       end
     '';
 
-    keymaps = [{
-      key = "<leader>g";
-      action = "<CMD>lua GituiToggle()<CR>";
-      options.desc = "Toggle GitUI";
-    }];
+    keymaps = [
+      {
+        key = "<leader>g";
+        action = "<CMD>lua GituiToggle()<CR>";
+        options.desc = "Toggle GitUI";
+      }
+    ];
   };
 }

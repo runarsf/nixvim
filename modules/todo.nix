@@ -1,6 +1,8 @@
-{ config, lib, ... }:
-
 {
+  config,
+  lib,
+  ...
+}: {
   options.modules.todo.enable = lib.mkEnableOption "todo";
 
   config = lib.mkIf config.modules.todo.enable {
@@ -21,11 +23,10 @@
           "QUESTION" = {
             icon = " ";
             color = "info";
-            alt = [ "QUEST" "QSTN" "WTF" "FAQ" ]; # ???
+            alt = ["QUEST" "QSTN" "WTF" "FAQ"]; # ???
           };
         };
       };
     };
   };
 }
-

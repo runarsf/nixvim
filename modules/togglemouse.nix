@@ -1,6 +1,9 @@
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   options.modules.togglemouse.enable = lib.mkEnableOption "togglemouse";
 
   config = lib.mkIf config.modules.togglemouse.enable {
@@ -10,10 +13,12 @@
 
     opts.mouse = "";
 
-    keymaps = [{
-      key = "<leader>m";
-      action = "<Plug>ToggleMouse";
-      options.desc = "Toggle mouse";
-    }];
+    keymaps = [
+      {
+        key = "<leader>m";
+        action = "<Plug>ToggleMouse";
+        options.desc = "Toggle mouse";
+      }
+    ];
   };
 }

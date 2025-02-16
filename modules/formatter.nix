@@ -4,9 +4,7 @@
   pkgs,
   lib,
   ...
-}:
-
-{
+}: {
   options.modules.formatter.enable = lib.mkEnableOption "formatter";
 
   config = lib.mkIf config.modules.formatter.enable {
@@ -23,7 +21,7 @@
       }
     ];
 
-    extraPackages = with pkgs; [ nodePackages.prettier-plugin-solidity ];
+    extraPackages = with pkgs; [nodePackages.prettier-plugin-solidity];
 
     plugins.conform-nvim = {
       enable = true;
@@ -41,10 +39,10 @@
             __unkeyed-2 = "nixfmt";
             stop_after_first = true;
           };
-          dart = [ "dart_format" ];
-          lua = [ "stylua" ];
-          c = [ "clang-format" ];
-          cpp = [ "clang-format" ];
+          dart = ["dart_format"];
+          lua = ["stylua"];
+          c = ["clang-format"];
+          cpp = ["clang-format"];
           python = [
             "isort"
             "ruff_fix"
@@ -60,20 +58,20 @@
             __unkeyed-2 = "prettier";
             stop_after_first = true;
           };
-          typst = [ "typstfmt" ];
+          typst = ["typstfmt"];
           cs = {
             __unkeyed-1 = "uncrustify";
             __unkeyed-2 = "csharpier";
             stop_after_first = true;
           };
-          html = [ "htmlbeautifier" ];
-          css = [ "stylelint" ];
+          html = ["htmlbeautifier"];
+          css = ["stylelint"];
           solidity = {
             __unkeyed-1 = "prettier-solidity";
             __unkeyed-2 = "prettierd";
             stop_after_first = true;
           };
-          _ = [ "trim_whitespace" ];
+          _ = ["trim_whitespace"];
         };
         # https://github.com/stevearc/conform.nvim/blob/master/doc/formatter_options.md
         formatters = {

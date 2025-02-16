@@ -1,6 +1,4 @@
-{ ... }:
-
-{
+{...}: {
   extraConfigVim = ''
     function ForbidReplace()
       if v:insertmode isnot# 'i'
@@ -15,31 +13,36 @@
   };
 
   autoCmd = [
-    { # Show cursor-line
+    {
+      # Show cursor-line
       group = "CursorLine";
-      event = [ "InsertLeave" "WinEnter" ];
-      pattern = [ "*" ];
+      event = ["InsertLeave" "WinEnter"];
+      pattern = ["*"];
       command = "silent! set cursorline";
     }
-    { # Hide cursor-line
+    {
+      # Hide cursor-line
       group = "CursorLine";
-      event = [ "InsertEnter" "WinLeave" ];
-      pattern = [ "*" ];
+      event = ["InsertEnter" "WinLeave"];
+      pattern = ["*"];
       command = "silent! set nocursorline";
     }
-    { # Check if file has been modified on disk
-      event = [ "FocusGained" "CursorHold" ];
-      pattern = [ "*" ];
+    {
+      # Check if file has been modified on disk
+      event = ["FocusGained" "CursorHold"];
+      pattern = ["*"];
       command = "checktime";
     }
-    { # Get rid of the pesky cmd window
-      event = [ "CmdwinEnter" ];
-      pattern = [ "*" ];
+    {
+      # Get rid of the pesky cmd window
+      event = ["CmdwinEnter"];
+      pattern = ["*"];
       command = "q";
     }
-    { # Forbid replace mode
-      event = [ "InsertEnter" "InsertChange" ];
-      pattern = [ "*" ];
+    {
+      # Forbid replace mode
+      event = ["InsertEnter" "InsertChange"];
+      pattern = ["*"];
       command = "call ForbidReplace()";
       group = "ForbidReplaceMode";
     }

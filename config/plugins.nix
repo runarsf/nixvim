@@ -1,5 +1,8 @@
-{ pkgs, utils, ... }:
-
+{
+  pkgs,
+  utils,
+  ...
+}:
 # TODO https://github.com/chrisgrieser/nvim-origami
 # TODO https://github.com/jecxjo/rest-client.vim
 # TODO https://www.reddit.com/r/neovim/comments/1d5ub7d/lazydevnvim_much_faster_luals_setup_for_neovim/
@@ -7,10 +10,9 @@
 # TODO https://github.com/Tyler-Barham/floating-help.nvim
 # TODO https://github.com/tris203/precognition.nvim
 # TODO https://github.com/mvllow/modes.nvim
-
 {
   modules = utils.enable [
-    [ "colorscheme" "ayu" ]
+    ["colorscheme" "ayu"]
     "lsp"
     "cmp"
     "dap"
@@ -34,6 +36,7 @@
     "typst"
     "telescope"
     "lualine"
+    "namu"
   ];
 
   plugins = utils.enable [

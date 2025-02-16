@@ -1,6 +1,8 @@
-{ config, lib, ... }:
-
 {
+  config,
+  lib,
+  ...
+}: {
   options.modules.dap.enable = lib.mkEnableOption "dap";
 
   config = lib.mkIf config.modules.dap.enable {
@@ -67,11 +69,11 @@
           executables = {
             dart = {
               command = "dart";
-              args = [ "debug_adapter" ];
+              args = ["debug_adapter"];
             };
             flutter = {
               command = "flutter";
-              args = [ "debug_adapter" ];
+              args = ["debug_adapter"];
             };
           };
         };
@@ -99,7 +101,7 @@
         };
       };
 
-      cmp.settings.sources = [{ name = "dap"; }];
+      cmp.settings.sources = [{name = "dap";}];
     };
   };
 }

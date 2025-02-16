@@ -1,6 +1,8 @@
-{ config, lib, ... }:
-
 {
+  config,
+  lib,
+  ...
+}: {
   options.modules.lualine.enable = lib.mkEnableOption "lualine";
 
   config = lib.mkIf config.modules.lualine.enable {
@@ -16,8 +18,8 @@
     plugins.lualine = {
       enable = true;
       settings = {
-        extensions = [ "trouble" "toggleterm" "symbols-outline" "nvim-dap-ui" ];
-        sections.lualine_x = [ "StatusPaste()" "StatusMouse()" "encoding" ];
+        extensions = ["trouble" "toggleterm" "symbols-outline" "nvim-dap-ui"];
+        sections.lualine_x = ["StatusPaste()" "StatusMouse()" "encoding"];
         options = {
           component_separators = {
             left = "";

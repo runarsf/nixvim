@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   # TODO :close splits before
   extraConfigVim = ''
     function! CloseVimOrDeleteBuffer()
@@ -40,18 +42,18 @@
     }
     {
       key = "<leader>??";
-      action = if (config.plugins.notify.enable) then
-        "<CMD>Telescope notify<CR>"
-      else
-        "<CMD>messages<CR>";
+      action =
+        if (config.plugins.notify.enable)
+        then "<CMD>Telescope notify<CR>"
+        else "<CMD>messages<CR>";
       options.desc = "Show messages";
     }
     {
       key = "<leader>?";
-      action = if (config.plugins.notify.enable) then
-        "<CMD>Notifications<CR>"
-      else
-        "<CMD>echo v:errmsg<CR>";
+      action =
+        if (config.plugins.notify.enable)
+        then "<CMD>Notifications<CR>"
+        else "<CMD>echo v:errmsg<CR>";
       options.desc = "Show last error message";
     }
 
@@ -194,7 +196,7 @@
     {
       # TODO Move to keymapsOnEvents
       #  Waiting for: https://github.com/nix-community/nixvim/issues/2359
-      #  Information: https://github.com/expipiplus1/update-nix-fetchgit?tab=readme-ov-file#from-vim 
+      #  Information: https://github.com/expipiplus1/update-nix-fetchgit?tab=readme-ov-file#from-vim
       key = "<leader>U";
       action = ''
         :call Preserve("%!${pkgs.update-nix-fetchgit}/bin/update-nix-fetchgit --location=" . line(".") . ":" . col("."))<CR>'';

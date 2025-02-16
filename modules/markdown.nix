@@ -1,6 +1,10 @@
-{ config, lib, pkgs, utils, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  utils,
+  ...
+}: {
   options.modules.markdown.enable = lib.mkEnableOption "markdown";
 
   config = lib.mkIf config.modules.markdown.enable {
@@ -27,4 +31,3 @@
     };
   };
 }
-

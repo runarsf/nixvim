@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   options.modules.duck.enable = lib.mkEnableOption "duck";
 
   config = lib.mkIf config.modules.duck.enable {
@@ -64,7 +67,6 @@
       }
     ];
 
-    extraPlugins = with pkgs.vimPlugins; [ duck ];
+    extraPlugins = with pkgs.vimPlugins; [duck];
   };
 }
-

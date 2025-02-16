@@ -1,20 +1,23 @@
-{ config, lib, helpers, ... }:
-
 {
+  config,
+  lib,
+  helpers,
+  ...
+}: {
   options.modules.mini.enable = lib.mkEnableOption "mini";
 
   config = lib.mkIf config.modules.mini.enable {
     plugins.mini = {
       enable = true;
       modules = {
-        pairs = { };
-        comment = { };
-        align = { };
-        surround = { };
-        bufremove = { };
-        move = { };
-        trailspace = { };
-        tabline = { };
+        pairs = {};
+        comment = {};
+        align = {};
+        surround = {};
+        bufremove = {};
+        move = {};
+        trailspace = {};
+        tabline = {};
         files = {
           mappings = {
             go_in_plus = "<Right>";
@@ -26,15 +29,15 @@
             width_preview = 50;
           };
         };
-        icons = { };
+        icons = {};
       };
       mockDevIcons = true;
     };
 
     autoCmd = [
       {
-        event = [ "User" ];
-        pattern = [ "MiniFilesBufferCreate" ];
+        event = ["User"];
+        pattern = ["MiniFilesBufferCreate"];
         callback = helpers.mkRaw ''
           function(args)
             local map_buf = function(lhs, rhs)
@@ -54,9 +57,10 @@
           end
         '';
       }
-      { # Open files if vim started with no arguments
-        event = [ "VimEnter" ];
-        pattern = [ "*" ];
+      {
+        # Open files if vim started with no arguments
+        event = ["VimEnter"];
+        pattern = ["*"];
         callback = helpers.mkRaw ''
           function()
             if (vim.fn.expand("%") == "") then
@@ -71,10 +75,12 @@
       }
     ];
 
-    keymaps = [{
-      key = "<C-n>";
-      action = "<CMD>lua MiniFiles.open()<CR>";
-      options.desc = "Open file browser";
-    }];
+    keymaps = [
+      {
+        key = "<C-n>";
+        action = "<CMD>lua MiniFiles.open()<CR>";
+        options.desc = "Open file browser";
+      }
+    ];
   };
 }

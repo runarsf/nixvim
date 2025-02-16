@@ -1,6 +1,9 @@
-{ config, lib, utils, ... }:
-
 {
+  config,
+  lib,
+  utils,
+  ...
+}: {
   options.modules.noice.enable = lib.mkEnableOption "noice";
 
   config = lib.mkIf config.modules.noice.enable {
@@ -21,4 +24,3 @@
     };
   };
 }
-
