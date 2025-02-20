@@ -67,7 +67,7 @@
           };
           html = ["htmlbeautifier"];
           css = ["stylelint"];
-          go = ["gofmt"];
+          go = ["goimports" "gofmt"];
           solidity = {
             __unkeyed-1 = "prettier-solidity";
             __unkeyed-2 = "prettierd";
@@ -80,6 +80,7 @@
           shellcheck.command = lib.getExe pkgs.shellcheck;
           shellharden.command = lib.getExe pkgs.shellharden;
           shfmt.command = lib.getExe pkgs.shfmt;
+          goimports.command = lib.getExe' pkgs.gotools "goimports";
           alejandra = {
             command = lib.getExe pkgs.alejandra;
             args = [
