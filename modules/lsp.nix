@@ -60,15 +60,6 @@
       # }
     ];
 
-    extraPackages = with pkgs; [
-      isort
-      ruff
-      stylua
-      typstfmt
-      uncrustify
-      prettierd
-    ];
-
     plugins = {
       lsp = {
         enable = true;
@@ -85,11 +76,17 @@
             "jsonls"
             "tinymist"
             "yamlls"
+            "gopls"
             "docker_compose_language_service"
             # FIXME Autostart ruff for files that exist on disk
             "ruff"
           ]
           // {
+            # TODO Use nixd
+            # nixd = {
+            #   enable = true;
+            #   package = inputs.nixd.packages.${pkgs.system}.default;
+            # };
             nil_ls = {
               enable = true;
               package = inputs.nil_ls.packages.${pkgs.system}.default;

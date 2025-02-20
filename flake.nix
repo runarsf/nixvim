@@ -1,3 +1,4 @@
+# let a = "hello" |> (a: a + "world"); in {
 {
   description = "Personal Neovim configuration";
 
@@ -18,6 +19,8 @@
     flake-utils.url = "github:numtide/flake-utils";
 
     nil_ls.url = "github:oxalica/nil";
+    nixfmt.url = "github:NixOS/nixfmt";
+    nixd.url = "github:nix-community/nixd";
   };
 
   outputs = inputs @ {

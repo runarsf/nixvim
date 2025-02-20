@@ -35,8 +35,9 @@
             "shfmt"
           ];
           nix = {
-            __unkeyed-1 = "alejandra";
+            # TODO Remove nixfmt when alejandra supports pipe operator: https://github.com/kamadorueda/alejandra/issues/436
             __unkeyed-2 = "nixfmt";
+            __unkeyed-1 = "alejandra";
             stop_after_first = true;
           };
           dart = ["dart_format"];
@@ -66,6 +67,7 @@
           };
           html = ["htmlbeautifier"];
           css = ["stylelint"];
+          go = ["gofmt"];
           solidity = {
             __unkeyed-1 = "prettier-solidity";
             __unkeyed-2 = "prettierd";
@@ -85,6 +87,9 @@
               "-"
             ];
           };
+          nixfmt.command =
+            lib.getExe
+            inputs.nixfmt.packages.${pkgs.system}.default;
           # This doesn't actually work...
           prettier-solidity.command =
             lib.getExe pkgs.nodePackages.prettier + " --write --plugin=prettier-plugin-solidity";
