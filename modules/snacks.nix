@@ -15,10 +15,10 @@
       settings = {
         bigfile.enabled = true;
         # TODO gremlins highlight indents https://github.com/vim-utils/vim-troll-stopper/blob/master/plugin/troll_stopper.vim#L14-L18
-        explorer = {
-          enabled = true;
-          replace_netrw = true;
-        };
+        # explorer = {
+        #   enabled = true;
+        #   replace_netrw = true;
+        # };
         picker.sources.explorer.auto_close = true;
         image.enabled = true;
         indent = {
@@ -36,31 +36,27 @@
       };
     };
 
-    keymaps = [
-      {
-        key = "<C-n>";
-        action = "<CMD>lua Snacks.explorer.open()<CR>";
-        options.desc = "Open file browser";
-      }
-    ];
+    # keymaps = [
+    #   {
+    #     key = "<C-n>";
+    #     action = "<CMD>lua Snacks.explorer.open()<CR>";
+    #     options.desc = "Open file browser";
+    #   }
+    # ];
 
-    autoCmd = [
-      {
-        # Open files if vim started with no arguments
-        event = ["VimEnter"];
-        pattern = ["*"];
-        callback = helpers.mkRaw ''
-          function()
-            if (vim.fn.expand("%") == "") then
-              Snacks.explorer.open()
-            -- elseif filereadable(@%) == 0
-            --   echom "new file"
-            -- elseif line('$') == 1 && col('$') == 1
-            --   echom "file is empty"
-            end
-          end
-        '';
-      }
-    ];
+    # autoCmd = [
+    #   {
+    #     # Open files if vim started with no arguments
+    #     event = ["VimEnter"];
+    #     pattern = ["*"];
+    #     callback = helpers.mkRaw ''
+    #       function()
+    #         if (vim.fn.expand("%") == "") then
+    #           Snacks.explorer.open()
+    #         end
+    #       end
+    #     '';
+    #   }
+    # ];
   };
 }
