@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  helpers,
   ...
 }: {
   options.modules.snacks.enable = lib.mkEnableOption "snacks";
@@ -40,6 +41,25 @@
         key = "<C-n>";
         action = "<CMD>lua Snacks.explorer.open()<CR>";
         options.desc = "Open file browser";
+      }
+    ];
+
+    autoCmd = [
+      {
+        # Open files if vim started with no arguments
+        event = ["VimEnter"];
+        pattern = ["*"];
+        callback = helpers.mkRaw ''
+          function()
+            if (vim.fn.expand("%") == "") then
+              Snacks.explorer.open()
+            -- elseif filereadable(@%) == 0
+            --   echom "new file"
+            -- elseif line('$') == 1 && col('$') == 1
+            --   echom "file is empty"
+            end
+          end
+        '';
       }
     ];
   };
