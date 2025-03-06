@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   config = {
     luaLoader.enable = true;
-    opts = {
+    opts = rec {
       number = true;
       relativenumber = true;
       list = true;
@@ -31,12 +31,13 @@
       showbreak = "↪";
 
       # Also handled by sleuth
+      shiftwidth = 2;
+      tabstop = builtins.floor (shiftwidth * 1.5);
+      softtabstop = 0;
       shiftround = true;
       smartindent = true;
-      shiftwidth = 2;
       autoindent = true;
       smarttab = true;
-      tabstop = 2;
       expandtab = true;
     };
     clipboard = {

@@ -137,6 +137,7 @@ in {
                   cmp.complete()
                 else
                   ${
+                # TODO intellitab prints indents, should be silent
                 if config.plugins.intellitab.enable
                 then "require('intellitab').indent()"
                 # "vim.cmd[[silent! lua require('intellitab').indent()]]"

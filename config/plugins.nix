@@ -38,11 +38,11 @@
     "namu"
     "noice"
     "snacks"
+    "http"
   ];
 
   plugins = utils.enable [
     "which-key"
-    "kulala"
     "lastplace"
     "smart-splits"
     "sleuth"

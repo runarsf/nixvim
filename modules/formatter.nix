@@ -68,18 +68,22 @@
           html = ["htmlbeautifier"];
           css = ["stylelint"];
           go = ["goimports" "gofmt"];
+          http = ["kulala-fmt"];
           solidity = {
             __unkeyed-1 = "prettier-solidity";
             __unkeyed-2 = "prettierd";
             stop_after_first = true;
           };
+          nu = ["nufmt"];
           _ = ["trim_whitespace"];
         };
         # https://github.com/stevearc/conform.nvim/blob/master/doc/formatter_options.md
         formatters = {
           shellcheck.command = lib.getExe pkgs.shellcheck;
           shellharden.command = lib.getExe pkgs.shellharden;
+          nufmt.command = lib.getExe pkgs.nufmt;
           shfmt.command = lib.getExe pkgs.shfmt;
+          kulala-fmt.command = lib.getExe pkgs.kulala-fmt;
           goimports.command = lib.getExe' pkgs.gotools "goimports";
           alejandra = {
             command = lib.getExe pkgs.alejandra;

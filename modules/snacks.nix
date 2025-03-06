@@ -26,7 +26,7 @@
           # TODO char = "▏";
         };
         input.enabled = true;
-        notifier.enabled = true;
+        # notifier.enabled = true; # Not with notify + noice
         picker.enabled = true;
         profiler.enabled = true;
         quickfile.enabled = true;

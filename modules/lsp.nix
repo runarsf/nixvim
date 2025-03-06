@@ -46,12 +46,12 @@
         mode = ["n"];
         options.desc = "(lsp) Hover";
       }
-      {
-        key = "<leader>R";
-        action = "<CMD>lua vim.lsp.buf.rename()<CR>";
-        mode = ["n"];
-        options.desc = "(lsp) Rename";
-      }
+      # {
+      #   key = "<leader>R";
+      #   action = "<CMD>lua vim.lsp.buf.rename()<CR>";
+      #   mode = ["n"];
+      #   options.desc = "(lsp) Rename";
+      # }
       # {
       #   key = "<leader>h";
       #   # action = "<CMD>lua require('lspconfig').inlay_hint.enable(0, not require('lspconfig').inlay_hint.is_enabled())<CR>";
@@ -78,10 +78,16 @@
             "yamlls"
             "gopls"
             "docker_compose_language_service"
+            "nushell"
             # FIXME Autostart ruff for files that exist on disk
             "ruff"
           ]
           // {
+            # kulala_ls = {
+            #   enable = true;
+            #   # TODO https://github.com/NixOS/nixpkgs/issues/347263
+            #   # package = pkgs.nodePackages.kulala-ls;
+            # };
             # TODO Use nixd
             # nixd = {
             #   enable = true;
