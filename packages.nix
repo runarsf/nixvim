@@ -65,6 +65,16 @@ self: super: {
         };
       };
 
+      visual-nvim = super.vimUtils.buildVimPlugin rec {
+        name = "visual.nvim";
+        src = super.fetchFromGitHub {
+          owner = "00sapo";
+          repo = name;
+          rev = "5eeb220b86cac7ff7041daf565ccf45f296bd107";
+          hash = "sha256-tcqNMrUwYjFJq4/JEKXCA/NRAnU0B9oYeh6KC6MhnQM=";
+        };
+      };
+
       typst-preview = super.vimUtils.buildVimPlugin rec {
         name = "typst-preview.nvim";
         src = super.fetchFromGitHub {
