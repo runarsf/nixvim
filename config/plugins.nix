@@ -66,20 +66,20 @@
     openingh-nvim
     codi-vim
     longlines
-    {
-      plugin = visual-nvim;
-      config = utils.luaToViml ''
-        require('visual').setup({
-            treesitter_textobjects = true,
-            commands = {
-              move_up_then_normal = { amend = true },
-              move_down_then_normal = { amend = true },
-              move_right_then_normal = { amend = true },
-              move_left_then_normal = { amend = true },
-            },
-          } )
-      '';
-    }
+    # {
+    #   plugin = visual-nvim;
+    #   config = utils.luaToViml ''
+    #     require('visual').setup({
+    #         treesitter_textobjects = true,
+    #         commands = {
+    #           move_up_then_normal = { amend = true },
+    #           move_down_then_normal = { amend = true },
+    #           move_right_then_normal = { amend = true },
+    #           move_left_then_normal = { amend = true },
+    #         },
+    #       } )
+    #   '';
+    # }
     {
       plugin = hologram-nvim;
       config = utils.luaToViml ''require("hologram").setup({})'';
