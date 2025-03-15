@@ -81,6 +81,19 @@
     #   '';
     # }
     {
+      plugin = kak-nvim;
+      config = utils.luaToViml ''
+        require("kak").setup({
+          full = true,
+          which_key_integration = true,
+
+          experimental = {
+            rebind_visual_aiAI = true,
+          }
+        })
+      '';
+    }
+    {
       plugin = hologram-nvim;
       config = utils.luaToViml ''require("hologram").setup({})'';
     }
