@@ -20,12 +20,11 @@
     "toggleterm"
     "gremlins"
     "mini"
-    "duck"
+    "pets"
     "zen"
     "virt-column"
     "outline"
     "treesitter"
-    # "indent-blankline"
     "colors"
     "todo"
     "formatter"
@@ -66,6 +65,7 @@
     openingh-nvim
     codi-vim
     longlines
+    lens-vim
     # {
     #   plugin = visual-nvim;
     #   config = utils.luaToViml ''
@@ -80,19 +80,19 @@
     #       } )
     #   '';
     # }
-    {
-      plugin = kak-nvim;
-      config = utils.luaToViml ''
-        require("kak").setup({
-          full = true,
-          which_key_integration = true,
-
-          experimental = {
-            rebind_visual_aiAI = true,
-          }
-        })
-      '';
-    }
+    # {
+    #   plugin = kak-nvim;
+    #   config = utils.luaToViml ''
+    #     require("kak").setup({
+    #       full = true,
+    #       which_key_integration = true,
+    #
+    #       experimental = {
+    #         rebind_visual_aiAI = true,
+    #       }
+    #     })
+    #   '';
+    # }
     {
       plugin = hologram-nvim;
       config = utils.luaToViml ''require("hologram").setup({})'';

@@ -1,67 +1,79 @@
-{pkgs, ...}: {
-  config = {
-    luaLoader.enable = true;
-    opts = rec {
-      number = true;
-      relativenumber = true;
-      list = true;
-      listchars = "tab:┊»,trail:·,nbsp:⎵,precedes:«,extends:»";
-      timeoutlen = 350;
-      filetype = "on";
-      confirm = true;
-      backup = false;
-      swapfile = false;
-      splitright = true;
-      splitbelow = true;
-      ignorecase = true;
-      smartcase = true;
-      undofile = true;
-      undolevels = 10000;
-      updatetime = 1000;
-      synmaxcol = 1000;
-      scrolloff = 7;
-      sidescrolloff = 5;
-      cursorline = true;
-      foldopen = "block,hor,insert,jump,mark,percent,quickfix,search,tag,undo";
-      grepprg = "${pkgs.ripgrep}/bin/rg --vimgrep --hidden --glob '!.git'";
+{
+  pkgs,
+  lib,
+  ...
+}: {
+  opts = rec {
+    number = true;
+    relativenumber = true;
+    list = true;
+    listchars = "tab:┊»,trail:·,nbsp:⎵,precedes:«,extends:»";
+    showbreak = "↪";
+    timeoutlen = 350;
+    filetype = "on";
+    confirm = true;
+    backup = false;
+    swapfile = false;
+    splitright = true;
+    splitbelow = true;
+    ignorecase = true;
+    smartcase = true;
+    undofile = true;
+    undolevels = 10000;
+    updatetime = 1000;
+    synmaxcol = 1000;
+    scrolloff = 7;
+    sidescrolloff = 5;
+    cursorline = true;
+    foldopen = "block,hor,insert,jump,mark,percent,quickfix,search,tag,undo";
+    grepprg = "${lib.getExe pkgs.ripgrep} --vimgrep --hidden --glob '!.git'";
 
-      wrap = false;
-      linebreak = true;
-      breakindent = true;
-      showbreak = "↪";
+    wrap = false;
+    linebreak = true;
+    breakindent = true;
 
-      # Also handled by sleuth
-      shiftwidth = 2;
-      tabstop = builtins.floor (shiftwidth * 1.5);
-      softtabstop = 0;
-      shiftround = true;
-      smartindent = true;
-      autoindent = true;
-      smarttab = true;
-      expandtab = true;
-    };
-    clipboard = {
-      register = "unnamedplus";
-      providers = {
-        xsel.enable = true;
-        wl-copy.enable = true;
-      };
-    };
-    extraConfigVim = ''
-      " Faster keyword completion
-      set complete-=i   " disable scanning included files
-      set complete-=t   " disable searching tags
+    # Also handled by sleuth
+    shiftwidth = 2;
+    tabstop = builtins.floor (shiftwidth * 1.5);
+    softtabstop = 0;
+    shiftround = true;
+    smartindent = true;
+    autoindent = true;
+    smarttab = true;
+    expandtab = true;
+  };
 
-      " https://neovim.io/doc/user/faq.html#faq
-      " set shortmess-=F
-    '';
-    # Disable some builtin plugins
-    globals = {
-      loaded_tutor_mode_plugin = 1;
-      loaded_netrw = 1;
-      loaded_netrwPlugin = 1;
-      loaded_netrwSettings = 1;
-      loaded_netrwFileHandlers = 1;
+  clipboard = {
+    register = "unnamedplus";
+    providers = {
+      xsel.enable = true;
+      wl-copy.enable = true;
     };
   };
+
+  extraConfigVim = ''
+    " Faster keyword completion
+    set complete-=i   " disable scanning included files
+    set complete-=t   " disable searching tags
+
+    " https://neovim.io/doc/user/faq.html#faq
+    " set shortmess-=F
+  '';
+
+  extraConfigLuaPost = ''
+    -- Prevent LSP from overwriting treesitter color settings
+    -- https://github.com/NvChad/NvChad/issues/1907
+    vim.highlight.priorities.semantic_tokens = 95
+  '';
+
+  # Disable some builtin plugins
+  globals = {
+    loaded_tutor_mode_plugin = 1;
+    loaded_netrw = 1;
+    loaded_netrwPlugin = 1;
+    loaded_netrwSettings = 1;
+    loaded_netrwFileHandlers = 1;
+  };
+
+  luaLoader.enable = true;
 }

@@ -1,4 +1,3 @@
-# let a = "hello" |> (a: a + "world"); in {
 {
   description = "Personal Neovim configuration";
 
@@ -18,7 +17,8 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
-    nil_ls.url = "github:oxalica/nil";
+    # NOTE nil is locked while waiting for a release with pipe operator support
+    nil_ls.url = "github:oxalica/nil/577d160da311cc7f5042038456a0713e9863d09e";
     nixfmt.url = "github:NixOS/nixfmt";
     nixd.url = "github:nix-community/nixd";
   };
@@ -30,38 +30,32 @@
     ...
   }:
     flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = import nixpkgs rec {
+        inherit system;
+        config.allowUnfree = true;
+        overlays = [
+          (_: _: {
+            master = import inputs.nixpkgs-master {
+              inherit system config;
+            };
+          })
+          (import ./packages.nix)
+        ];
+      };
       utils = import ./utils.nix {
         inherit inputs system pkgs;
-        lib = inputs.nixpkgs.lib;
+        inherit (nixpkgs) lib;
       };
-      nixpkgs-config = {
-        allowUnfree = true;
-        allowBroken = true;
-      };
-      overlays = [
-        (final: _: {
-          master = import inputs.nixpkgs-master {
-            inherit system;
-            config = nixpkgs-config;
-          };
-        })
-        (import ./packages.nix)
-      ];
-      pkgs = import nixpkgs {
-        inherit system overlays;
-        config = nixpkgs-config;
-      };
-      nixvimLib = nixvim.lib.${system};
-      nixvim' = nixvim.legacyPackages.${system};
       nixvimModule = {
         inherit pkgs;
         module = import ./config;
         extraSpecialArgs = {inherit inputs utils;};
       };
-      nvim = nixvim'.makeNixvimWithModule nixvimModule;
     in {
-      checks.default = nixvimLib.check.mkTestDerivationFromNvim nixvimModule;
-      packages.default = nvim;
+      packages.default = nixvim.legacyPackages.${system}.makeNixvimWithModule nixvimModule;
+
+      checks.default = nixvim.lib.${system}.check.mkTestDerivationFromNvim nixvimModule;
+
       formatter = pkgs.alejandra;
     });
 }

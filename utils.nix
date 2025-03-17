@@ -46,39 +46,28 @@ rec {
       ++ (map (plugin: builtins.getAttr plugin pkgs.vimPlugins) b.right);
   };
 
-  # TODO Use EOF for luaToViml instead (:help lua-heredoc)
-  # luaToViml = s:
-  #   ''lua << EOF
-  #     ${s}
-  #   EOF
-  #   '';
-  luaToViml = s: let
-    lines = lib.splitString "\n" s;
-    nonEmptyLines = builtins.filter (line: line != "") lines;
-    processed = map (line:
-      if line == builtins.head nonEmptyLines
-      then "lua " + line
-      else "\\ " + line)
-    nonEmptyLines;
-  in
-    lib.concatStringsSep "\n" processed;
+  luaToViml = str: ''
+    lua << trim EOF
+      ${str}
+    EOF
+  '';
 
-  joinViml = s:
+  joinViml = str:
     lib.concatStringsSep " | "
-    (lib.filter (line: line != "") (lib.splitString "\n" s));
+    (lib.filter (line: line != "") (lib.splitString "\n" str));
 
-  fill = value: elems:
-    lib.foldl' (acc: elem:
+  fill = value: xs:
+    lib.foldl' (acc: x:
       acc
       // lib.setAttrByPath (
-        if builtins.isList elem
-        then elem
-        else [elem]
+        if builtins.isList x
+        then x
+        else [x]
       )
       value) {}
-    elems;
+    xs;
 
-  enable = elems: fill {enable = true;} elems;
+  enable = xs: fill {enable = true;} xs;
 
-  disable = elems: fill {enable = false;} elems;
+  disable = xs: fill {enable = false;} xs;
 }

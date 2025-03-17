@@ -97,10 +97,6 @@
               enable = true;
               package = inputs.nil_ls.packages.${pkgs.system}.default;
             };
-            # solidity_ls = {
-            #   enable = true;
-            #   package = pkgs.nodePackages.solidity-language-server;
-            # };
             rust_analyzer = {
               enable = false; # Handled by rustacean
               installCargo = true;
@@ -122,16 +118,5 @@
           };
       };
     };
-
-    extraPlugins = with pkgs.vimPlugins; [
-      # {
-      #   plugin = lsp_signature-nvim;
-      #   config = ''lua require("lsp_signature").setup()'';
-      # }
-      # {
-      #   plugin = inlay-hints;
-      #   config = utils.luaToViml ''require("inlay-hints").setup({})'';
-      # }
-    ];
   };
 }

@@ -1,4 +1,4 @@
-# NOTE Use this to update hashes: https://github.com/expipiplus1/update-nix-fetchgit
+# Use this to update hashes: https://github.com/expipiplus1/update-nix-fetchgit
 self: super: {
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/vim/plugins/build-vim-plugin.nix
   vimPlugins =
@@ -167,38 +167,6 @@ self: super: {
           hash = "sha256-VEFUUo3h1Wg2+Yn7n83DZYoScKKLl6oIbmBt0WClAb0=";
         };
         doCheck = false;
-      };
-    };
-
-  nodePackages =
-    super.nodePackages
-    // {
-      prettier-plugin-solidity = super.buildNpmPackage {
-        pname = "prettier-plugin-solidity";
-        version = "1.4.2";
-
-        npmDepsHash = "sha256-832tMzVOx93CYZ8qIEYS5TtGazYTtw9TOzEn1yZiEco=";
-
-        src = super.fetchFromGitHub {
-          owner = "prettier-solidity";
-          repo = "prettier-plugin-solidity";
-          rev = "03b224dc4ecd1030e23be3890abdc1dc3499a058";
-          sha256 = "sha256-t+yRphqFPieQKD7UcaAgI4OnGc8qqyRW3s2yPRIdtro=";
-        };
-      };
-      solidity-language-server = super.buildNpmPackage {
-        pname = "solidity-language-server";
-        version = "0.8.10";
-
-        npmDepsHash = "sha256-KYLX54xrQXp2pUzGRO+rqWpRIyN7GqSkrxKEELefSE0=";
-        makeCacheWritable = true;
-
-        src = super.fetchFromGitHub {
-          owner = "NomicFoundation";
-          repo = "hardhat-vscode";
-          rev = "e5372f3e9f5e91744972e90f0413be9450d3f9eb";
-          sha256 = "sha256-sII2VeU4R53RTcQqiI9Q1JE5CpWd2t0QIhCo+B1Yp7U=";
-        };
       };
     };
 }

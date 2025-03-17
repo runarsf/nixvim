@@ -2,17 +2,17 @@
 
 For systems with [`nix`](https://nixos.org/download) installed, the configuration can be tested with
 ```nix
-nix run github:runarsf/nixvim --extra-experimental-features 'nix-command flakes' -- hello.py
+nix run github:runarsf/nixvim --extra-experimental-features 'nix-command flakes' -- flake.nix
 ```
 
 Alternatively, it can be tested using docker
 ```nix
-docker run -it ghcr.io/nixos/nix nix run github:runarsf/nixvim --extra-experimental-features 'nix-command flakes' -- hello.py
+docker run -it ghcr.io/nixos/nix nix run github:runarsf/nixvim --extra-experimental-features 'nix-command flakes' -- flake.nix
 ```
 
 You can also run it locally
 ```nix
-nix run . -- README.md
+nix run . -- flake.nix
 ```
 
 

@@ -4,9 +4,9 @@
   pkgs,
   ...
 }: {
-  options.modules.duck.enable = lib.mkEnableOption "duck";
+  options.modules.pets.enable = lib.mkEnableOption "pets";
 
-  config = lib.mkIf config.modules.duck.enable {
+  config = lib.mkIf config.modules.pets.enable {
     extraConfigLua = ''
       local actions = require('telescope.actions')
       local action_state = require('telescope.actions.state')

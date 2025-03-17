@@ -53,17 +53,6 @@
       dap = {
         enable = true;
         signs.dapBreakpoint.text = "";
-        extensions = {
-          dap-ui.enable = true;
-          dap-virtual-text.enable = true;
-          dap-go.enable = true;
-          dap-python = {
-            enable = true;
-            console = "integratedTerminal";
-            # FIXME use resolvePython instead? or directly from pkgs
-            adapterPythonPath = "~/.nix-profile/bin/python";
-          };
-        };
 
         adapters = {
           executables = {
@@ -98,6 +87,18 @@
               # cwd = "\${workspaceFolder}";
             }
           ];
+        };
+      };
+
+      dap-ui.enable = true;
+      dap-virtual-text.enable = true;
+      dap-go.enable = true;
+      dap-python = {
+        enable = true;
+        settings = {
+          console = "integratedTerminal";
+          # FIXME use resolvePython instead? or directly from pkgs
+          adapterPythonPath = "~/.nix-profile/bin/python";
         };
       };
 

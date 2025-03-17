@@ -12,6 +12,7 @@
       package = pkgs.master.vimPlugins.snacks-nvim;
       enable = true;
       autoLoad = true;
+      lazyLoad.enable = false;
       settings = {
         bigfile.enabled = true;
         # TODO gremlins highlight indents https://github.com/vim-utils/vim-troll-stopper/blob/master/plugin/troll_stopper.vim#L14-L18
@@ -21,9 +22,19 @@
         # };
         picker.sources.explorer.auto_close = true;
         image.enabled = true;
-        indent = {
+        indent = let
+          char = "▏";
+        in {
           enabled = true;
-          # TODO char = "▏";
+          indent.char = char;
+          scope = {
+            char = char;
+          };
+          chunk = {
+            char = {
+              vertical = char;
+            };
+          };
         };
         input.enabled = true;
         # notifier.enabled = true; # Not with notify + noice
@@ -33,6 +44,12 @@
         words.enabled = true;
         # TODO Replace toggleterm
         # terminal.enabled = true;
+        # dashboard = {
+        #   enabled = true;
+        #   preset = {
+        #     header = "HIII";
+        #   };
+        # };
       };
     };
 

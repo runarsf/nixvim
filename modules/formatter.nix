@@ -21,8 +21,6 @@
       }
     ];
 
-    extraPackages = with pkgs; [nodePackages.prettier-plugin-solidity];
-
     plugins.conform-nvim = {
       enable = true;
       # https://github.com/stevearc/conform.nvim?tab=readme-ov-file#options
@@ -69,11 +67,6 @@
           css = ["stylelint"];
           go = ["goimports" "gofmt"];
           http = ["kulala-fmt"];
-          solidity = {
-            __unkeyed-1 = "prettier-solidity";
-            __unkeyed-2 = "prettierd";
-            stop_after_first = true;
-          };
           nu = ["nufmt"];
           _ = ["trim_whitespace"];
         };
@@ -95,9 +88,6 @@
           nixfmt.command =
             lib.getExe
             inputs.nixfmt.packages.${pkgs.system}.default;
-          # This doesn't actually work...
-          prettier-solidity.command =
-            lib.getExe pkgs.nodePackages.prettier + " --write --plugin=prettier-plugin-solidity";
         };
       };
     };
