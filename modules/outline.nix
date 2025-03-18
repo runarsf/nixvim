@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  utils,
   ...
 }: {
   options.modules.outline.enable = lib.mkEnableOption "outline";
@@ -11,14 +10,14 @@
     extraPlugins = with pkgs.vimPlugins; [
       {
         plugin = aerial-nvim;
-        config = utils.luaToViml ''
+        config = lib.utils.viml.fromLua ''
           require("aerial").setup();
           require("telescope").load_extension("aerial")
         '';
       }
       {
         plugin = namu-nvim;
-        config = utils.luaToViml ''
+        config = lib.utils.viml.fromLua ''
           require("namu").setup()
         '';
       }

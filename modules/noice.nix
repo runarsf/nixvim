@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  utils,
   ...
 }: {
   options.modules.noice.enable = lib.mkEnableOption "noice";
@@ -16,7 +15,7 @@
           messages.view = "notify";
           notify.view = "notify";
           lsp.progress.enabled = false;
-          presets = utils.enable [
+          presets = lib.utils.enable [
             "bottom_search"
             "command_palette"
             "long_message_to_split"

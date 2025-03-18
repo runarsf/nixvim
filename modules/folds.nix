@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  utils,
   ...
 }:
 # TODO https://github.com/OXY2DEV/foldtext.nvim
@@ -27,7 +26,7 @@
       {
         # plugin = pkgs.vimPlugins.pretty-fold-nvim;
         plugin = pretty-fold;
-        config = utils.luaToViml ''
+        config = lib.utils.viml.fromLua ''
           require("pretty-fold").setup({
             keep_indentation = false,
             fill_char = ' ',
