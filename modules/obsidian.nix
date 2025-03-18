@@ -12,6 +12,7 @@
         enable = true;
         clipboardPackage = lib.mkDefault pkgs.wl-clipboard;
       };
+
       obsidian = {
         enable = true;
         settings = {

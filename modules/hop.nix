@@ -1,21 +1,16 @@
 {
   config,
   lib,
-  pkgs,
-  utils,
   ...
 }: {
   options.modules.hop.enable = lib.mkEnableOption "hop";
 
   config = lib.mkIf config.modules.hop.enable {
-    extraPlugins = [
-      {
-        plugin = pkgs.vimPlugins.hop-nvim;
-        config = utils.luaToViml ''
-          require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
-        '';
-      }
-    ];
+    plugins.hop = {
+      enable = true;
+      settings.keys = "etovxqpdygfblzhckisuran";
+    };
+
     keymaps = [
       {
         key = "f";

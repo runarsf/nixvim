@@ -6,6 +6,17 @@
   options.modules.dap.enable = lib.mkEnableOption "dap";
 
   config = lib.mkIf config.modules.dap.enable {
+    plugins = {
+      dap = {
+        enable = true;
+        signs.dapBreakpoint.text = "";
+      };
+      dap-ui.enable = true;
+      dap-virtual-text.enable = true;
+
+      cmp.settings.sources = [{name = "dap";}];
+    };
+
     keymaps = [
       {
         key = "<leader>db";
@@ -48,61 +59,5 @@
         options.desc = "(debug) Toggle UI";
       }
     ];
-
-    plugins = {
-      dap = {
-        enable = true;
-        signs.dapBreakpoint.text = "";
-
-        adapters = {
-          executables = {
-            dart = {
-              command = "dart";
-              args = ["debug_adapter"];
-            };
-            flutter = {
-              command = "flutter";
-              args = ["debug_adapter"];
-            };
-          };
-        };
-
-        configurations = {
-          dart = [
-            {
-              name = "Dart";
-              type = "dart";
-              request = "launch";
-              autoReload.enable = true;
-              # program = "\${file}";
-              # cwd = "\${workspaceFolder}";
-            }
-
-            {
-              name = "Flutter";
-              type = "flutter";
-              request = "launch";
-              autoReload.enable = true;
-              # program = "\${file}";
-              # cwd = "\${workspaceFolder}";
-            }
-          ];
-        };
-      };
-
-      dap-ui.enable = true;
-      dap-virtual-text.enable = true;
-      dap-go.enable = true;
-      dap-python = {
-        enable = true;
-        settings = {
-          console = "integratedTerminal";
-          # FIXME use resolvePython instead? or directly from pkgs
-          adapterPythonPath = "~/.nix-profile/bin/python";
-        };
-      };
-
-      cmp.settings.sources = [{name = "dap";}];
-    };
   };
 }

@@ -1,14 +1,16 @@
 {
   config,
-  inputs,
   lib,
-  pkgs,
-  utils,
   ...
 }: {
   options.modules.lsp.enable = lib.mkEnableOption "lsp";
 
   config = lib.mkIf config.modules.lsp.enable {
+    plugins.lsp = {
+      enable = true;
+      inlayHints = true;
+    };
+
     keymaps = [
       {
         key = "<C-.>";
@@ -59,64 +61,5 @@
       #   options.desc = "Toggle inlay hints";
       # }
     ];
-
-    plugins = {
-      lsp = {
-        enable = true;
-        inlayHints = true;
-        servers =
-          utils.enable [
-            "ts_ls"
-            "bashls"
-            "clangd"
-            "cssls"
-            "lua_ls"
-            "eslint"
-            "html"
-            "jsonls"
-            "tinymist"
-            "yamlls"
-            "gopls"
-            "docker_compose_language_service"
-            "nushell"
-            # FIXME Autostart ruff for files that exist on disk
-            "ruff"
-          ]
-          // {
-            # kulala_ls = {
-            #   enable = true;
-            #   # TODO https://github.com/NixOS/nixpkgs/issues/347263
-            #   # package = pkgs.nodePackages.kulala-ls;
-            # };
-            # TODO Use nixd
-            # nixd = {
-            #   enable = true;
-            #   package = inputs.nixd.packages.${pkgs.system}.default;
-            # };
-            nil_ls = {
-              enable = true;
-              package = inputs.nil_ls.packages.${pkgs.system}.default;
-            };
-            rust_analyzer = {
-              enable = false; # Handled by rustacean
-              installCargo = true;
-              installRustc = true;
-            };
-            dartls = {
-              enable = true;
-              settings = {
-                lineLength = 120;
-                showTodos = true;
-                updateImportsOnRename = true;
-                enableSnippets = true;
-              };
-            };
-            hls = {
-              enable = true;
-              installGhc = true;
-            };
-          };
-      };
-    };
   };
 }

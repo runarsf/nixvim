@@ -16,6 +16,12 @@
           require("telescope").load_extension("aerial")
         '';
       }
+      {
+        plugin = namu-nvim;
+        config = utils.luaToViml ''
+          require("namu").setup()
+        '';
+      }
     ];
 
     plugins.navbuddy = {
@@ -31,9 +37,10 @@
 
     keymaps = [
       {
-        key = "<C-l>";
+        key = "<leader>s";
         options.silent = true;
-        action = ":try | execute 'Navbuddy' | catch | execute 'Telescope aerial' | endtry<CR>";
+        mode = ["n"];
+        action = '':try | execute 'lua require("namu.namu_symbols").show' | catch | try | execute 'Navbuddy' | catch | execute 'Telescope aerial' | endtry | endtry<CR>'';
       }
     ];
   };

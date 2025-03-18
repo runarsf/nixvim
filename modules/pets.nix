@@ -7,6 +7,8 @@
   options.modules.pets.enable = lib.mkEnableOption "pets";
 
   config = lib.mkIf config.modules.pets.enable {
+    extraPlugins = with pkgs.vimPlugins; [duck];
+
     extraConfigLua = ''
       local actions = require('telescope.actions')
       local action_state = require('telescope.actions.state')
@@ -35,7 +37,7 @@
 
                 if speed == nil then
                   local input_opts = {
-                    prompt = 'Choose Speed',
+                    prompt = 'Choose Speed: ',
                     default = '7',
                   }
 
@@ -66,7 +68,5 @@
         options.desc = "Kill pets :⁽";
       }
     ];
-
-    extraPlugins = with pkgs.vimPlugins; [duck];
   };
 }

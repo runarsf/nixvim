@@ -1,12 +1,4 @@
 {...}: {
-  extraConfigVim = ''
-    function ForbidReplace()
-      if v:insertmode isnot# 'i'
-        call feedkeys("\<Insert>", "n")
-      endif
-    endfunction
-  '';
-
   autoGroups = {
     CursorLine.clear = true;
     ForbidReplaceMode.clear = true;
@@ -52,4 +44,12 @@
     #   command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o";
     # }
   ];
+
+  extraConfigVim = ''
+    function ForbidReplace()
+      if v:insertmode isnot# 'i'
+        call feedkeys("\<Insert>", "n")
+      endif
+    endfunction
+  '';
 }

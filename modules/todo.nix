@@ -28,5 +28,13 @@
         };
       };
     };
+
+    keymaps = [
+      {
+        key = "<leader>T";
+        action = "<CMD>TodoTelescope<CR>";
+        options.desc = "Show TODOs";
+      }
+    ];
   };
 }

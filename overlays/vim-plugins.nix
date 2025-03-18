@@ -1,6 +1,5 @@
 # Use this to update hashes: https://github.com/expipiplus1/update-nix-fetchgit
 self: super: {
-  # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/vim/plugins/build-vim-plugin.nix
   vimPlugins =
     super.vimPlugins
     // {

@@ -3,7 +3,6 @@
   lib,
   pkgs,
   helpers,
-  utils,
   ...
 }: let
   mkSources = sources:
@@ -137,10 +136,8 @@ in {
                   cmp.complete()
                 else
                   ${
-                # TODO intellitab prints indents, should be silent
                 if config.plugins.intellitab.enable
-                then "require('intellitab').indent()"
-                # "vim.cmd[[silent! lua require('intellitab').indent()]]"
+                then "vim.cmd[[silent! lua require('intellitab').indent()]]"
                 else "fallback()"
               }
                 end

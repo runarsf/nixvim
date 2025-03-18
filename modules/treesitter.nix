@@ -6,7 +6,12 @@
   options.modules.treesitter.enable = lib.mkEnableOption "treesitter";
 
   config = lib.mkIf config.modules.treesitter.enable {
-    # TODO Refactoring https://github.com/nvim-treesitter/nvim-treesitter-refactor
+    extraConfigLuaPost = ''
+      -- Prevent LSP from overwriting treesitter color settings
+      -- https://github.com/NvChad/NvChad/issues/1907
+      vim.highlight.priorities.semantic_tokens = 95
+    '';
+
     plugins = {
       treesitter = {
         enable = true;

@@ -1,8 +1,22 @@
 {
-  pkgs,
   lib,
+  pkgs,
   ...
 }: {
+  enableMan = false;
+  luaLoader.enable = true;
+  clipboard = {
+    register = "unnamedplus";
+    providers = {
+      xsel.enable = true;
+      wl-copy.enable = true;
+    };
+  };
+
+  # extraPackages = with pkgs; [sqlite];
+
+  vimAlias = true;
+
   opts = rec {
     number = true;
     relativenumber = true;
@@ -43,29 +57,6 @@
     expandtab = true;
   };
 
-  clipboard = {
-    register = "unnamedplus";
-    providers = {
-      xsel.enable = true;
-      wl-copy.enable = true;
-    };
-  };
-
-  extraConfigVim = ''
-    " Faster keyword completion
-    set complete-=i   " disable scanning included files
-    set complete-=t   " disable searching tags
-
-    " https://neovim.io/doc/user/faq.html#faq
-    " set shortmess-=F
-  '';
-
-  extraConfigLuaPost = ''
-    -- Prevent LSP from overwriting treesitter color settings
-    -- https://github.com/NvChad/NvChad/issues/1907
-    vim.highlight.priorities.semantic_tokens = 95
-  '';
-
   # Disable some builtin plugins
   globals = {
     loaded_tutor_mode_plugin = 1;
@@ -75,5 +66,14 @@
     loaded_netrwFileHandlers = 1;
   };
 
-  luaLoader.enable = true;
+  extraConfigLuaPre = builtins.readFile ./utils.lua;
+
+  extraConfigVim = ''
+    " Faster keyword completion
+    set complete-=i   " disable scanning included files
+    set complete-=t   " disable searching tags
+
+    " https://neovim.io/doc/user/faq.html#faq
+    " set shortmess-=F
+  '';
 }

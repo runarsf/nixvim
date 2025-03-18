@@ -1,15 +1,29 @@
 {
   config,
-  utils,
-  pkgs,
   lib,
   ...
 }: {
-  options.modules.colorscheme.ayu.enable = lib.mkEnableOption "ayu";
+  options.modules.colorschemes.ayu.enable = lib.mkOption {
+    type = lib.types.bool;
+    default = config.modules.colorschemes.all.enable;
+    description = "ayu";
+  };
 
-  config = lib.mkIf config.modules.colorscheme.ayu.enable {
-    colorscheme = "ayu";
+  config = lib.mkIf config.modules.colorschemes.ayu.enable {
+    colorschemes.ayu = {
+      enable = true;
 
-    extraPlugins = with pkgs.vimPlugins; [neovim-ayu];
+      settings.overrides = lib.mkIf config.modules.colorschemes.transparent {
+        Normal = {bg = "None";};
+        NormalFloat = {bg = "None";};
+        ColorColumn = {bg = "None";};
+        SignColumn = {bg = "None";};
+        Folded = {bg = "None";};
+        FoldColumn = {bg = "None";};
+        CursorLine = {bg = "None";};
+        CursorColumn = {bg = "None";};
+        VertSplit = {bg = "None";};
+      };
+    };
   };
 }

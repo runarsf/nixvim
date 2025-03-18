@@ -3,7 +3,6 @@
   lib,
   pkgs,
   helpers,
-  utils,
   ...
 }: {
   options.modules.telescope.enable = lib.mkEnableOption "telescope";
@@ -31,40 +30,43 @@
     extraPlugins = with pkgs.vimPlugins; [
       {
         plugin = search;
-        config = utils.luaToViml ''require("search").setup()'';
-        #   config = utils.luaToViml ''
-        #     require("search").setup({
-        #       tabs = {
-        #         {
-        #           "Files",
-        #           function(opts)
-        #             opts = opts or {}
-        #             if vim.fn.isdirectory(".git") == 1 then
-        #               builtin.git_files(opts)
-        #             else
-        #               builtin.find_files(opts)
-        #             end
-        #           end
-        #         }
-        #       }
-        #     })
-        #   '';
+        config = lib.utils.viml.fromLua ''
+          local builtin = require('telescope.builtin')
+          require('search').setup({
+            initial_tab = 1,
+            tabs = {
+              { name = "Files", tele_func = builtin.find_files },
+              { name = "Grep", tele_func = builtin.live_grep },
+            }
+          })
+        '';
       }
     ];
 
-    keymaps = [
+    extraPackages = with pkgs; [ripgrep];
+
+    keymaps = let
+      teleOpts = "tele_opts = { no_ignore = true, no_ignore_parent = true, hidden = true, use_regex = true, file_ignore_patterns = { '^.git/' }  }";
+    in [
       {
         key = "<C-p>";
-        action = "<CMD>lua require'search'.open()<CR>";
-        options.desc = "Live grep";
-        mode = ["i" "n"];
+        action = "<CMD>lua require('search').open({ tab_name = 'Files', ${teleOpts} })<CR>";
+        options.desc = "Search files";
+        mode = "n";
       }
-      # {
-      #   key = "<C-p><C-p>";
-      #   action =
-      #     "<CMD>lua require'telescope'.extensions.smart_open.smart_open()<CR>";
-      #   mode = [ "i" "n" ];
-      # }
+      {
+        key = "<C-p><C-p>";
+        action = "<CMD>lua require('search').open({ tab_name = 'Grep', ${teleOpts} })<CR>";
+        options.desc = "Grep files";
+        mode = "n";
+      }
     ];
+    # TODO https://github.com/danielfalk/smart-open.nvim
+    # {
+    #   key = "<C-p><C-p>";
+    #   action =
+    #     "<CMD>lua require'telescope'.extensions.smart_open.smart_open()<CR>";
+    #   mode = [ "i" "n" ];
+    # }
   };
 }

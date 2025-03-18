@@ -4,6 +4,9 @@
   helpers,
   ...
 }: let
+  lang = "qmk";
+  cfg = config.modules.languages.${lang};
+
   layoutToString = layout:
     lib.strings.concatMapStringsSep ''
       ,
@@ -34,9 +37,13 @@
       }) end
     '';
 in {
-  options.modules.qmk.enable = lib.mkEnableOption "qmk";
+  options.modules.languages.${lang}.enable = lib.mkOption {
+    type = lib.types.bool;
+    default = config.modules.languages.all.enable;
+    description = "${lang} language support";
+  };
 
-  config = lib.mkIf config.modules.qmk.enable {
+  config = lib.mkIf cfg.enable {
     plugins.qmk = {
       enable = true;
       settings = {

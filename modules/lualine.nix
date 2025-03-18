@@ -6,15 +6,6 @@
   options.modules.lualine.enable = lib.mkEnableOption "lualine";
 
   config = lib.mkIf config.modules.lualine.enable {
-    extraConfigLuaPre = ''
-      function StatusMouse()
-        if #vim.o.mouse > 0 then return "M" else return "" end
-      end
-      function StatusPaste()
-        if vim.o.paste then return "P" else return "" end
-      end
-    '';
-
     plugins.lualine = {
       enable = true;
       settings = {
@@ -40,5 +31,14 @@
         };
       };
     };
+
+    extraConfigLuaPre = ''
+      function StatusMouse()
+        if #vim.o.mouse > 0 then return "M" else return "" end
+      end
+      function StatusPaste()
+        if vim.o.paste then return "P" else return "" end
+      end
+    '';
   };
 }

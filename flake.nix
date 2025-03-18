@@ -2,8 +2,8 @@
   description = "Personal Neovim configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    flakeUtils.url = "github:numtide/flake-utils";
 
     nixvim = {
       url = "github:nix-community/nixvim";
@@ -15,8 +15,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flake-utils.url = "github:numtide/flake-utils";
-
     # NOTE nil is locked while waiting for a release with pipe operator support
     nil_ls.url = "github:oxalica/nil/577d160da311cc7f5042038456a0713e9863d09e";
     nixfmt.url = "github:NixOS/nixfmt";
@@ -25,37 +23,44 @@
 
   outputs = inputs @ {
     nixpkgs,
+    flakeUtils,
     nixvim,
-    flake-utils,
     ...
   }:
-    flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = import nixpkgs rec {
+    flakeUtils.lib.eachDefaultSystem (system: let
+      pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
         overlays = [
-          (_: _: {
-            master = import inputs.nixpkgs-master {
-              inherit system config;
-            };
-          })
-          (import ./packages.nix)
+          (import ./overlays/packages)
+          (import ./overlays/vim-plugins.nix)
         ];
       };
-      utils = import ./utils.nix {
+      utils = import ./utils {
         inherit inputs system pkgs;
         inherit (nixpkgs) lib;
       };
-      nixvimModule = {
+      config = {
         inherit pkgs;
-        module = import ./config;
-        extraSpecialArgs = {inherit inputs utils;};
+
+        module = {
+          imports = utils.umport {paths = [./config ./modules];};
+        };
+
+        extraSpecialArgs = let
+          lib' = nixpkgs.lib.extend (self: super: {inherit utils;});
+          lib = lib'.extend nixvim.lib.overlay;
+        in {
+          inherit inputs lib;
+        };
       };
     in {
-      packages.default = nixvim.legacyPackages.${system}.makeNixvimWithModule nixvimModule;
+      packages.default = nixvim.legacyPackages.${system}.makeNixvimWithModule config;
 
-      checks.default = nixvim.lib.${system}.check.mkTestDerivationFromNvim nixvimModule;
+      checks.default = nixvim.lib.${system}.check.mkTestDerivationFromNvim config;
 
-      formatter = pkgs.alejandra;
+      formatter = pkgs.writeShellScriptBin "alejandra" ''
+        exec ${pkgs.alejandra}/bin/alejandra --quiet "$@"
+      '';
     });
 }

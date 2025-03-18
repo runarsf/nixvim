@@ -1,8 +1,3 @@
-local ok, luasnip = pcall(require, "luasnip")
-if not ok then return end
-local ok, cmp = pcall(require, "cmp")
-if not ok then return end
-
 CopyMode = function()
   local g = vim.g
   local o = vim.o
@@ -94,4 +89,3 @@ IsWrapped = function()
   -- A line is wrapped if the start and end positions are on different rows
   return row_start ~= row_end
 end
-
