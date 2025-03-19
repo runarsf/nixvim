@@ -49,7 +49,7 @@
       {
         key = "<leader><Tab>";
         action =
-          if config.plugs.telescope.enable
+          if config.plugins.telescope.enable
           then "<CMD>Telescope buffers<CR>"
           else "<CMD>ls<CR>";
         options.desc = "List buffers";
@@ -72,7 +72,7 @@
         return count
       end
 
-      function close_buffer()
+      close_buffer = function()
         local bufTable = count_bufs_by_type()
         if (bufTable.normal <= 1) then
           local result = vim.api.nvim_exec([[:q]], true)
