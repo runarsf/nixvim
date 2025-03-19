@@ -5,6 +5,7 @@
 }: {
   options.modules.dap.enable = lib.mkEnableOption "dap";
 
+  # TODO UI like this https://github.com/redyf/Neve/blob/main/assets/showcase4.png
   config = lib.mkIf config.modules.dap.enable {
     plugins = {
       dap = {

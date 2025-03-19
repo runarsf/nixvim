@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgsMaster.url = "github:nixos/nixpkgs/master";
     flakeUtils.url = "github:numtide/flake-utils";
 
     nixvim = {
@@ -31,10 +32,7 @@
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
-        overlays = [
-          (import ./overlays/packages)
-          (import ./overlays/vim-plugins.nix)
-        ];
+        overlays = map (f: import f {inherit inputs;}) (utils.umport {path = ./overlays;});
       };
       utils = import ./utils {
         inherit inputs system pkgs;

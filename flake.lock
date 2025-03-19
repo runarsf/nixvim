@@ -242,6 +242,22 @@
         "url": "https://github.com/NixOS/nixpkgs/archive/5487e69da40cbd611ab2cadee0b4637225f7cfae.tar.gz"
       }
     },
+    "nixpkgsMaster": {
+      "locked": {
+        "lastModified": 1742306347,
+        "narHash": "sha256-Q06TDFqnTwl8I+ExV0lNJwLnNmwnabedbZ7eVgMJUtc=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "238422191b718da91f2ccf363ea2e314a72bdfde",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1734435836,
@@ -346,6 +362,7 @@
         "nixd": "nixd",
         "nixfmt": "nixfmt",
         "nixpkgs": "nixpkgs_3",
+        "nixpkgsMaster": "nixpkgsMaster",
         "nixvim": "nixvim",
         "nypkgs": "nypkgs"
       }

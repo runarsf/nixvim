@@ -57,7 +57,8 @@
           end
         '';
       }
-      {
+      /*
+         {
         # Open files if vim started with no arguments
         event = ["VimEnter"];
         pattern = ["*"];
@@ -73,6 +74,7 @@
           end
         '';
       }
+      */
     ];
 
     keymaps = [

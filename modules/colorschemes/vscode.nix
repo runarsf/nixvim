@@ -27,5 +27,7 @@
         };
       };
     };
+
+    plugins.notify.settings.background_colour = lib.mkIf config.modules.colorschemes.transparent "#181818";
   };
 }

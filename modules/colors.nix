@@ -10,11 +10,11 @@
     plugins = {
       colorizer.enable = true;
 
-    ccc = {
-      enable = true;
-      settings.highlighter.auto_enable = false;
+      ccc = {
+        enable = true;
+        settings.highlighter.auto_enable = false;
+      };
     };
-  };
 
     keymaps = [
       {

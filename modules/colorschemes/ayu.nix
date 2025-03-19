@@ -25,5 +25,7 @@
         VertSplit = {bg = "None";};
       };
     };
+
+    plugins.notify.settings.background_colour = lib.mkIf config.modules.colorschemes.transparent "#0f1419";
   };
 }

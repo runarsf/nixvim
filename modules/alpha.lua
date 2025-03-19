@@ -1,12 +1,53 @@
--- Alpha (dashboard) for neovim
+function alpha_layout()
+  -- Only runs this script if Alpha Screen loads -- only if there isn't files to read
+  if (vim.api.nvim_exec('echo argc()', true) ~= "0") then
+    return {}
+  end
 
-local options
+  -- Statement, Exception
+  --- Create button for initial keybind.
+  --- @param sc string
+  --- @param txt string
+  --- @param hl string
+  --- @param keybind string optional
+  --- @param keybind_opts table optional
+  local function button(sc, txt, keybind, keybind_opts)
+    local sc_ = sc:gsub("%s", ""):gsub("SPC", "<leader>")
 
--- Only runs this script if Alpha Screen loads -- only if there isn't files to read
-if (vim.api.nvim_exec('echo argc()', true) == "0")
-then
+    local opts = {
+      position       = "center",
+      shortcut       = sc,
+      cursor         = 3,
+      width          = 40,
+      align_shortcut = "right",
+      hl_shortcut    = "Type",
+    }
 
-  --math.randomseed( os.time() ) -- For random header.
+    if keybind then
+      keybind_opts = vim.F.if_nil(keybind_opts, {noremap = true, silent = true, nowait = true})
+      opts.keymap = {"n", sc_, keybind, keybind_opts}
+    end
+
+    local function on_press()
+      local key = vim.api.nvim_replace_termcodes(sc_ .. '<Ignore>', true, false, true)
+      vim.api.nvim_feedkeys(key, "normal", false)
+    end
+
+    return {
+      type     = "button",
+      val      = txt,
+      on_press = on_press,
+      opts     = opts,
+    }
+  end
+
+  -- Function to retrieve console output.
+  local function capture(cmd)
+    local handle = assert(io.popen(cmd, 'r'))
+    local output = assert(handle:read('*a'))
+    handle:close()
+    return output
+  end
 
   -- To split our quote, artist and source.
   -- And automatically center it for screen loader of the header.
@@ -43,253 +84,154 @@ then
     return t
   end
 
-  -- Function to retrieve console output.
-  local function capture(cmd)
-    local handle = assert(io.popen(cmd, 'r'))
-    local output = assert(handle:read('*a'))
-    handle:close()
-    return output
-  end
+  local layout
+  local padding = 3
+  local below_buttons = 1
+  math.randomseed(os.time())
 
-  -- Create button for initial keybind.
-  --- @param sc string
-  --- @param txt string
-  --- @param hl string
-  --- @param keybind string optional
-  --- @param keybind_opts table optional
-  local function button(sc, txt, hl, keybind, keybind_opts)
-    local sc_ = sc:gsub("%s", ""):gsub("SPC", "<leader>")
-
-    local opts = {
-      position       = "center",
-      shortcut       = sc,
-      cursor         = 5,
-      width          = 50,
-      align_shortcut = "right",
-      hl_shortcut    = hl,
-    }
-
-    if keybind then
-      keybind_opts = vim.F.if_nil(keybind_opts, {noremap = true, silent = true, nowait = true})
-      opts.keymap = {"n", sc_, keybind, keybind_opts}
-    end
-
-    local function on_press()
-      local key = vim.api.nvim_replace_termcodes(sc_ .. '<Ignore>', true, false, true)
-      vim.api.nvim_feedkeys(key, "normal", false)
-    end
-
-    return {
-      type     = "button",
-      val      = txt,
-      on_press = on_press,
-      opts     = opts,
-    }
-  end
-
-  -- All custom headers
-  Headers = {
-
-    {
-      [[            .-'''''-.    ]],
-      [[          .'         `.  ]],
-      [[         :             : ]],
-      [[        :               :]],
-      [[        :      _/|      :]],
-      [[         :   =/_/      : ]],
-      [[          `._/ |     .'  ]],
-      [[       (   /  ,|...-'    ]],
-      [[        \_/^\/||__       ]],
-      [[     _/~  `""~`"` \_     ]],
-      [[  __/  -'.  ` .  `\_\__  ]],
-      [[/jgs     \           \-.\ ]],
-    }, -- jgs
-
-    --{
-    --  [[                                                                     ]],
-    --  [[       ███████████           █████      ██                     ]],
-    --  [[      ███████████             █████                             ]],
-    --  [[      ████████████████ ███████████ ███   ███████     ]],
-    --  [[     ████████████████ ████████████ █████ ██████████████   ]],
-    --  [[    █████████████████████████████ █████ █████ ████ █████   ]],
-    --  [[  ██████████████████████████████████ █████ █████ ████ █████  ]],
-    --  [[ ██████  ███ █████████████████ ████ █████ █████ ████ ██████ ]],
-    --  [[ ██████   ██  ███████████████   ██ █████████████████ ]],
-    --  [[ ██████   ██  ███████████████   ██ █████████████████ ]],
-    --},
-
-   -- {
-   --   '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ',
-   --   '⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡖⠁⠀⠀⠀⠀⠀⠀⠈⢲⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀ ',
-   --   '⠀⠀⠀⠀⠀⠀⠀⠀⣼⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣧⠀⠀⠀⠀⠀⠀⠀⠀ ',
-   --   '⠀⠀⠀⠀⠀⠀⠀⣸⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣇⠀⠀⠀⠀⠀⠀⠀ ',
-   --   '⠀⠀⠀⠀⠀⠀⠀⣿⣿⡇⠀⢀⣀⣤⣤⣤⣤⣀⡀⠀⢸⣿⣿⠀⠀⠀⠀⠀⠀⠀ ',
-   --   '⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣔⢿⡿⠟⠛⠛⠻⢿⡿⣢⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀ ',
-   --   '⠀⠀⠀⠀⣀⣤⣶⣾⣿⣿⣿⣷⣤⣀⡀⢀⣀⣤⣾⣿⣿⣿⣷⣶⣤⡀⠀⠀⠀⠀ ',
-   --   '⠀⠀⢠⣾⣿⡿⠿⠿⠿⣿⣿⣿⣿⡿⠏⠻⢿⣿⣿⣿⣿⠿⠿⠿⢿⣿⣷⡀⠀⠀ ',
-   --   '⠀⢠⡿⠋⠁⠀⠀⢸⣿⡇⠉⠻⣿⠇⠀⠀⠸⣿⡿⠋⢰⣿⡇⠀⠀⠈⠙⢿⡄⠀ ',
-   --   '⠀⡿⠁⠀⠀⠀⠀⠘⣿⣷⡀⠀⠰⣿⣶⣶⣿⡎⠀⢀⣾⣿⠇⠀⠀⠀⠀⠈⢿⠀ ',
-   --   '⠀⡇⠀⠀⠀⠀⠀⠀⠹⣿⣷⣄⠀⣿⣿⣿⣿⠀⣠⣾⣿⠏⠀⠀⠀⠀⠀⠀⢸⠀ ',
-   --   '⠀⠁⠀⠀⠀⠀⠀⠀⠀⠈⠻⢿⢇⣿⣿⣿⣿⡸⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠈⠀ ',
-   --   '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣿⣿⣿⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ',
-   --   '⠀⠀⠀⠐⢤⣀⣀⢀⣀⣠⣴⣿⣿⠿⠋⠙⠿⣿⣿⣦⣄⣀⠀⠀⣀⡠⠂⠀⠀⠀ ',
-   --   '⠀⠀⠀⠀⠀⠈⠉⠛⠛⠛⠛⠉⠀⠀⠀⠀⠀⠈⠉⠛⠛⠛⠛⠋⠁⠀⠀⠀⠀⠀ ',
-   -- },
-
-   -- {
-   --   [[=================     ===============     ===============   ========  ========]],
-   --   [[\\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //]],
-   --   [[||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\/ . . .||]],
-   --   [[|| . .||   ||. . || || . .||   ||. . || || . .||   ||. . || ||. . . . . . . ||]],
-   --   [[||. . ||   || . .|| ||. . ||   || . .|| ||. . ||   || . .|| || . | . . . . .||]],
-   --   [[|| . .||   ||. _-|| ||-_ .||   ||. . || || . .||   ||. _-|| ||-_.|\ . . . . ||]],
-   --   [[||. . ||   ||-'  || ||  `-||   || . .|| ||. . ||   ||-'  || ||  `|\_ . .|. .||]],
-   --   [[|| . _||   ||    || ||    ||   ||_ . || || . _||   ||    || ||   |\ `-_/| . ||]],
-   --   [[||_-' ||  .|/    || ||    \|.  || `-_|| ||_-' ||  .|/    || ||   | \  / |-_.||]],
-   --   [[||    ||_-'      || ||      `-_||    || ||    ||_-'      || ||   | \  / |  `||]],
-   --   [[||    `'         || ||         `'    || ||    `'         || ||   | \  / |   ||]],
-   --   [[||            .===' `===.         .==='.`===.         .===' /==. |  \/  |   ||]],
-   --   [[||         .=='   \_|-_ `===. .==='   _|_   `===. .===' _-|/   `==  \/  |   ||]],
-   --   [[||      .=='    _-'    `-_  `='    _-'   `-_    `='  _-'   `-_  /|  \/  |   ||]],
-   --   [[||   .=='    _-'          '-__\._-'         '-_./__-'         `' |. /|  |   ||]],
-   --   [[||.=='    _-'                                                     `' |  /==.||]],
-   --   [[=='    _-'                        N E O V I M                         \/   `==]],
-   --   [[\   _-'                                                                `-_   /]],
-   --   [[ `''                                                                      ``' ]],
-   -- },
-
-   -- {
-   --   [[  ／|_       ]],
-   --   [[ (o o /      ]],
-   --   [[  |.   ~.    ]],
-   --   [[  じしf_,)ノ ]],
-   -- },
-
-   -- {
-   --   '          ▀████▀▄▄              ▄█ ',
-   --   '            █▀    ▀▀▄▄▄▄▄    ▄▄▀▀█ ',
-   --   '    ▄        █          ▀▀▀▀▄  ▄▀  ',
-   --   '   ▄▀ ▀▄      ▀▄              ▀▄▀  ',
-   --   '  ▄▀    █     █▀   ▄█▀▄      ▄█    ',
-   --   '  ▀▄     ▀▄  █     ▀██▀     ██▄█   ',
-   --   '   ▀▄    ▄▀ █   ▄██▄   ▄  ▄  ▀▀ █  ',
-   --   '    █  ▄▀  █    ▀██▀    ▀▀ ▀▀  ▄▀  ',
-   --   '   █   █  █      ▄▄           ▄▀   ',
-   -- },
-
-   -- {
-   --   "                                                     ",
-   --   "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
-   --   "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
-   --   "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
-   --   "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
-   --   "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
-   --   "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
-   --   "                                                     ",
-   -- },
-
-   -- {
-   --   [[                               __                ]],
-   --   [[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
-   --   [[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
-   --   [[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
-   --   [[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
-   --   [[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
-   -- },
-
-  }
-
-  --
-  -- Sections for Alpha.
-  --
-
-  local header = {
-    type = "text",
-    -- val = Headers[math.random(#Headers)],
-    val = Headers[1],
-    opts = {
-      position = "center",
-      hl       = "Whitespace"
-      -- wrap = "overflow";
-    }
-  }
-
+  -- TODO dev excuses https://raw.githubusercontent.com/afreeorange/developer-excuses/refs/heads/master/excuses.txt
   local footer = {
     type = "text",
-    -- Change 'rdn' to any program that gives you a random quote.
-    -- https://github.com/BeyondMagic/scripts/blob/master/quotes/rdn
-    -- Which returns one to three lines, being each divided by a line break.
-    -- Or just an array: { "I see you:", "Above you." }
-    val = {
-      "We accept the love we think we deserve.",
-      "                           Mr. Callahan",
-      "The Perks of Being a Wallflower",
-    }, -- split(capture('rdn')),
-    hl  = "NvimTreeRootFolder",
+    -- val = split(capture('fortune --short | tail -n +2')),
+    val = split(quotes[math.random(#quotes)]),
     opts = {
       position = "center",
-      hl       = "Whitespace",
+      hl = "Comment",
     }
   }
+  local footer_lines = #footer.val
 
   local buttons = {
     type = "group",
     val = {
-      button("e", "  New Buffer",            'RainbowRed', ':tabnew<CR>'),
-      button("f", "  Find file",             'RainbowYellow', ':Telescope find_files<CR>'),
-      button("h", "  Recently opened files", 'RainbowBlue', ':Telescope oldfiles<CR>'),
-      button("l", "  Projects",              'RainbowOrange', ':Telescope marks<CR>'),
-      --button("r", "  Frecency/MRU",          'RainbowCyan', ':Telescope oldfiles<CR>'),
-      button("g", "  Open Last Session",     'RainbowGreen', ':source ~/.config/nvim/session.vim<CR>'),
-      --button("m", "  Word Finder",           'RainbowViolet', ':Telescope live_grep<CR>'),
+      button("i", "󰈔  New Buffer", '<CMD>enew | startinsert<CR>'),
+      button("f", "󰱼  Find files", "<CMD>lua require('search').open({ tab_name = 'Files', tele_opts = { no_ignore = true, no_ignore_parent = true, hidden = true, use_regex = true, file_ignore_patterns = { '^.git/' } } })<CR>"),
+      button("r", "󱋡  Recent files", '<CMD>Telescope oldfiles<CR>'),
+      button("q", "󰅚  Quit", '<CMD>qall<CR>'),
+      -- button("l", "  Projects", ':Telescope marks<CR>'),
     },
     opts = {
       spacing = 1,
     }
   }
+  local buttons_lines = #buttons.val * (1 + buttons.opts.spacing) - 1
 
-  --
-  -- Centering handler of ALPHA
-  --
+  local width = vim.api.nvim_win_get_width(0)
+  local height = vim.api.nvim_win_get_height(0)
 
-  local ol = { -- occupied lines
-    icon            = #header.val,            -- CONST: number of lines that your header will occupy
-    message         = #footer.val,            -- CONST: because of padding at the bottom
-    length_buttons  = #buttons.val * 2 - 1,   -- CONST: it calculate the number that buttons will occupy
-    neovim_lines    = 2,                      -- CONST: 2 of command line, 1 of the top bar
-    padding_between = 3,                      -- STATIC: can be set to anything, padding between keybinds and header
+  local dogw = width - (16 + 2 * 3)
+  local giraffeh = height - (7 + buttons_lines + footer_lines + padding + 2 * 2 + 1 + below_buttons)
+  local giraffe = {
+    [[.-",    ]],
+    [[`~||    ]],
+  }
+  for i = 1, giraffeh do
+    table.insert(giraffe, [[  ||    ]])
+  end
+  table.insert(giraffe, [[  ||___ ]])
+  table.insert(giraffe, [[  (':.)`]])
+  table.insert(giraffe, [[  || || ]])
+  table.insert(giraffe, [[  || || ]])
+  table.insert(giraffe, [[  ^^ ^^ ]])
+
+  -- https://oldcompcz.github.io/jgs/joan_stark/index-2.html
+  local headers = {
+    {
+      [[              /^._ ]],
+      [[,___,--~~~~--' /'~']],
+      [[`~--~\ )___,)/'    ]],
+      [[    (/\\_  (/\\_   ]],
+    },
+    {
+      [[ ／|_     ]],
+      [[(o o /    ]],
+      [[ |.   ~.  ]],
+      [[ じしf_,)ノ]],
+    },
+    {
+    [[   _  ]],
+    [[,_(')<]],
+    [[\___) ]],
+    },
+    {
+      [[      ::.     ]],
+      [[(\./)  .-""-. ]],
+      [[ `\'-'`      \]],
+      [[   '.___,_^__/]],
+    },
+    {
+      [[     ^   ]],
+      [[^     )  ]],
+      [[  ^ (    ]],
+      [[      ,  ]],
+      [[    .-(  ]],
+      [[   (__ \ ]],
+      [[  (_____)]],
+    },
+    {
+      [[     __  ]],
+      [[(___()'`;]],
+      [[/,    /` ]],
+      [[\\"--\\  ]],
+    },
+    {
+      [[    __  ]],
+      [[   ()'`;]],
+      [[   /\|` ]],
+      [[  /  |  ]],
+      [[(/_)_|_ ]],
+    },
+    {
+      [[       z              ]],
+      [[    Z                 ]],
+      [[      z               ]],
+      [[  ."-.                ]],
+      [[ /|  | _o.----.    _  ]],
+      [[/\_  \/ /  __  \_// ) ]],
+      [[\__)-/_/\_____)____/  ]],
+    },
+    { -- TODO Repeat
+      [[                  __ ]],
+      [[(\   .-.   .-.   /_")]],
+      [[ \\_//^\\_//^\\_//   ]],
+      [[  `"`   `"`   `"`    ]],
+    },
+    {
+      [[      ]] .. string.rep(" ", dogw) .. [[    .-.   ]],
+      [[(_____]] .. string.rep("_", dogw) .. [[___()6 `-,]],
+      [[(   __]] .. string.rep("_", dogw) .. [[_   /''"` ]],
+      [[//\\  ]] .. string.rep(" ", dogw) .. [[ //\\     ]],
+      [["" "" ]] .. string.rep(" ", dogw) .. [[ "" ""    ]],
+    },
+    giraffe
   }
 
-  local left_terminal_value = vim.api.nvim_get_option('lines') - (ol.length_buttons + ol.message + ol.padding_between + ol.icon + ol.neovim_lines)
-
-  -- Not screen enough to run the command.
-  if (left_terminal_value >= 0) then
-
-    local top_padding         = math.floor(left_terminal_value / 2)
-    local bottom_padding      = left_terminal_value - top_padding
-
-    --
-    -- Set alpha sections
-    --
-
-    options = {
-      layout = {
-        { type = "padding", val = top_padding },
-        header,
-        { type = "padding", val = ol.padding_between },
-        buttons,
-        footer,
-        { type = "padding", val = bottom_padding },
-      },
-      opts = {
-        margin = 5
-      },
+  local header = {
+    type = "text",
+    val = headers[math.random(#headers)],
+    opts = {
+      position = "center",
+      hl = "Statement",
     }
+  }
+  local header_lines = #header.val
 
+  local lines_remaining = height - (buttons_lines + footer_lines + header_lines + padding)
+
+  if (lines_remaining < 0) then
+    return {}
   end
 
-  --else
-    --vim.api.nvim_exec('silent source ~/.config/nvim/session.vim', false)
-end
+  local top_padding         = math.floor(lines_remaining / 2)
+  local bottom_padding      = lines_remaining - top_padding
 
-return options
+  return {
+    { type = "padding", val = top_padding },
+    header,
+    { type = "padding", val = padding },
+    buttons,
+    { type = "padding", val = below_buttons }, -- -1 for the padding between buttons and footer
+    footer,
+    { type = "padding", val = bottom_padding },
+  }
+end

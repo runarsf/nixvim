@@ -45,8 +45,9 @@
 
     extraPackages = with pkgs; [ripgrep];
 
+    # TODO Preview results
     keymaps = let
-      teleOpts = "tele_opts = { no_ignore = true, no_ignore_parent = true, hidden = true, use_regex = true, file_ignore_patterns = { '^.git/' }  }";
+      teleOpts = "tele_opts = { no_ignore = true, no_ignore_parent = true, hidden = true, use_regex = true, file_ignore_patterns = { '^.git/' } }";
     in [
       {
         key = "<C-p>";

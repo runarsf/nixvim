@@ -9,9 +9,7 @@
   # TODO https://github.com/Tyler-Barham/floating-help.nvim
   # TODO https://github.com/tris203/precognition.nvim
   # TODO https://github.com/mvllow/modes.nvim
-  # TODO Start screen with fox
 
-  # TODO default for modules.languages.enable should be modules.languages.all.enable
   options = {
     # TODO This does not belong here
     modules.languages.all.enable = lib.mkEnableOption "enable all languages";
@@ -32,6 +30,7 @@
         "formatter"
         "snacks"
         "todo"
+        "buffers"
         "outline"
         "dap"
         "hop"
@@ -43,6 +42,7 @@
         "lualine"
         "noice"
         "zen"
+        "dashboard"
         ["languages" "all"]
       ]
       // {
@@ -71,7 +71,7 @@
     extraPlugins = with pkgs.vimPlugins; [
       openingh-nvim
       # codi-vim
-      longlines
+      # longlines
       # lens-vim
       # {
       #   plugin = visual-nvim;

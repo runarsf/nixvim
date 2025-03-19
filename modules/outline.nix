@@ -36,10 +36,24 @@
 
     keymaps = [
       {
-        key = "<leader>s";
-        options.silent = true;
+        key = "<leader>ss";
+        options.desc = "Open Namu";
         mode = ["n"];
-        action = '':try | execute 'lua require("namu.namu_symbols").show' | catch | try | execute 'Navbuddy' | catch | execute 'Telescope aerial' | endtry | endtry<CR>'';
+        action = ''<CMD>lua require("namu.namu_symbols").show()<CR>'';
+        # options.silent = true;
+        # action = '':try | execute 'lua require("namu.namu_symbols").show' | catch | try | execute 'Navbuddy' | catch | execute 'Telescope aerial' | endtry | endtry<CR>'';
+      }
+      {
+        key = "<leader>sn";
+        options.desc = "Open Navbuddy";
+        mode = ["n"];
+        action = ''<CMD>Navbuddy<CR>'';
+      }
+      {
+        key = "<leader>sa";
+        options.desc = "Open Aerial";
+        mode = ["n"];
+        action = ''<CMD>Telescope aerial<CR>'';
       }
     ];
   };

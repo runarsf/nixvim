@@ -91,25 +91,58 @@ in {
             "async_path"
             "buffer"
             "calc"
-            "digraphs"
-            "emoji"
-            "greek"
             "nvim_lsp_signature_help"
             "treesitter"
             "luasnip"
             "copilot"
             {
               name = "rg";
-              keyword_length = 3;
+              keyword_length = 5;
+              group_index = 3;
             }
           ];
+          sorting = {
+            priority_weight = 2;
+            comparators = [
+              ''
+                function(entry1, entry2)
+                  local copilot1 = entry1.source.name == "copilot"
+                  local copilot2 = entry2.source.name == "copilot"
+                  if copilot1 and not copilot2 then
+                    return true
+                  elseif not copilot1 and copilot2 then
+                    return false
+                  end
+                end
+              ''
+              # defaults
+              "cmp.config.compare.offset"
+              "cmp.config.compare.exact"
+              "cmp.config.compare.score"
+              "cmp.config.compare.recently_used"
+              "cmp.config.compare.kind"
+              "cmp.config.compare.length"
+              "cmp.config.compare.order"
+            ];
+          };
           mapping = {
             "<C-d>" = "cmp.mapping.scroll_docs(-4)";
             "<C-e>" = "cmp.mapping.close()";
             "<C-f>" = "cmp.mapping.scroll_docs(4)";
+            "<Esc>" = ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() and cmp.get_active_entry() then
+                  cmp.abort()
+                else
+                  fallback()
+                end
+              end)
+            '';
             "<CR>" = ''
               cmp.mapping({
                 i = function(fallback)
+                  local luasnip = require("luasnip")
+
                   if cmp.visible() and cmp.get_active_entry() then
                     if luasnip.expandable() then
                       luasnip.expand()
@@ -145,6 +178,8 @@ in {
             '';
             "<S-Tab>" = ''
               cmp.mapping(function(fallback)
+                local luasnip = require("luasnip")
+
                 if cmp.visible() then
                   cmp.select_prev_item()
                 elseif luasnip.locally_jumpable(-1) then

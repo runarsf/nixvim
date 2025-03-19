@@ -29,7 +29,7 @@
       # Get rid of the pesky cmd window
       event = ["CmdwinEnter"];
       pattern = ["*"];
-      command = "q";
+      command = "q | call feedkeys(':')";
     }
     {
       # Forbid replace mode
