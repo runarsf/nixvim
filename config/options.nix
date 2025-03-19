@@ -13,9 +13,7 @@
     };
   };
 
-  # extraPackages = with pkgs; [sqlite];
-
-  vimAlias = true;
+  extraPackages = with pkgs; [sqlite];
 
   opts = rec {
     number = true;
