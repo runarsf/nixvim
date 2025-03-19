@@ -48,7 +48,10 @@
       }
       {
         key = "<leader><Tab>";
-        action = "<CMD>ls<CR>";
+        action =
+          if config.plugs.telescope.enable
+          then "<CMD>Telescope buffers<CR>"
+          else "<CMD>ls<CR>";
         options.desc = "List buffers";
       }
     ];

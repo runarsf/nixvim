@@ -11,7 +11,7 @@ function alpha_layout()
   --- @param hl string
   --- @param keybind string optional
   --- @param keybind_opts table optional
-  local function button(sc, txt, keybind, keybind_opts)
+  local function button(sc, txt, keybind)
     local sc_ = sc:gsub("%s", ""):gsub("SPC", "<leader>")
 
     local opts = {
@@ -84,8 +84,7 @@ function alpha_layout()
     return t
   end
 
-  local layout
-  local padding = 3
+  local padding = 2
   local below_buttons = 1
   math.randomseed(os.time())
 
@@ -120,6 +119,7 @@ function alpha_layout()
   local height = vim.api.nvim_win_get_height(0)
 
   local dogw = width - (16 + 2 * 3)
+  -- FIXME giraffe height is off with one line
   local giraffeh = height - (7 + buttons_lines + footer_lines + padding + 2 * 2 + 1 + below_buttons)
   local giraffe = {
     [[.-",    ]],
@@ -136,52 +136,43 @@ function alpha_layout()
 
   -- https://oldcompcz.github.io/jgs/joan_stark/index-2.html
   local headers = {
-    {
+    { -- Fox
       [[              /^._ ]],
       [[,___,--~~~~--' /'~']],
       [[`~--~\ )___,)/'    ]],
       [[    (/\\_  (/\\_   ]],
     },
-    {
+    { -- Cat
       [[ ／|_     ]],
       [[(o o /    ]],
       [[ |.   ~.  ]],
       [[ じしf_,)ノ]],
     },
-    {
+    { -- Duck
     [[   _  ]],
     [[,_(')<]],
     [[\___) ]],
     },
-    {
+    { -- Whale
       [[      ::.     ]],
       [[(\./)  .-""-. ]],
       [[ `\'-'`      \]],
       [[   '.___,_^__/]],
     },
-    {
-      [[     ^   ]],
-      [[^     )  ]],
-      [[  ^ (    ]],
-      [[      ,  ]],
-      [[    .-(  ]],
-      [[   (__ \ ]],
-      [[  (_____)]],
-    },
-    {
+    { -- Dog
       [[     __  ]],
       [[(___()'`;]],
       [[/,    /` ]],
       [[\\"--\\  ]],
     },
-    {
+    { -- Sitting dog
       [[    __  ]],
       [[   ()'`;]],
       [[   /\|` ]],
       [[  /  |  ]],
       [[(/_)_|_ ]],
     },
-    {
+    { -- Sleeping dog
       [[       z              ]],
       [[    Z                 ]],
       [[      z               ]],
@@ -190,13 +181,13 @@ function alpha_layout()
       [[/\_  \/ /  __  \_// ) ]],
       [[\__)-/_/\_____)____/  ]],
     },
-    { -- TODO Repeat
+    { -- Worm -- TODO Repeat
       [[                  __ ]],
       [[(\   .-.   .-.   /_")]],
       [[ \\_//^\\_//^\\_//   ]],
-      [[  `"`   `"`   `"`    ]],
+      [[  `"´   `"´   `"´    ]],
     },
-    {
+    { -- Dachshund
       [[      ]] .. string.rep(" ", dogw) .. [[    .-.   ]],
       [[(_____]] .. string.rep("_", dogw) .. [[___()6 `-,]],
       [[(   __]] .. string.rep("_", dogw) .. [[_   /''"` ]],

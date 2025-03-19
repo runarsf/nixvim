@@ -170,7 +170,7 @@ in {
                 else
                   ${
                 if config.plugins.intellitab.enable
-                then "vim.cmd[[silent! lua require('intellitab').indent()]]"
+                then "require('intellitab').indent()"
                 else "fallback()"
               }
                 end
