@@ -4,9 +4,6 @@
   helpers,
   ...
 }: let
-  lang = "qmk";
-  cfg = config.modules.languages.${lang};
-
   layoutToString = layout:
     lib.strings.concatMapStringsSep ''
       ,
@@ -36,14 +33,8 @@
         }
       }) end
     '';
-in {
-  options.modules.languages.${lang}.enable = lib.mkOption {
-    type = lib.types.bool;
-    default = config.modules.languages.all.enable;
-    description = "${lang} language support";
-  };
-
-  config = lib.mkIf cfg.enable {
+in
+  lib.utils.mkLanguageModule config "qmk" {
     plugins.qmk = {
       enable = true;
       settings = {
@@ -108,5 +99,4 @@ in {
           createKeyboardCallback ["LAYOUT_blank" (generateLayout 4 12) "zmk"];
       }
     ];
-  };
-}
+  }
