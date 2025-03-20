@@ -48,18 +48,17 @@
         mode = ["n"];
         options.desc = "(lsp) Hover";
       }
-      # {
-      #   key = "<leader>R";
-      #   action = "<CMD>lua vim.lsp.buf.rename()<CR>";
-      #   mode = ["n"];
-      #   options.desc = "(lsp) Rename";
-      # }
-      # {
-      #   key = "<leader>h";
-      #   # action = "<CMD>lua require('lspconfig').inlay_hint.enable(0, not require('lspconfig').inlay_hint.is_enabled())<CR>";
-      #   action = "<CMD>InlayHintsToggle<CR>";
-      #   options.desc = "Toggle inlay hints";
-      # }
+      {
+        key = "<leader>R";
+        action = "<CMD>lua vim.lsp.buf.rename()<CR>";
+        mode = ["n"];
+        options.desc = "(lsp) Rename";
+      }
+      {
+        key = "<leader>h";
+        action = "<CMD>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>";
+        options.desc = "(lsp) Toggle inlay hints";
+      }
     ];
   };
 }

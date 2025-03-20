@@ -5,6 +5,14 @@
 }:
 lib.utils.mkLanguageModule config "markdown" {
   plugins = {
+    lsp.servers = {
+      marksman.enable = true;
+    };
+
+    conform-nvim.settings = {
+      formatters_by_ft.json = ["deno_fmt"];
+    };
+
     glow = {
       enable = true;
       settings = {

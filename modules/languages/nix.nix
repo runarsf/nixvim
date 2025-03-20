@@ -30,7 +30,7 @@ lib.utils.mkLanguageModule config "nix" {
       formatters = {
         alejandra = {
           command = lib.getExe pkgs.alejandra;
-          args = ["--quiet" "-"];
+          # args = ["--quiet" "-"];
         };
         nixfmt.command =
           lib.getExe

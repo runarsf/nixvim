@@ -6,6 +6,11 @@
   ...
 }:
 lib.utils.mkLanguageModule config "dart" {
+  extraPackages = with pkgs; [
+    alejandra
+    inputs.nixfmt.packages.${pkgs.system}.default
+  ];
+
   plugins = {
     lsp.servers = {
       dartls = {
@@ -22,15 +27,15 @@ lib.utils.mkLanguageModule config "dart" {
     conform-nvim.settings = {
       formatters_by_ft.dart = ["dart_format"];
 
-      formatters = {
-        alejandra = {
-          command = lib.getExe pkgs.alejandra;
-          args = ["--quiet" "-"];
-        };
-        nixfmt.command =
-          lib.getExe
-          inputs.nixfmt.packages.${pkgs.system}.default;
-      };
+      # formatters = {
+      #   alejandra = {
+      #     command = lib.getExe pkgs.alejandra;
+      #     args = ["--quiet" "-"];
+      #   };
+      #   nixfmt.command =
+      #     lib.getExe
+      #     inputs.nixfmt.packages.${pkgs.system}.default;
+      # };
     };
 
     dap = {

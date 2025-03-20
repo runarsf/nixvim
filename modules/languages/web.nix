@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 lib.utils.mkLanguageModule config "web" {
@@ -20,8 +21,19 @@ lib.utils.mkLanguageModule config "web" {
           stop_after_first = true;
         };
         typescript = javascript;
-        html = ["htmlbeautifier"];
-        css = ["stylelint"];
+        html = ["deno_fmt"];
+        css = ["deno_fmt"];
+      };
+
+      formatters = {
+        prettier = {
+          command = lib.getExe pkgs.nodePackages.prettier;
+          # args = ["--stdin-filepath" "$FILENAME"];
+        };
+        deno_fmt = {
+          command = lib.getExe pkgs.deno;
+          # args = ["fmt" "-"];
+        };
       };
     };
   };
