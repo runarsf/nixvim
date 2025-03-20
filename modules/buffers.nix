@@ -42,6 +42,11 @@
         options.desc = "Close buffer";
       }
       {
+        key = "<leader>wq";
+        action = "<CMD>write | lua close_buffer()<CR>";
+        options.desc = "Close buffer";
+      }
+      {
         key = "<leader>Q";
         action = "<CMD>qall<CR>";
         options.desc = "Quit";

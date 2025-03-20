@@ -20,9 +20,8 @@
         SignColumn = {bg = "None";};
         Folded = {bg = "None";};
         FoldColumn = {bg = "None";};
-        CursorLine = {bg = "None";};
-        CursorColumn = {bg = "None";};
         VertSplit = {bg = "None";};
+        LineNr = {fg = "#3B404A";};
       };
     };
 

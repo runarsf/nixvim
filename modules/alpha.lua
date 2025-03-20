@@ -88,7 +88,6 @@ function alpha_layout()
   local below_buttons = 1
   math.randomseed(os.time())
 
-  -- TODO dev excuses https://raw.githubusercontent.com/afreeorange/developer-excuses/refs/heads/master/excuses.txt
   local footer = {
     type = "text",
     -- val = split(capture('fortune --short | tail -n +2')),
@@ -119,13 +118,14 @@ function alpha_layout()
   local height = vim.api.nvim_win_get_height(0)
 
   local dogw = width - (16 + 2 * 3)
+  local wormw = math.floor((width - (15 + 2 * 3)) / 6)
   -- FIXME giraffe height is off with one line
   local giraffeh = height - (7 + buttons_lines + footer_lines + padding + 2 * 2 + 1 + below_buttons)
   local giraffe = {
     [[.-",    ]],
     [[`~||    ]],
   }
-  for i = 1, giraffeh do
+  for _ = 1, giraffeh do
     table.insert(giraffe, [[  ||    ]])
   end
   table.insert(giraffe, [[  ||___ ]])
@@ -181,11 +181,11 @@ function alpha_layout()
       [[/\_  \/ /  __  \_// ) ]],
       [[\__)-/_/\_____)____/  ]],
     },
-    { -- Worm -- TODO Repeat
-      [[                  __ ]],
-      [[(\   .-.   .-.   /_")]],
-      [[ \\_//^\\_//^\\_//   ]],
-      [[  `"´   `"´   `"´    ]],
+    { -- Worm
+      [[      ]] .. string.rep([[      ]], wormw) .. [[      __ ]],
+      [[(\   .]] .. string.rep([[-.   .]], wormw) .. [[-.   /_")]],
+      [[ \\_//]] .. string.rep([[^\\_//]], wormw) .. [[^\\_//   ]],
+      [[  `"´ ]] .. string.rep([[  `"´ ]], wormw) .. [[  `"´    ]],
     },
     { -- Dachshund
       [[      ]] .. string.rep(" ", dogw) .. [[    .-.   ]],
@@ -194,12 +194,45 @@ function alpha_layout()
       [[//\\  ]] .. string.rep(" ", dogw) .. [[ //\\     ]],
       [["" "" ]] .. string.rep(" ", dogw) .. [[ "" ""    ]],
     },
-    giraffe
+    giraffe,
+    { -- Amoebas
+      { [[_____.______ <-- amoeba]], },
+      { [[_____.______ <-- upside down amoeba]], },
+      { [[_____!______ <-- amoeba with a chef's hat]], },
+      { [[_____.|_____ <-- amoeba trying to climb a fence]], },
+      { [[___.......__ <-- queue of amoebas]], },
+      { [[_____*______ <-- amoeba with flower costume]], },
+      { [[_____.z_____ <-- sleeping amoeba]], },
+      { [[____________ <-- invisible amoeba]], },
+      { [[_____o______ <-- bodybuilding amoeba]], },
+      { [[_____O______ <-- bodybuilding amoeba on steroids]], },
+      { [[____o.o_____ <-- amoeba with glasses]], },
+      { [[____.-._____ <-- two amoebas carrying a log]], },
+      { [[_____.>_____ <-- amoeba with a boomerang]], },
+      { [[_____.-_____ <-- amoeba with a rifle]], },
+      { [[_____$._____ <-- opulent amoeba]], },
+      { [[_____.._____ <-- amoobas conversing]], },
+      { [[_____.}_____ <-- amoeba with a bow and arrow]], },
+      { [[_____o=o____ <-- amoeba skateboarding]], },
+      {
+        [[ ::::::::::                        ]],
+        [[ ::::::::::                        ]],
+        [[_::::::::::_ <-- amoebas protesting]],
+      },
+    },
   }
+
+  GetAscii = function(xs)
+    local ascii = xs[math.random(#xs)]
+    if type(ascii[1]) == "table" then
+      return GetAscii(ascii)
+    end
+    return ascii
+  end
 
   local header = {
     type = "text",
-    val = headers[math.random(#headers)],
+    val = GetAscii(headers),
     opts = {
       position = "center",
       hl = "Statement",
