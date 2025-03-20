@@ -120,7 +120,7 @@ function alpha_layout()
   local dogw = width - (16 + 2 * 3)
   local wormw = math.floor((width - (15 + 2 * 3)) / 6)
   -- FIXME giraffe height is off with one line
-  local giraffeh = height - (7 + buttons_lines + footer_lines + padding + 2 * 2 + 1 + below_buttons)
+  local giraffeh = height - (7 + buttons_lines + footer_lines + padding + 2 * 2 + 2 + below_buttons)
   local giraffe = {
     [[.-",    ]],
     [[`~||    ]],

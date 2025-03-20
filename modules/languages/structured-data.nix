@@ -17,15 +17,7 @@ lib.utils.mkLanguageModule config "structured-data" {
         json = ["deno_fmt"];
         yaml = ["yamlfix"];
       };
-      formatters = {
-        deno_fmt.command = lib.getExe' pkgs.deno;
-        yamlfix = {
-          command = lib.getExe' pkgs.yamlfix "yamlfix";
-          # env = {
-          #   YAMLFIX_SEQUENCE_STYLE = "block_style";
-          # };
-        };
-      };
+      formatters.yamlfix.command = lib.getExe' pkgs.yamlfix "yamlfix";
     };
   };
 }
