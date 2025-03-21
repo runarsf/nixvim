@@ -29,7 +29,7 @@ lib.utils.mkLanguageModule config "markdown" {
 
   keymaps = [
     {
-      key = "<leader>md";
+      key = "<Leader>md";
       action = "<CMD>Glow<CR>";
       options.desc = "Preview markdown";
     }

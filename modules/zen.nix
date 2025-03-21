@@ -14,7 +14,7 @@
 
     keymaps = [
       {
-        key = "<leader>z";
+        key = "<Leader>z";
         action = "<CMD>ZenMode<CR>";
         mode = "n";
       }

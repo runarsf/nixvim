@@ -14,7 +14,7 @@
           diagnostics = "nvim_lsp";
           show_buffer_close_icons = false;
           always_show_bufferline = false;
-          style_preset = helpers.mkRaw "require('bufferline').style_preset.no_bold";
+          style_preset = helpers.mkRaw "require('bufferline').style_preset.no_italic";
         };
       };
     };
@@ -37,22 +37,22 @@
         options.desc = "Previous buffer";
       }
       {
-        key = "<leader>q";
+        key = "<Leader>q";
         action = "<CMD>lua close_buffer()<CR>";
         options.desc = "Close buffer";
       }
       {
-        key = "<leader>wq";
+        key = "<Leader>wq";
         action = "<CMD>write | lua close_buffer()<CR>";
         options.desc = "Close buffer";
       }
       {
-        key = "<leader>Q";
+        key = "<Leader>Q";
         action = "<CMD>qall<CR>";
         options.desc = "Quit";
       }
       {
-        key = "<leader><Tab>";
+        key = "<Leader><Tab>";
         action =
           if config.plugins.telescope.enable
           then "<CMD>Telescope buffers<CR>"

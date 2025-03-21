@@ -5,10 +5,20 @@
   helpers,
   ...
 }: {
-  options.modules.telescope.enable = lib.mkEnableOption "telescope";
+  options.modules.telescope = {
+    enable = lib.mkEnableOption "telescope";
+    teleOpts = lib.mkOption {
+      type = lib.types.str;
+      default = ''{ no_ignore = true, no_ignore_parent = true, hidden = true, use_regex = true, file_ignore_patterns = { '^\.git/', '^\.stack-work/' } }'';
+    };
+  };
 
   config = lib.mkIf config.modules.telescope.enable {
     plugins.sqlite-lua.enable = true;
+
+    extraConfigLuaPre = ''
+      telescope_options = ${config.modules.telescope.teleOpts}
+    '';
 
     plugins.telescope = {
       enable = true;
@@ -46,18 +56,16 @@
     extraPackages = with pkgs; [ripgrep];
 
     # TODO Preview results
-    keymaps = let
-      teleOpts = "tele_opts = { no_ignore = true, no_ignore_parent = true, hidden = true, use_regex = true, file_ignore_patterns = { '^.git/' } }";
-    in [
+    keymaps = [
       {
         key = "<C-p>";
-        action = "<CMD>lua require('search').open({ tab_name = 'Files', ${teleOpts} })<CR>";
+        action = ''<CMD>lua require('search').open({ tab_name = 'Files', tele_opts = telescope_options })<CR>'';
         options.desc = "Search files";
         mode = "n";
       }
       {
         key = "<C-p><C-p>";
-        action = "<CMD>lua require('search').open({ tab_name = 'Grep', ${teleOpts} })<CR>";
+        action = ''<CMD>lua require('search').open({ tab_name = 'Grep', tele_opts = telescope_options })<CR>'';
         options.desc = "Grep files";
         mode = "n";
       }

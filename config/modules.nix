@@ -9,6 +9,7 @@
   # TODO https://github.com/Tyler-Barham/floating-help.nvim
   # TODO https://github.com/tris203/precognition.nvim
   # TODO https://github.com/mvllow/modes.nvim
+  # TODO jupytext or molten
 
   options = {
     # TODO This does not belong here
@@ -43,6 +44,7 @@
         "noice"
         "zen"
         "dashboard"
+        "which-key"
         ["languages" "all"]
       ]
       // {
@@ -53,7 +55,6 @@
       };
 
     plugins = lib.utils.enable [
-      "which-key"
       "lastplace"
       "smart-splits"
       "sleuth"
@@ -70,8 +71,8 @@
 
     extraPlugins = with pkgs.vimPlugins; [
       openingh-nvim
+      longlines
       # codi-vim
-      # longlines
       # lens-vim
       # {
       #   plugin = visual-nvim;

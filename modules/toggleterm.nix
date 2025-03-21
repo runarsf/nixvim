@@ -34,7 +34,7 @@
 
     keymaps = [
       {
-        key = "<leader>g";
+        key = "<Leader>g";
         action = "<CMD>lua GituiToggle()<CR>";
         options.desc = "Toggle GitUI";
       }

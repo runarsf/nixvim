@@ -212,6 +212,7 @@ quotes = {
   [[o bih a eyelash bug 🪳 i'm on fleek dafuq]],
   [[schign nages mit bomes und mäk flöri emunem]],
   [[Huh? Wha? Oh... hehe.. okay]],
+  [[I was lifted, but not by the ambulance]],
 
   -- FromSoft
   [[Could this be a dog? 🐢]],

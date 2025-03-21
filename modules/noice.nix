@@ -5,6 +5,7 @@
 }: {
   options.modules.noice.enable = lib.mkEnableOption "noice";
 
+  # TODO Make notifs more compact
   config = lib.mkIf config.modules.noice.enable {
     plugins = {
       nui.enable = true;

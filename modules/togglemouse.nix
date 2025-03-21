@@ -15,7 +15,7 @@
 
     keymaps = [
       {
-        key = "<leader>mm";
+        key = "<Leader>mm";
         action = "<Plug>ToggleMouse";
         options.desc = "Toggle mouse";
       }

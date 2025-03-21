@@ -8,7 +8,6 @@
     maplocalleader = " ";
   };
 
-  # TODO :close splits before
   # extraConfigVim = ''
   #   function! CloseVimOrDeleteBuffer()
   #     " Check if there is only one tab open
@@ -36,19 +35,25 @@
   # '';
 
   keymaps = [
+    # {
+    #   key = " ";
+    #   action = "<Nop>";
+    #   mode = ["n" "v"];
+    #   options.desc = "No action";
+    # }
     {
-      key = " ";
-      action = "<Nop>";
-      mode = "n";
-      options.desc = "No action";
-    }
+        key = "<Leader>s";
+        action = ":%!sort<CR>";
+        mode = ["n" "v"];
+        options.desc = "Sort lines";
+      }
     {
-      key = "<leader><Space>";
+      key = "<Leader><Space>";
       action = "<CMD>nohlsearch<CR>";
       options.desc = "Turn off highlighted matches";
     }
     {
-      key = "<leader>??";
+      key = "<Leader>??";
       action =
         if (config.plugins.notify.enable)
         then "<CMD>Telescope notify<CR>"
@@ -56,7 +61,7 @@
       options.desc = "Show messages";
     }
     {
-      key = "<leader>?";
+      key = "<Leader>?";
       action =
         if (config.plugins.notify.enable)
         then "<CMD>Notifications<CR>"
@@ -176,38 +181,38 @@
     # }
 
     {
-      key = "<leader>l";
+      key = "<Leader>l";
       action = "<CMD>set cursorline!<CR>";
       options.desc = "Toggle cursorline";
     }
     {
-      key = "<leader>L";
+      key = "<Leader>L";
       action = "<CMD>set cursorcolumn!<CR>";
       options.desc = "Toggle cursorcolumn";
     }
 
     # {
-    #   key = "<leader>q";
+    #   key = "<Leader>q";
     #   action = "<CMD>call CloseVimOrDeleteBuffer()<CR>";
     #   options.desc = "Quit";
     # }
     # {
-    #   key = "<leader>Q";
+    #   key = "<Leader>Q";
     #   action = "<CMD>qa!<CR>";
     #   options.desc = "Quit all";
     # }
     {
-      key = "<leader>w";
+      key = "<Leader>w";
       action = "<CMD>w<CR>";
       options.desc = "Write";
     }
     # {
-    #   key = "<leader>wq";
+    #   key = "<Leader>wq";
     #   action = "<CMD>w<CR><CMD>call CloseVimOrDeleteBuffer()<CR>";
     #   options.desc = "Write and quit";
     # }
     # {
-    #   key = "<leader>wr";
+    #   key = "<Leader>wr";
     #   action = "<CMD>set wrap!<CR>";
     #   options.desc = "Toggle word wrap";
     # }
@@ -216,7 +221,7 @@
     #   # TODO Move to keymapsOnEvents
     #   #  Waiting for: https://github.com/nix-community/nixvim/issues/2359
     #   #  Information: https://github.com/expipiplus1/update-nix-fetchgit?tab=readme-ov-file#from-vim
-    #   key = "<leader>U";
+    #   key = "<Leader>U";
     #   action = ''
     #     :call Preserve("%!${pkgs.update-nix-fetchgit}/bin/update-nix-fetchgit --location=" . line(".") . ":" . col("."))<CR>'';
     #   options.desc = "Update fetcher under cursor";

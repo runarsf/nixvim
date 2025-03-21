@@ -58,12 +58,12 @@
 
     keymaps = [
       {
-        key = "<leader>ps";
+        key = "<Leader>ps";
         action = "<CMD>lua Pet()<CR>";
         options.desc = "Spawn pet :⁾";
       }
       {
-        key = "<leader>pk";
+        key = "<Leader>pk";
         action = "<CMD>lua require('duck').cook_all()<CR>";
         options.desc = "Kill pets :⁽";
       }

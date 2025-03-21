@@ -211,6 +211,37 @@ in {
       };
     };
 
+    keymaps = [
+      {
+        key = "<Leader>Ce";
+        action = "<CMD>Copilot enable<CR>";
+        options.desc = "Enable Copilot";
+      }
+      {
+        key = "<Leader>Cd";
+        action = "<CMD>Copilot disable<CR>";
+        options.desc = "Disable Copilot";
+      }
+      {
+        key = "<Leader>Ct";
+        action = "<CMD>Copilot toggle<CR>";
+        options.desc = "Toggle Copilot";
+      }
+      {
+        key = "<Leader>Cc";
+        action = "<CMD>CopilotChat<CR>";
+        options.desc = "Copilot Chat";
+      }
+    ];
+
+    plugins.which-key.settings.spec = [
+      {
+        __unkeyed = "<Leader>C";
+        group = "Copilot";
+        icon = "";
+      }
+    ];
+
     extraPlugins = with pkgs.vimPlugins; [lspkind-nvim];
 
     # highlightOverride = {

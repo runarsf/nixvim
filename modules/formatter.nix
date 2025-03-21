@@ -15,12 +15,12 @@
       runFormatter = "lua require('conform').format()";
     in [
       {
-        key = "<leader>f";
+        key = "<Leader>f";
         action = "<CMD>${runFormatter}<CR>";
         options.desc = "Format current file";
       }
       {
-        key = "<leader>F";
+        key = "<Leader>F";
         action = "<CMD>w | sleep 200m | ${runFormatter}<CR>";
         options.desc = "Format and save current file";
       }

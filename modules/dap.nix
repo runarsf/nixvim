@@ -20,42 +20,42 @@
 
     keymaps = [
       {
-        key = "<leader>db";
+        key = "<Leader>db";
         action = "<CMD>lua require('dap').toggle_breakpoint()<CR>";
         options.desc = "(debug) Add breakpoint";
       }
       {
-        key = "<leader>ds";
+        key = "<Leader>ds";
         action = "<CMD>lua require('dap').continue()<CR>";
         options.desc = "(debug) Start / Continue";
       }
       {
-        key = "<leader>do";
+        key = "<Leader>do";
         action = "<CMD>lua require('dap').step_over()<CR>";
         options.desc = "(debug) Step over";
       }
       {
-        key = "<leader>di";
+        key = "<Leader>di";
         action = "<CMD>lua require('dap').step_into()<CR>";
         options.desc = "(debug) Step into";
       }
       {
-        key = "<leader>dO";
+        key = "<Leader>dO";
         action = "<CMD>lua require('dap').step_out()<CR>";
         options.desc = "(debug) Step out";
       }
       {
-        key = "<leader>dr";
+        key = "<Leader>dr";
         action = "<CMD>lua require('dap').repl.toggle()<CR>";
         options.desc = "(debug) REPL";
       }
       {
-        key = "<leader>dS";
+        key = "<Leader>dS";
         action = "<CMD>lua require('dap').close()<CR>";
         options.desc = "(debug) Stop";
       }
       {
-        key = "<leader>du";
+        key = "<Leader>du";
         action = "<CMD>lua require('dapui').toggle()<CR>";
         options.desc = "(debug) Toggle UI";
       }

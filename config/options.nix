@@ -4,7 +4,9 @@
   ...
 }: {
   enableMan = false;
+
   luaLoader.enable = true;
+
   clipboard = {
     register = "unnamedplus";
     providers = {
@@ -19,8 +21,18 @@
     number = true;
     relativenumber = true;
     list = true;
-    listchars = "tab:┊»,trail:·,nbsp:⎵,precedes:«,extends:»";
-    showbreak = "↪";
+    listchars = {
+      tab = "┊»";
+      trail = "·";
+      nbsp = "⎵";
+      precedes = "«";
+      extends = "»";
+    };
+    fillchars = {
+      eob = " ";
+      lastline = " ";
+    };
+    showbreak = "↪ ";
     timeoutlen = 350;
     filetype = "on";
     confirm = true;

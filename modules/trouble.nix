@@ -12,9 +12,9 @@
 
     keymaps = [
       {
-        key = "<leader>t";
-        action = "<CMD>TroubleToggle<CR>";
-        options.desc = "Toggle trouble";
+        key = "<Leader>t";
+        action = "<CMD>Trouble diagnostics<CR>";
+        options.desc = "Toggle diagnostics";
       }
     ];
   };

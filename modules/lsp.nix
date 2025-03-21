@@ -49,13 +49,13 @@
         options.desc = "(lsp) Hover";
       }
       {
-        key = "<leader>R";
+        key = "<Leader>R";
         action = "<CMD>lua vim.lsp.buf.rename()<CR>";
         mode = ["n"];
         options.desc = "(lsp) Rename";
       }
       {
-        key = "<leader>h";
+        key = "<Leader>h";
         action = "<CMD>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>";
         options.desc = "(lsp) Toggle inlay hints";
       }

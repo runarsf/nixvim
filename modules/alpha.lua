@@ -12,7 +12,7 @@ function alpha_layout()
   --- @param keybind string optional
   --- @param keybind_opts table optional
   local function button(sc, txt, keybind)
-    local sc_ = sc:gsub("%s", ""):gsub("SPC", "<leader>")
+    local sc_ = sc:gsub("%s", ""):gsub("SPC", "<Leader>")
 
     local opts = {
       position       = "center",
@@ -103,7 +103,7 @@ function alpha_layout()
     type = "group",
     val = {
       button("i", "󰈔  New Buffer", '<CMD>enew | startinsert<CR>'),
-      button("f", "󰱼  Find files", "<CMD>lua require('search').open({ tab_name = 'Files', tele_opts = { no_ignore = true, no_ignore_parent = true, hidden = true, use_regex = true, file_ignore_patterns = { '^.git/' } } })<CR>"),
+      button("f", "󰱼  Find files", "<CMD>lua require('search').open({ tab_name = 'Files', tele_opts = telescope_options, })<CR>"),
       button("r", "󱋡  Recent files", '<CMD>Telescope oldfiles<CR>'),
       button("q", "󰅚  Quit", '<CMD>qall<CR>'),
       -- button("l", "  Projects", ':Telescope marks<CR>'),

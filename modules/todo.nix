@@ -31,8 +31,8 @@
 
     keymaps = [
       {
-        key = "<leader>T";
-        action = "<CMD>TodoTelescope<CR>";
+        key = "<Leader>T";
+        action = "<CMD>Trouble todo<CR>";
         options.desc = "Show TODOs";
       }
     ];
