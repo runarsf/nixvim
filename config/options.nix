@@ -32,7 +32,7 @@
       eob = " ";
       lastline = " ";
     };
-    showbreak = "↪ ";
+    showbreak = "↪" + lib.strings.replicate (shiftwidth - 1) " ";
     timeoutlen = 350;
     filetype = "on";
     confirm = true;

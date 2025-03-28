@@ -23,6 +23,17 @@
         };
       };
 
+      indentmini = super.vimUtils.buildVimPlugin {
+        name = "indentmini.nvim";
+        src = super.fetchFromGitHub {
+          owner = "nvimdev";
+          repo = "indentmini.nvim";
+          rev = "59c2be5387e3a3308bb43f07e7e39fde0628bd4d";
+          sha256 = "1a2bakxvsdz1qn0sp5y8kd3xkczhxbag1jph2n44r57ghaa4zls6";
+        };
+        doCheck = false;
+      };
+
       vim-togglemouse = super.vimUtils.buildVimPlugin rec {
         name = "vim-togglemouse";
         src = super.fetchFromGitHub {

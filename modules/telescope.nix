@@ -5,6 +5,7 @@
   helpers,
   ...
 }: {
+  # TODO exclude .stack-work and .git and node_modules (ALSO in alpha.nvim)
   options.modules.telescope = {
     enable = lib.mkEnableOption "telescope";
     teleOpts = lib.mkOption {
@@ -55,7 +56,6 @@
 
     extraPackages = with pkgs; [ripgrep];
 
-    # TODO Preview results
     keymaps = [
       {
         key = "<C-p>";
@@ -64,7 +64,7 @@
         mode = "n";
       }
       {
-        key = "<C-p><C-p>";
+        key = "<leader>p";
         action = ''<CMD>lua require('search').open({ tab_name = 'Grep', tele_opts = telescope_options })<CR>'';
         options.desc = "Grep files";
         mode = "n";

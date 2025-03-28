@@ -10,6 +10,8 @@
   # TODO https://github.com/tris203/precognition.nvim
   # TODO https://github.com/mvllow/modes.nvim
   # TODO jupytext or molten
+  # TODO smaller notification, fidget for messages?
+  # TODO snacks dashboard
 
   options = {
     # TODO This does not belong here
@@ -41,10 +43,12 @@
         "colors"
         "folds"
         "lualine"
-        "noice"
+        "ui"
         "zen"
         "dashboard"
         "which-key"
+        "indents"
+        "smart-splits"
         ["languages" "all"]
       ]
       // {
@@ -56,7 +60,6 @@
 
     plugins = lib.utils.enable [
       "lastplace"
-      "smart-splits"
       "sleuth"
       "neocord"
       "gitsigns"

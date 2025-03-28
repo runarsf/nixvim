@@ -61,6 +61,7 @@
       }
     ];
 
+    # TODO Fix lsp stuff here
     extraConfigLua = ''
       count_bufs_by_type = function(loaded_only)
         loaded_only = (loaded_only == nil and true or loaded_only)

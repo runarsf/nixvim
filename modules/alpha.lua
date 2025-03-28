@@ -104,6 +104,7 @@ function alpha_layout()
     val = {
       button("i", "󰈔  New Buffer", '<CMD>enew | startinsert<CR>'),
       button("f", "󰱼  Find files", "<CMD>lua require('search').open({ tab_name = 'Files', tele_opts = telescope_options, })<CR>"),
+      button("n", "󰙅  File tree", "<CMD>lua MiniFiles.open()<CR>"),
       button("r", "󱋡  Recent files", '<CMD>Telescope oldfiles<CR>'),
       button("q", "󰅚  Quit", '<CMD>qall<CR>'),
       -- button("l", "  Projects", ':Telescope marks<CR>'),
@@ -241,7 +242,7 @@ function alpha_layout()
       { [[_____.>_____ <-- amoeba with a boomerang]], },
       { [[_____.-_____ <-- amoeba with a rifle]], },
       { [[_____$._____ <-- opulent amoeba]], },
-      { [[_____.._____ <-- amoobas conversing]], },
+      { [[_____.._____ <-- amoebas conversing]], },
       { [[_____.}_____ <-- amoeba with a bow and arrow]], },
       { [[_____o=o____ <-- amoeba skateboarding]], },
       {

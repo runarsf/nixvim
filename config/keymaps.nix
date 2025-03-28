@@ -8,6 +8,8 @@
     maplocalleader = " ";
   };
 
+  # TODO Refactor to use mkKeymap
+
   # extraConfigVim = ''
   #   function! CloseVimOrDeleteBuffer()
   #     " Check if there is only one tab open
@@ -42,11 +44,29 @@
     #   options.desc = "No action";
     # }
     {
-        key = "<Leader>s";
-        action = ":%!sort<CR>";
-        mode = ["n" "v"];
-        options.desc = "Sort lines";
-      }
+      key = "D";
+      action = ''"_d'';
+      mode = ["n" "v"];
+      options.desc = "Delete";
+    }
+    {
+      key = "DD";
+      action = ''"_dd'';
+      mode = ["n" "v"];
+      options.desc = "Delete line";
+    }
+    {
+      key = "X";
+      action = ''"_x'';
+      mode = ["n" "v"];
+      options.desc = "Delete under";
+    }
+    {
+      key = "<Leader>s";
+      action = ":%!sort<CR>";
+      mode = ["n" "v"];
+      options.desc = "Sort lines";
+    }
     {
       key = "<Leader><Space>";
       action = "<CMD>nohlsearch<CR>";

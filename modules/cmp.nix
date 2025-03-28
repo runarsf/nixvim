@@ -18,6 +18,7 @@ in {
   # TODO Limit width and line count of completions and documentation
   # TODO Add border to docs
   # TODO Better smart indent https://www.reddit.com/r/neovim/comments/101kqds/comment/j2p5xe4
+  # FIXME When on an indented line with copilot completions, it selects completion instead of indenting on tab
   options.modules.cmp.enable = lib.mkEnableOption "cmp";
 
   config = lib.mkIf config.modules.cmp.enable {

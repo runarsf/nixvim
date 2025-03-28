@@ -201,7 +201,7 @@ quotes = {
   [[Your email regarding that issue must have hit my spam filter.]],
   [[Your internet connection mustn't be working.]],
 
-  -- TikTok brainrot
+  -- Brainrot
   [[Strive to be the best you you can be, unless you suck then try to be someone else.]],
   [[Tusen takk for potet 🫶]],
   [[Ingat 🫰]],
@@ -213,6 +213,7 @@ quotes = {
   [[schign nages mit bomes und mäk flöri emunem]],
   [[Huh? Wha? Oh... hehe.. okay]],
   [[I was lifted, but not by the ambulance]],
+  [[Fagurt er í fjörðum]],
 
   -- FromSoft
   [[Could this be a dog? 🐢]],

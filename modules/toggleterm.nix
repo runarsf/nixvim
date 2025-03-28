@@ -17,7 +17,7 @@
     };
 
     extraConfigLuaPre = ''
-      local Terminal  = require('toggleterm.terminal').Terminal
+      local Terminal = require('toggleterm.terminal').Terminal
         local gitui = Terminal:new({
           cmd = "${lib.getExe pkgs.gitui}",
           direction = "float",

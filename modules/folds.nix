@@ -20,11 +20,8 @@
       }
     ];
 
-    # TODO https://github.com/AdamWagner/stackline/issues/42
-    # FIXME https://github.com/anuvyklack/pretty-fold.nvim/issues/38
     extraPlugins = with pkgs.vimPlugins; [
       {
-        # plugin = pkgs.vimPlugins.pretty-fold-nvim;
         plugin = pretty-fold;
         config = lib.utils.viml.fromLua ''
           require("pretty-fold").setup({
