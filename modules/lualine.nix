@@ -13,58 +13,59 @@
       package = pkgs.master.vimPlugins.lualine-nvim;
       settings = {
         extensions = [
-          "diff"
           "trouble"
           "toggleterm"
           "symbols-outline"
           "nvim-dap-ui"
         ];
-        sections.lualine_a = [
-          {
-            __unkeyed = "mode";
-            padding = {
-              left = 1;
-              right = 0;
-            };
-            fmt =
-              # lua
-              ''
-                function(mode)
-                  local result = ""
-                  for part in string.gmatch(mode, "[^-]+") do
-                    if #part > 0 then
-                      local first_char = string.upper(string.sub(part, 1, 1))
-                      result = result .. first_char
+        sections = {
+          lualine_a = [
+            {
+              __unkeyed = "mode";
+              padding = {
+                left = 1;
+                right = 0;
+              };
+              fmt =
+                # lua
+                ''
+                  function(mode)
+                    local result = ""
+                    for part in string.gmatch(mode, "[^-]+") do
+                      if #part > 0 then
+                        local first_char = string.upper(string.sub(part, 1, 1))
+                        result = result .. first_char
+                      end
                     end
+                    return result
                   end
-                  return result
-                end
-              '';
-          }
-        ];
-        # TODO Better gitsigns
-        sections.lualine_c = [
-          "diagnositcs"
-          "filename"
-        ];
-        sections.lualine_x = [
-          {
-            __unkeyed = "lsp_status";
-            # FIXME remove otter ls with a format function
-            ignore_lsp = [
-              "otter-ls"
-              "copilot"
-            ];
-          }
-          "StatusPaste()"
-          "StatusMouse()"
-          "encoding"
-          "filetype"
-        ];
-        sections.lualine_y = [
-          "selectioncount"
-          "searchcount"
-        ];
+                '';
+            }
+          ];
+          lualine_c = [
+            "diagnositcs"
+            "filename"
+            "diff"
+          ];
+          lualine_x = [
+            {
+              __unkeyed = "lsp_status";
+              # FIXME remove otter ls with a format function
+              ignore_lsp = [
+                "otter-ls"
+                "copilot"
+              ];
+            }
+            "StatusPaste()"
+            "StatusMouse()"
+            "encoding"
+            "filetype"
+          ];
+          lualine_y = [
+            "selectioncount"
+            "searchcount"
+          ];
+        };
         options = {
           component_separators = {
             left = "";
