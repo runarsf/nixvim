@@ -2,12 +2,15 @@
   config,
   lib,
   ...
-}: {
+}:
+{
   options.modules.ui.enable = lib.mkEnableOption "ui";
 
   config = lib.mkIf config.modules.ui.enable {
     plugins = {
       nui.enable = true;
+
+      numbertoggle.enable = true;
 
       notify = {
         enable = true;

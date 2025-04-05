@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   autoGroups = {
     CursorLine.clear = true;
     ForbidReplaceMode.clear = true;
@@ -8,33 +9,45 @@
     {
       # Show cursor-line
       group = "CursorLine";
-      event = ["InsertLeave" "WinEnter"];
-      pattern = ["*"];
+      event = [
+        "InsertLeave"
+        "WinEnter"
+      ];
+      pattern = [ "*" ];
       command = "silent! set cursorline";
     }
     {
       # Hide cursor-line
       group = "CursorLine";
-      event = ["InsertEnter" "WinLeave"];
-      pattern = ["*"];
+      event = [
+        "InsertEnter"
+        "WinLeave"
+      ];
+      pattern = [ "*" ];
       command = "silent! set nocursorline";
     }
     {
       # Check if file has been modified on disk
-      event = ["FocusGained" "CursorHold"];
-      pattern = ["*"];
+      event = [
+        "FocusGained"
+        "CursorHold"
+      ];
+      pattern = [ "*" ];
       command = "checktime";
     }
     {
       # Get rid of the pesky cmd window
-      event = ["CmdwinEnter"];
-      pattern = ["*"];
+      event = [ "CmdwinEnter" ];
+      pattern = [ "*" ];
       command = "q | call feedkeys(':')";
     }
     {
       # Forbid replace mode
-      event = ["InsertEnter" "InsertChange"];
-      pattern = ["*"];
+      event = [
+        "InsertEnter"
+        "InsertChange"
+      ];
+      pattern = [ "*" ];
       command = "call ForbidReplace()";
       group = "ForbidReplaceMode";
     }

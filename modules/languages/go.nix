@@ -5,7 +5,7 @@
   ...
 }:
 lib.utils.mkLanguageModule config "go" {
-  extraPackages = with pkgs; [gotools];
+  extraPackages = with pkgs; [ gotools ];
 
   plugins = {
     lsp.servers = {
@@ -13,7 +13,10 @@ lib.utils.mkLanguageModule config "go" {
     };
 
     conform-nvim.settings = {
-      formatters_by_ft.go = ["goimports" "gofmt"];
+      formatters_by_ft.go = [
+        "goimports"
+        "gofmt"
+      ];
 
       formatters = {
         goimports.command = lib.getExe' pkgs.gotools "goimports";

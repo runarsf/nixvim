@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   # TODO https://github.com/chrisgrieser/nvim-origami
   # TODO https://www.reddit.com/r/neovim/comments/1d5ub7d/lazydevnvim_much_faster_luals_setup_for_neovim/
   # TODO https://github.com/altermo/ultimate-autopair.nvim
@@ -21,21 +22,22 @@
   config = {
     modules =
       lib.utils.enable [
+        "lsp"
+        "cmp"
+        "formatter"
+        "linter"
+        "debugger"
         "treesitter"
         "otter"
-        "cmp"
         "telescope"
         "virt-column"
         "pets"
         "gremlins"
         "mini"
-        "lsp"
-        "formatter"
         "snacks"
         "todo"
         "buffers"
         "outline"
-        "dap"
         "hop"
         "togglemouse"
         "toggleterm"
@@ -49,7 +51,10 @@
         "which-key"
         "indents"
         "smart-splits"
-        ["languages" "all"]
+        [
+          "languages"
+          "all"
+        ]
       ]
       // {
         colorschemes = {
@@ -105,32 +110,32 @@
       #   '';
       # }
       /*
-         {
-        plugin = hologram-nvim;
-        config = lib.utils.viml.fromLua ''require("hologram").setup({})'';
-      }
+           {
+          plugin = hologram-nvim;
+          config = lib.utils.viml.fromLua ''require("hologram").setup({})'';
+        }
       */
       /*
-         {
-        plugin = legendary-nvim;
-        config = lib.utils.viml.fromLua ''
-          require("legendary").setup({
-            extensions = {
-              smart_splits = {
-                directions = { 'Left', 'Down', 'Up', 'Right', },
-                mods = {
-                  move = '<S>',
-                  resize = '<M-S>',
+           {
+          plugin = legendary-nvim;
+          config = lib.utils.viml.fromLua ''
+            require("legendary").setup({
+              extensions = {
+                smart_splits = {
+                  directions = { 'Left', 'Down', 'Up', 'Right', },
+                  mods = {
+                    move = '<S>',
+                    resize = '<M-S>',
+                  },
                 },
+                which_key = {
+                  auto_register = true,
+                },
+                diffview = true,
               },
-              which_key = {
-                auto_register = true,
-              },
-              diffview = true,
-            },
-          })
-        '';
-      }
+            })
+          '';
+        }
       */
     ];
   };

@@ -3,21 +3,22 @@
   lib,
   helpers,
   ...
-}: {
+}:
+{
   options.modules.mini.enable = lib.mkEnableOption "mini";
 
   config = lib.mkIf config.modules.mini.enable {
     plugins.mini = {
       enable = true;
       modules = {
-        pairs = {};
-        comment = {};
-        align = {};
-        surround = {};
-        bufremove = {};
-        move = {};
-        trailspace = {};
-        tabline = {};
+        pairs = { };
+        comment = { };
+        align = { };
+        surround = { };
+        bufremove = { };
+        move = { };
+        trailspace = { };
+        tabline = { };
         files = {
           mappings = {
             go_in_plus = "<Right>";
@@ -29,15 +30,15 @@
             width_preview = 50;
           };
         };
-        icons = {};
+        icons = { };
       };
       mockDevIcons = true;
     };
 
     autoCmd = [
       {
-        event = ["User"];
-        pattern = ["MiniFilesBufferCreate"];
+        event = [ "User" ];
+        pattern = [ "MiniFilesBufferCreate" ];
         callback = helpers.mkRaw ''
           function(args)
             local map_buf = function(lhs, rhs)
@@ -58,22 +59,22 @@
         '';
       }
       /*
-         {
-        # Open files if vim started with no arguments
-        event = ["VimEnter"];
-        pattern = ["*"];
-        callback = helpers.mkRaw ''
-          function()
-            if (vim.fn.expand("%") == "") then
-              MiniFiles.open()
-            -- elseif filereadable(@%) == 0
-            --   echom "new file"
-            -- elseif line('$') == 1 && col('$') == 1
-            --   echom "file is empty"
+           {
+          # Open files if vim started with no arguments
+          event = ["VimEnter"];
+          pattern = ["*"];
+          callback = helpers.mkRaw ''
+            function()
+              if (vim.fn.expand("%") == "") then
+                MiniFiles.open()
+              -- elseif filereadable(@%) == 0
+              --   echom "new file"
+              -- elseif line('$') == 1 && col('$') == 1
+              --   echom "file is empty"
+              end
             end
-          end
-        '';
-      }
+          '';
+        }
       */
     ];
 

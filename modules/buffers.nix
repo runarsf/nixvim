@@ -3,7 +3,8 @@
   lib,
   helpers,
   ...
-}: {
+}:
+{
   options.modules.buffers.enable = lib.mkEnableOption "buffers";
 
   config = lib.mkIf config.modules.buffers.enable {
@@ -53,10 +54,7 @@
       }
       {
         key = "<Leader><Tab>";
-        action =
-          if config.plugins.telescope.enable
-          then "<CMD>Telescope buffers<CR>"
-          else "<CMD>ls<CR>";
+        action = if config.plugins.telescope.enable then "<CMD>Telescope buffers<CR>" else "<CMD>ls<CR>";
         options.desc = "List buffers";
       }
     ];
@@ -84,10 +82,11 @@
           local result = vim.api.nvim_exec([[:q]], true)
         else
           local result = vim.api.nvim_exec([[${
-        if (config.plugins.snacks.enable && config.plugins.snacks.settings.bufdelete.enabled)
-        then ":lua Snacks.bufdelete()"
-        else ":bprevious | bdelete #"
-      }]], true)
+            if (config.plugins.snacks.enable && config.plugins.snacks.settings.bufdelete.enabled) then
+              ":lua Snacks.bufdelete()"
+            else
+              ":bprevious | bdelete #"
+          }]], true)
         end
       end
     '';

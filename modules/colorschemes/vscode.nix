@@ -3,7 +3,8 @@
   lib,
   helpers,
   ...
-}: {
+}:
+{
   options.modules.colorschemes.vscode.enable = lib.mkOption {
     type = lib.types.bool;
     default = config.modules.colorschemes.all.enable;
@@ -18,13 +19,15 @@
         transparent = config.modules.colorschemes.transparent;
         underline_links = true;
 
-        group_overrides = let
-          color = name: helpers.mkRaw "require('vscode.colors').get_colors().${name}";
-        in {
-          "@string.special.path.nix" = {
-            fg = color "vscOrange";
+        group_overrides =
+          let
+            color = name: helpers.mkRaw "require('vscode.colors').get_colors().${name}";
+          in
+          {
+            "@string.special.path.nix" = {
+              fg = color "vscOrange";
+            };
           };
-        };
       };
     };
 

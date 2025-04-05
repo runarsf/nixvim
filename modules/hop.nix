@@ -2,7 +2,8 @@
   config,
   lib,
   ...
-}: {
+}:
+{
   options.modules.hop.enable = lib.mkEnableOption "hop";
 
   config = lib.mkIf config.modules.hop.enable {

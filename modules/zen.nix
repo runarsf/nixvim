@@ -2,7 +2,8 @@
   config,
   lib,
   ...
-}: {
+}:
+{
   options.modules.zen.enable = lib.mkEnableOption "zen";
 
   config = lib.mkIf config.modules.zen.enable {

@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   options.modules.snacks.enable = lib.mkEnableOption "snacks";
 
   config = lib.mkIf config.modules.snacks.enable {

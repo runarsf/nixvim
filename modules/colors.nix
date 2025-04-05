@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   options.modules.colors.enable = lib.mkEnableOption "colors";
 
   config = lib.mkIf config.modules.colors.enable {

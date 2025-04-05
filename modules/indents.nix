@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   options.modules.indents.enable = lib.mkEnableOption "indents";
 
   config = lib.mkIf config.modules.indents.enable {

@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   options.modules.togglemouse.enable = lib.mkEnableOption "togglemouse";
 
   config = lib.mkIf config.modules.togglemouse.enable {

@@ -2,13 +2,18 @@
   config,
   lib,
   ...
-}: {
+}:
+{
   options.modules.wilder.enable = lib.mkEnableOption "wilder";
 
   config = lib.mkIf config.modules.wilder.enable {
     plugins.wilder = {
       enable = true;
-      modes = ["?" ":" "/"];
+      modes = [
+        "?"
+        ":"
+        "/"
+      ];
       renderer = ''
         wilder.popupmenu_renderer({
           pumblend = 20,

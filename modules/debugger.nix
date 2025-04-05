@@ -2,11 +2,12 @@
   config,
   lib,
   ...
-}: {
-  options.modules.dap.enable = lib.mkEnableOption "dap";
+}:
+{
+  options.modules.debugger.enable = lib.mkEnableOption "debugger";
 
   # TODO UI like this https://github.com/redyf/Neve/blob/main/assets/showcase4.png
-  config = lib.mkIf config.modules.dap.enable {
+  config = lib.mkIf config.modules.debugger.enable {
     plugins = {
       dap = {
         enable = true;
@@ -15,7 +16,7 @@
       dap-ui.enable = true;
       dap-virtual-text.enable = true;
 
-      cmp.settings.sources = [{name = "dap";}];
+      cmp.settings.sources = [ { name = "dap"; } ];
     };
 
     keymaps = [

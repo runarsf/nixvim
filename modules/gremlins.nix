@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   options.modules.gremlins.enable = lib.mkEnableOption "gremlins";
 
   # snacks_dashboard, terminal

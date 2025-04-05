@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   options.modules.outline.enable = lib.mkEnableOption "outline";
 
   config = lib.mkIf config.modules.outline.enable {
@@ -38,7 +39,7 @@
       {
         key = "<Leader>ss";
         options.desc = "Open Namu";
-        mode = ["n"];
+        mode = [ "n" ];
         action = ''<CMD>lua require("namu.namu_symbols").show()<CR>'';
         # options.silent = true;
         # action = '':try | execute 'lua require("namu.namu_symbols").show' | catch | try | execute 'Navbuddy' | catch | execute 'Telescope aerial' | endtry | endtry<CR>'';
@@ -46,13 +47,13 @@
       {
         key = "<Leader>sn";
         options.desc = "Open Navbuddy";
-        mode = ["n"];
+        mode = [ "n" ];
         action = ''<CMD>Navbuddy<CR>'';
       }
       {
         key = "<Leader>sa";
         options.desc = "Open Aerial";
-        mode = ["n"];
+        mode = [ "n" ];
         action = ''<CMD>Telescope aerial<CR>'';
       }
     ];

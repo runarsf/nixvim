@@ -3,11 +3,12 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   options.modules.pets.enable = lib.mkEnableOption "pets";
 
   config = lib.mkIf config.modules.pets.enable {
-    extraPlugins = with pkgs.vimPlugins; [duck];
+    extraPlugins = with pkgs.vimPlugins; [ duck ];
 
     extraConfigLua = ''
       local actions = require('telescope.actions')

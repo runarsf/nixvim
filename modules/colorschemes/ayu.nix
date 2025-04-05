@@ -2,13 +2,16 @@
   config,
   lib,
   ...
-}: let
+}:
+let
+  # TODO Set lualine theme?
   # TODO Get colors from generated theme (see ayu.colors.generate())
   # color = name: helpers.mkRaw "ayu_colors.${name}";
   accent = "#E6B450";
   guide_normal = "#1E222A";
   guide_active = "#3C414A";
-in {
+in
+{
   options.modules.colorschemes.ayu.enable = lib.mkOption {
     type = lib.types.bool;
     default = config.modules.colorschemes.all.enable;

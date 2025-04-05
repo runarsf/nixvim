@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   options.modules.kak.enable = lib.mkEnableOption "kak.nvim";
 
   config = lib.mkIf config.modules.kak.enable {

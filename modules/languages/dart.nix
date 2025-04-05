@@ -6,11 +6,6 @@
   ...
 }:
 lib.utils.mkLanguageModule config "dart" {
-  extraPackages = with pkgs; [
-    alejandra
-    inputs.nixfmt.packages.${pkgs.system}.default
-  ];
-
   plugins = {
     lsp.servers = {
       dartls = {
@@ -25,7 +20,7 @@ lib.utils.mkLanguageModule config "dart" {
     };
 
     conform-nvim.settings = {
-      formatters_by_ft.dart = ["dart_format"];
+      formatters_by_ft.dart = [ "dart_format" ];
 
       # formatters = {
       #   alejandra = {
@@ -43,11 +38,11 @@ lib.utils.mkLanguageModule config "dart" {
         executables = {
           dart = {
             command = "dart";
-            args = ["debug_adapter"];
+            args = [ "debug_adapter" ];
           };
           flutter = {
             command = "flutter";
-            args = ["debug_adapter"];
+            args = [ "debug_adapter" ];
           };
         };
       };

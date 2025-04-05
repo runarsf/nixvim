@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   options.modules.obsidian.enable = lib.mkEnableOption "obsidian";
 
   config = lib.mkIf config.modules.obsidian.enable {

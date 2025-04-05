@@ -4,7 +4,8 @@
   pkgs,
   helpers,
   ...
-}: {
+}:
+{
   # TODO exclude .stack-work and .git and node_modules (ALSO in alpha.nvim)
   options.modules.telescope = {
     enable = lib.mkEnableOption "telescope";
@@ -23,8 +24,7 @@
 
     plugins.telescope = {
       enable = true;
-      settings.defaults.mappings.i."<esc>" =
-        helpers.mkRaw "require('telescope.actions').close";
+      settings.defaults.mappings.i."<esc>" = helpers.mkRaw "require('telescope.actions').close";
       extensions = {
         ui-select.enable = true;
         file-browser.enable = true;
@@ -54,7 +54,7 @@
       }
     ];
 
-    extraPackages = with pkgs; [ripgrep];
+    extraPackages = with pkgs; [ ripgrep ];
 
     keymaps = [
       {

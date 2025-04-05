@@ -9,8 +9,7 @@
   options.modules.folds.enable = lib.mkEnableOption "folds";
 
   config = lib.mkIf config.modules.folds.enable {
-    extraConfigVim =
-      lib.concatStringsSep "\n" [(builtins.readFile ./folds.vim)];
+    extraConfigVim = lib.concatStringsSep "\n" [ (builtins.readFile ./folds.vim) ];
 
     keymaps = [
       {

@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   options.modules.toggleterm.enable = lib.mkEnableOption "toggleterm";
 
   config = lib.mkIf config.modules.toggleterm.enable {

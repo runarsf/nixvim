@@ -2,7 +2,8 @@
   config,
   lib,
   ...
-}: {
+}:
+{
   options.modules.which-key.enable = lib.mkEnableOption "which-key";
 
   config = lib.mkIf config.modules.which-key.enable {
@@ -24,7 +25,7 @@
       {
         key = "<LocalLeader>";
         action = ''<CMD>lua require('which-key').show()<CR>'';
-        mode = ["n"];
+        mode = [ "n" ];
         options.desc = "Show which-key";
       }
     ];

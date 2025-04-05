@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   globals = {
     mapleader = ",";
     maplocalleader = " ";
@@ -46,25 +47,37 @@
     {
       key = "D";
       action = ''"_d'';
-      mode = ["n" "v"];
+      mode = [
+        "n"
+        "v"
+      ];
       options.desc = "Delete";
     }
     {
       key = "DD";
       action = ''"_dd'';
-      mode = ["n" "v"];
+      mode = [
+        "n"
+        "v"
+      ];
       options.desc = "Delete line";
     }
     {
       key = "X";
       action = ''"_x'';
-      mode = ["n" "v"];
+      mode = [
+        "n"
+        "v"
+      ];
       options.desc = "Delete under";
     }
     {
       key = "<Leader>s";
       action = ":%!sort<CR>";
-      mode = ["n" "v"];
+      mode = [
+        "n"
+        "v"
+      ];
       options.desc = "Sort lines";
     }
     {
@@ -75,17 +88,13 @@
     {
       key = "<Leader>??";
       action =
-        if (config.plugins.notify.enable)
-        then "<CMD>Telescope notify<CR>"
-        else "<CMD>messages<CR>";
+        if (config.plugins.notify.enable) then "<CMD>Telescope notify<CR>" else "<CMD>messages<CR>";
       options.desc = "Show messages";
     }
     {
       key = "<Leader>?";
       action =
-        if (config.plugins.notify.enable)
-        then "<CMD>Notifications<CR>"
-        else "<CMD>echo v:errmsg<CR>";
+        if (config.plugins.notify.enable) then "<CMD>Notifications<CR>" else "<CMD>echo v:errmsg<CR>";
       options.desc = "Show last error message";
     }
 

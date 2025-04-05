@@ -1,7 +1,7 @@
 # Nixvim
 
-For systems with [`nix`](https://nixos.org/download) installed,
-the configuration can be tested with
+For systems with [`nix`](https://nixos.org/download) installed, the
+configuration can be tested with
 
 ```nix
 nix run github:runarsf/nixvim --extra-experimental-features 'nix-command flakes' -- flake.nix

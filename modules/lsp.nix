@@ -2,7 +2,8 @@
   config,
   lib,
   ...
-}: {
+}:
+{
   options.modules.lsp.enable = lib.mkEnableOption "lsp";
 
   config = lib.mkIf config.modules.lsp.enable {
@@ -15,43 +16,46 @@
       {
         key = "<C-.>";
         action = "<CMD>lua vim.lsp.buf.code_action()<CR>";
-        mode = ["i" "n"];
+        mode = [
+          "i"
+          "n"
+        ];
         options.desc = "(lsp) Code actions";
       }
       {
         key = "<C-.>";
         action = "<CMD>lua vim.lsp.buf.range_code_action()<CR>";
-        mode = ["x"];
+        mode = [ "x" ];
         options.desc = "(lsp) Code actions";
       }
       {
         key = "gd";
         action = "<CMD>lua vim.lsp.buf.definition()<CR>";
-        mode = ["n"];
+        mode = [ "n" ];
         options.desc = "(lsp) Go to definition";
       }
       {
         key = "gD";
         action = "<CMD>lua vim.lsp.buf.declaration()<CR>";
-        mode = ["n"];
+        mode = [ "n" ];
         options.desc = "(lsp) Go to declaration";
       }
       {
         key = "gr";
         action = "<CMD>lua vim.lsp.buf.references()<CR>";
-        mode = ["n"];
+        mode = [ "n" ];
         options.desc = "(lsp) Go to references";
       }
       {
         key = "K";
         action = "<CMD>lua vim.lsp.buf.hover()<CR>";
-        mode = ["n"];
+        mode = [ "n" ];
         options.desc = "(lsp) Hover";
       }
       {
         key = "<Leader>R";
         action = "<CMD>lua vim.lsp.buf.rename()<CR>";
-        mode = ["n"];
+        mode = [ "n" ];
         options.desc = "(lsp) Rename";
       }
       {

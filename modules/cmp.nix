@@ -4,17 +4,22 @@
   pkgs,
   helpers,
   ...
-}: let
-  mkSources = sources:
-    map (source:
-      if lib.isAttrs source
-      then source
-      else {
-        name = source;
-        group_index = 2;
-      })
-    sources;
-in {
+}:
+let
+  mkSources =
+    sources:
+    map (
+      source:
+      if lib.isAttrs source then
+        source
+      else
+        {
+          name = source;
+          group_index = 2;
+        }
+    ) sources;
+in
+{
   # TODO Limit width and line count of completions and documentation
   # TODO Add border to docs
   # TODO Better smart indent https://www.reddit.com/r/neovim/comments/101kqds/comment/j2p5xe4
@@ -37,27 +42,38 @@ in {
           };
           ":" = {
             mapping = helpers.mkRaw "cmp.mapping.preset.cmdline()";
-            sources = mkSources ["path" "cmdline" "cmdline_history"];
+            sources = mkSources [
+              "path"
+              "cmdline"
+              "cmdline_history"
+            ];
           };
           "?" = {
             mapping = helpers.mkRaw "cmp.mapping.preset.cmdline()";
-            sources = mkSources ["cmdline_history"];
+            sources = mkSources [ "cmdline_history" ];
           };
         };
-        filetype = let
-          mkFiletypeSettings = names: val:
-            builtins.listToAttrs (lib.map (name: {
-                name = name;
-                value = val;
-              })
-              names);
-        in
-          mkFiletypeSettings ["dap-repl" "dapui_watches" "dapui_hover"] {
-            sources = mkSources ["dap"];
+        filetype =
+          let
+            mkFiletypeSettings =
+              names: val:
+              builtins.listToAttrs (
+                lib.map (name: {
+                  name = name;
+                  value = val;
+                }) names
+              );
+          in
+          mkFiletypeSettings [ "dap-repl" "dapui_watches" "dapui_hover" ] {
+            sources = mkSources [ "dap" ];
           };
         settings = {
           formatting = {
-            fields = ["kind" "abbr" "menu"];
+            fields = [
+              "kind"
+              "abbr"
+              "menu"
+            ];
             format = ''
               function(entry, vim_item)
                 local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
@@ -162,18 +178,14 @@ in {
               cmp.mapping(function(fallback)
                 local luasnip = require("luasnip")
 
-                if cmp.visible() then
+                if cmp.visible() and HasWordsBefore() then
                   cmp.select_next_item()
                 elseif luasnip.locally_jumpable(1) then
                   luasnip.jump(1)
                 elseif not cmp.select_next_item() and HasWordsBefore() and vim.bo.buftype ~= 'prompt' then
                   cmp.complete()
                 else
-                  ${
-                if config.plugins.intellitab.enable
-                then "require('intellitab').indent()"
-                else "fallback()"
-              }
+                  ${if config.plugins.intellitab.enable then "require('intellitab').indent()" else "fallback()"}
                 end
               end, { "i", "s" })
             '';
@@ -243,7 +255,7 @@ in {
       }
     ];
 
-    extraPlugins = with pkgs.vimPlugins; [lspkind-nvim];
+    extraPlugins = with pkgs.vimPlugins; [ lspkind-nvim ];
 
     # highlightOverride = {
     #   PmenuSel = {

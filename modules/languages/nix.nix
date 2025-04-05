@@ -8,33 +8,54 @@
 lib.utils.mkLanguageModule config "nix" {
   plugins = {
     lsp.servers = {
-      # TODO Use nixd
-      # nixd = {
-      #   enable = true;
-      #   package = inputs.nixd.packages.${pkgs.system}.default;
-      # };
-      nil_ls = {
+      nixd = {
         enable = true;
-        package = inputs.nil_ls.packages.${pkgs.system}.default;
+        settings =
+          let
+            flakeExpr =
+              # nix
+              ''(builtins.getFlake "${inputs.self}")'';
+            systemExpr =
+              # nix
+              ''''${builtins.currentSystem}'';
+          in
+          {
+            formatting.command = [ "nix fmt" ];
+
+            nixpkgs.expr =
+              # nix
+              "import ${flakeExpr}.inputs.nixpkgs { system = ${systemExpr}; }";
+
+            options = {
+              nixvim.expr =
+                # nix
+                "${flakeExpr}.packages.${systemExpr}.nvim.options";
+            };
+          };
       };
     };
 
+    lint = {
+      lintersByFt.nix = [
+        "statix"
+        "deadnix"
+      ];
+    };
+
     conform-nvim.settings = {
-      formatters_by_ft.nix = {
-        # TODO Remove nixfmt when alejandra supports pipe operator: https://github.com/kamadorueda/alejandra/issues/436
-        __unkeyed-1 = "alejandra";
-        __unkeyed-2 = "nixfmt";
-        stop_after_first = true;
-      };
+      formatters_by_ft.nix = [ "nixfmt" ];
+      # formatters_by_ft.nix = {
+      #   # TODO Remove nixfmt when alejandra supports pipe operator: https://github.com/kamadorueda/alejandra/issues/436
+      #   __unkeyed-1 = "alejandra";
+      #   __unkeyed-2 = "nixfmt";
+      #   stop_after_first = true;
+      # };
 
       formatters = {
+        nixfmt.command = lib.getExe pkgs.nixfmt-rfc-style;
         alejandra = {
           command = lib.getExe pkgs.alejandra;
-          # args = ["--quiet" "-"];
         };
-        nixfmt.command =
-          lib.getExe
-          inputs.nixfmt.packages.${pkgs.system}.default;
       };
     };
 
