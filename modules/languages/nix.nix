@@ -7,32 +7,30 @@
 }:
 lib.utils.mkLanguageModule config "nix" {
   plugins = {
-    lsp.servers = {
-      nixd = {
-        enable = true;
-        settings =
-          let
-            flakeExpr =
-              # nix
-              ''(builtins.getFlake "${inputs.self}")'';
-            systemExpr =
-              # nix
-              ''''${builtins.currentSystem}'';
-          in
-          {
-            formatting.command = [ "nix fmt" ];
+    lsp.servers.nixd = {
+      enable = true;
+      settings =
+        let
+          flakeExpr =
+            # nix
+            ''(builtins.getFlake "${inputs.self}")'';
+          systemExpr =
+            # nix
+            ''''${builtins.currentSystem}'';
+        in
+        {
+          formatting.command = [ "nix fmt" ];
 
-            nixpkgs.expr =
-              # nix
-              "import ${flakeExpr}.inputs.nixpkgs { system = ${systemExpr}; }";
+          nixpkgs.expr =
+            # nix
+            "import ${flakeExpr}.inputs.nixpkgs { system = ${systemExpr}; }";
 
-            options = {
-              nixvim.expr =
-                # nix
-                "${flakeExpr}.packages.${systemExpr}.nvim.options";
-            };
+          options = {
+            nixvim.expr =
+              # nix
+              "${flakeExpr}.packages.${systemExpr}.nvim.options";
           };
-      };
+        };
     };
 
     lint = {
