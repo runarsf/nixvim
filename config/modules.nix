@@ -21,7 +21,7 @@
 
   config = {
     modules =
-      lib.utils.enable [
+      lib.enable [
         "lsp"
         "cmp"
         "formatter"
@@ -63,7 +63,7 @@
         };
       };
 
-    plugins = lib.utils.enable [
+    plugins = lib.enable [
       "lastplace"
       "sleuth"
       "neocord"

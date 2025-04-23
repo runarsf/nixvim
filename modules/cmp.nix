@@ -4,29 +4,24 @@
   pkgs,
   helpers,
   ...
-}:
-let
-  mkSources =
-    sources:
+}: let
+  mkSources = sources:
     map (
       source:
-      if lib.isAttrs source then
-        source
-      else
-        {
+        if lib.isAttrs source
+        then source
+        else {
           name = source;
           group_index = 2;
         }
-    ) sources;
+    )
+    sources;
 in
-{
-  # TODO Limit width and line count of completions and documentation
-  # TODO Add border to docs
-  # TODO Better smart indent https://www.reddit.com/r/neovim/comments/101kqds/comment/j2p5xe4
-  # FIXME When on an indented line with copilot completions, it selects completion instead of indenting on tab
-  options.modules.cmp.enable = lib.mkEnableOption "cmp";
-
-  config = lib.mkIf config.modules.cmp.enable {
+  lib.mkModule config "cmp" {
+    # TODO Limit width and line count of completions and documentation
+    # TODO Add border to docs
+    # TODO Better smart indent https://www.reddit.com/r/neovim/comments/101kqds/comment/j2p5xe4
+    # FIXME When on an indented line with copilot completions, it selects completion instead of indenting on tab
     plugins = {
       cmp = {
         enable = true;
@@ -50,22 +45,21 @@ in
           };
           "?" = {
             mapping = helpers.mkRaw "cmp.mapping.preset.cmdline()";
-            sources = mkSources [ "cmdline_history" ];
+            sources = mkSources ["cmdline_history"];
           };
         };
-        filetype =
-          let
-            mkFiletypeSettings =
-              names: val:
-              builtins.listToAttrs (
-                lib.map (name: {
-                  name = name;
-                  value = val;
-                }) names
-              );
-          in
-          mkFiletypeSettings [ "dap-repl" "dapui_watches" "dapui_hover" ] {
-            sources = mkSources [ "dap" ];
+        filetype = let
+          mkFiletypeSettings = names: val:
+            builtins.listToAttrs (
+              lib.map (name: {
+                name = name;
+                value = val;
+              })
+              names
+            );
+        in
+          mkFiletypeSettings ["dap-repl" "dapui_watches" "dapui_hover"] {
+            sources = mkSources ["dap"];
           };
         settings = {
           formatting = {
@@ -185,7 +179,11 @@ in
                 elseif not cmp.select_next_item() and HasWordsBefore() and vim.bo.buftype ~= 'prompt' then
                   cmp.complete()
                 else
-                  ${if config.plugins.intellitab.enable then "require('intellitab').indent()" else "fallback()"}
+                  ${
+                if config.plugins.intellitab.enable
+                then "require('intellitab').indent()"
+                else "fallback()"
+              }
                 end
               end, { "i", "s" })
             '';
@@ -255,7 +253,7 @@ in
       }
     ];
 
-    extraPlugins = with pkgs.vimPlugins; [ lspkind-nvim ];
+    extraPlugins = with pkgs.vimPlugins; [lspkind-nvim];
 
     # highlightOverride = {
     #   PmenuSel = {
@@ -387,5 +385,4 @@ in
     #     bg = "#58B5A8";
     #   };
     # };
-  };
-}
+  }

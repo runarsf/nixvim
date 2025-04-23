@@ -4,22 +4,18 @@
   lib,
   ...
 }:
-{
-  options.modules.togglemouse.enable = lib.mkEnableOption "togglemouse";
+lib.mkModule config "togglemouse" {
+  extraPlugins = with pkgs.vimPlugins; [
+    vim-togglemouse
+  ];
 
-  config = lib.mkIf config.modules.togglemouse.enable {
-    extraPlugins = with pkgs.vimPlugins; [
-      vim-togglemouse
-    ];
+  opts.mouse = "";
 
-    opts.mouse = "";
-
-    keymaps = [
-      {
-        key = "<Leader>mm";
-        action = "<Plug>ToggleMouse";
-        options.desc = "Toggle mouse";
-      }
-    ];
-  };
+  keymaps = [
+    {
+      key = "<Leader>mm";
+      action = "<Plug>ToggleMouse";
+      options.desc = "Toggle mouse";
+    }
+  ];
 }

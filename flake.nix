@@ -23,53 +23,52 @@
     };
   };
 
-  outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      flakeUtils,
-      treefmtNix,
-      nixlib,
-      nixvim,
-      ...
-    }:
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    flakeUtils,
+    treefmtNix,
+    nixlib,
+    nixvim,
+    ...
+  }:
     flakeUtils.lib.eachDefaultSystem (
-      system:
-      let
+      system: let
         pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = map (f: import f { inherit inputs; }) (utils.umport { path = ./overlays; });
+          overlays = map (f: import f {inherit inputs;}) (lib.concatPaths {paths = ./overlays;});
         };
+        lib'' = nixpkgs.lib.extend (_: _: {inherit utils;});
+        lib' = lib''.extend nixvim.lib.overlay;
+        lib = nixlib.lib.deepMerge [lib' nixlib.lib];
         utils = import ./utils {
-          inherit inputs system pkgs;
-          inherit (nixpkgs) lib;
+          inherit
+            inputs
+            system
+            pkgs
+            lib
+            ;
         };
         treefmtEval = treefmtNix.lib.evalModule pkgs ./treefmt.nix;
         config = {
           inherit pkgs;
 
           module = {
-            imports = utils.umport {
+            imports = lib.concatPaths {
               paths = [
                 ./config
                 ./modules
               ];
+              filterDefault = false;
             };
           };
 
-          extraSpecialArgs =
-            let
-              lib'' = nixpkgs.lib.extend (self: super: { inherit utils; });
-              lib' = lib''.extend nixvim.lib.overlay;
-              lib = lib'.extend (self: super: nixlib.lib.${system});
-            in
-            {
-              inherit inputs lib;
-            };
+          extraSpecialArgs = {
+            inherit inputs lib;
+          };
         };
-      in
-      {
+      in {
         packages = rec {
           default = nixvim.legacyPackages.${system}.makeNixvimWithModule config;
           nvim = default;

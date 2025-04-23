@@ -3,22 +3,18 @@
   lib,
   ...
 }:
-{
-  options.modules.zen.enable = lib.mkEnableOption "zen";
-
-  config = lib.mkIf config.modules.zen.enable {
-    plugins = {
-      zen-mode.enable = true;
-      twilight.enable = true;
-      twilight.settings.context = 6;
-    };
-
-    keymaps = [
-      {
-        key = "<Leader>z";
-        action = "<CMD>ZenMode<CR>";
-        mode = "n";
-      }
-    ];
+lib.mkModule config "zen" {
+  plugins = {
+    zen-mode.enable = true;
+    twilight.enable = true;
+    twilight.settings.context = 6;
   };
+
+  keymaps = [
+    {
+      key = "<Leader>z";
+      action = "<CMD>ZenMode<CR>";
+      mode = "n";
+    }
+  ];
 }

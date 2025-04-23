@@ -2,8 +2,7 @@
   config,
   lib,
   ...
-}:
-let
+}: let
   # TODO Set lualine theme?
   # TODO Get colors from generated theme (see ayu.colors.generate())
   # color = name: helpers.mkRaw "ayu_colors.${name}";
@@ -11,14 +10,7 @@ let
   guide_normal = "#1E222A";
   guide_active = "#3C414A";
 in
-{
-  options.modules.colorschemes.ayu.enable = lib.mkOption {
-    type = lib.types.bool;
-    default = config.modules.colorschemes.all.enable;
-    description = "ayu";
-  };
-
-  config = lib.mkIf config.modules.colorschemes.ayu.enable {
+  lib.mkModule' config ["colorschemes" "ayu"] config.modules.colorschemes.all.enable {
     highlight = {
       IndentLine.fg = guide_normal;
       IndentLineCurrent.fg = accent;
@@ -40,5 +32,4 @@ in
     };
 
     plugins.notify.settings.background_colour = lib.mkIf config.modules.colorschemes.transparent "#0f1419";
-  };
-}
+  }

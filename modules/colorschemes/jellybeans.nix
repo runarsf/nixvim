@@ -4,23 +4,15 @@
   pkgs,
   ...
 }:
-{
-  options.modules.colorschemes.jellybeans.enable = lib.mkOption {
-    type = lib.types.bool;
-    default = config.modules.colorschemes.all.enable;
-    description = "jellybeans";
-  };
+lib.mkModule' config ["colorschemes" "jellybeans"] config.modules.colorschemes.all.enable {
+  colorscheme = lib.mkDefault "jellybeans";
 
-  config = lib.mkIf config.modules.colorschemes.jellybeans.enable {
-    colorscheme = lib.mkDefault "jellybeans";
-
-    extraPlugins = with pkgs.vimPlugins; [
-      {
-        plugin = jellybeans-nvim;
-        config = lib.utils.viml.fromLua ''
-          require("jellybeans").setup()
-        '';
-      }
-    ];
-  };
+  extraPlugins = with pkgs.vimPlugins; [
+    {
+      plugin = jellybeans-nvim;
+      config = lib.utils.viml.fromLua ''
+        require("jellybeans").setup()
+      '';
+    }
+  ];
 }

@@ -3,24 +3,20 @@
   lib,
   ...
 }:
-{
-  options.modules.trouble.enable = lib.mkEnableOption "trouble";
+lib.mkModule config "trouble" {
+  plugins.trouble.enable = true;
 
-  config = lib.mkIf config.modules.trouble.enable {
-    plugins.trouble.enable = true;
-
-    files."ftplugin/Trouble.lua" = {
-      opts = {
-        wrap = true;
-      };
+  files."ftplugin/Trouble.lua" = {
+    opts = {
+      wrap = true;
     };
-
-    keymaps = [
-      {
-        key = "<Leader>t";
-        action = "<CMD>Trouble diagnostics<CR>";
-        options.desc = "Toggle diagnostics";
-      }
-    ];
   };
+
+  keymaps = [
+    {
+      key = "<Leader>t";
+      action = "<CMD>Trouble diagnostics<CR>";
+      options.desc = "Toggle diagnostics";
+    }
+  ];
 }

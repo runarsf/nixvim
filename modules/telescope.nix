@@ -5,17 +5,16 @@
   helpers,
   ...
 }:
-{
-  # TODO exclude .stack-work and .git and node_modules (ALSO in alpha.nvim)
-  options.modules.telescope = {
-    enable = lib.mkEnableOption "telescope";
+lib.mkModule config "telescope" {
+  options' = {
+    # TODO exclude .stack-work and .git and node_modules (ALSO in alpha.nvim)
     teleOpts = lib.mkOption {
       type = lib.types.str;
       default = ''{ no_ignore = true, no_ignore_parent = true, hidden = true, use_regex = true, file_ignore_patterns = { '^\.git/', '^\.stack-work/' } }'';
     };
   };
 
-  config = lib.mkIf config.modules.telescope.enable {
+  config = {
     plugins.sqlite-lua.enable = true;
 
     extraConfigLuaPre = ''
@@ -54,7 +53,7 @@
       }
     ];
 
-    extraPackages = with pkgs; [ ripgrep ];
+    extraPackages = with pkgs; [ripgrep];
 
     keymaps = [
       {
