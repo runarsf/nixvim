@@ -14,8 +14,8 @@ lib.utils.mkLanguageModule config "structured-data" {
 
     conform-nvim.settings = {
       formatters_by_ft = {
-        json = [ "deno_fmt" ];
-        yaml = [ "yamlfix" ];
+        json = ["deno_fmt"];
+        yaml = ["yamlfix"];
       };
       formatters.yamlfix.command = lib.getExe' pkgs.yamlfix "yamlfix";
     };

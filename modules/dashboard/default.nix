@@ -20,16 +20,13 @@ lib.mkModule config "dashboard" {
           helpers.mkRaw "GetBannerSection()"
         )
         {
-          padding = 0;
-        }
-        {
           section = "keys";
           gap = 1;
-          padding = 1;
+          padding = 2;
         }
         {
           text = {
-            __unkeyed = helpers.mkRaw ''quotes[math.random(#quotes)]'';
+            __unkeyed = helpers.mkRaw ''Quotes[math.random(#Quotes)]'';
             hl = "Comment";
           };
           align = "center";

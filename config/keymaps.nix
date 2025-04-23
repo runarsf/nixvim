@@ -2,8 +2,7 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   globals = {
     mapleader = ",";
     maplocalleader = " ";
@@ -88,13 +87,17 @@
     {
       key = "<Leader>??";
       action =
-        if (config.plugins.notify.enable) then "<CMD>Telescope notify<CR>" else "<CMD>messages<CR>";
+        if (config.plugins.notify.enable)
+        then "<CMD>Telescope notify<CR>"
+        else "<CMD>messages<CR>";
       options.desc = "Show messages";
     }
     {
       key = "<Leader>?";
       action =
-        if (config.plugins.notify.enable) then "<CMD>Notifications<CR>" else "<CMD>echo v:errmsg<CR>";
+        if (config.plugins.notify.enable)
+        then "<CMD>Notifications<CR>"
+        else "<CMD>echo v:errmsg<CR>";
       options.desc = "Show last error message";
     }
 

@@ -21,8 +21,8 @@ lib.utils.mkLanguageModule config "web" {
           stop_after_first = true;
         };
         typescript = javascript;
-        html = [ "deno_fmt" ];
-        css = [ "deno_fmt" ];
+        html = ["deno_fmt"];
+        css = ["deno_fmt"];
       };
 
       formatters = {

@@ -5,7 +5,7 @@
   ...
 }:
 lib.utils.mkLanguageModule config "go" {
-  extraPackages = with pkgs; [ gotools ];
+  extraPackages = with pkgs; [gotools];
 
   plugins = {
     lsp.servers = {

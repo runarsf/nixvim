@@ -10,7 +10,7 @@ lib.utils.mkLanguageModule config "markdown" {
     };
 
     conform-nvim.settings = {
-      formatters_by_ft.json = [ "deno_fmt" ];
+      formatters_by_ft.json = ["deno_fmt"];
     };
 
     glow = {

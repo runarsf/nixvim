@@ -1,5 +1,4 @@
-{ lib, ... }:
-{
+{lib, ...}: {
   fromLua = str: ''
     lua << trim EOF
       ${str}

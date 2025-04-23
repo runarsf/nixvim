@@ -14,7 +14,7 @@ lib.utils.mkLanguageModule config "haskell" {
     };
 
     conform-nvim.settings = {
-      formatters_by_ft.haskell = [ "ormolu" ];
+      formatters_by_ft.haskell = ["ormolu"];
 
       formatters.ormolu.command = lib.getExe pkgs.ormolu;
     };

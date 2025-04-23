@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   autoGroups = {
     CursorLine.clear = true;
     ForbidReplaceMode.clear = true;
@@ -13,7 +12,7 @@
         "InsertLeave"
         "WinEnter"
       ];
-      pattern = [ "*" ];
+      pattern = ["*"];
       command = "silent! set cursorline";
     }
     {
@@ -23,7 +22,7 @@
         "InsertEnter"
         "WinLeave"
       ];
-      pattern = [ "*" ];
+      pattern = ["*"];
       command = "silent! set nocursorline";
     }
     {
@@ -32,13 +31,13 @@
         "FocusGained"
         "CursorHold"
       ];
-      pattern = [ "*" ];
+      pattern = ["*"];
       command = "checktime";
     }
     {
       # Get rid of the pesky cmd window
-      event = [ "CmdwinEnter" ];
-      pattern = [ "*" ];
+      event = ["CmdwinEnter"];
+      pattern = ["*"];
       command = "q | call feedkeys(':')";
     }
     {
@@ -47,7 +46,7 @@
         "InsertEnter"
         "InsertChange"
       ];
-      pattern = [ "*" ];
+      pattern = ["*"];
       command = "call ForbidReplace()";
       group = "ForbidReplaceMode";
     }

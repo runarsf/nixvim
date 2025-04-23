@@ -12,7 +12,7 @@ lib.utils.mkLanguageModule config "lua" {
     };
 
     conform-nvim.settings = {
-      formatters_by_ft.lua = [ "stylua" ];
+      formatters_by_ft.lua = ["stylua"];
 
       formatters.stylua = {
         command = lib.getExe pkgs.stylua;

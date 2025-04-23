@@ -2,8 +2,7 @@
   lib,
   pkgs,
   ...
-}:
-{
+}: {
   enableMan = false;
 
   luaLoader.enable = true;
@@ -16,7 +15,7 @@
     };
   };
 
-  extraPackages = with pkgs; [ sqlite ];
+  extraPackages = with pkgs; [sqlite];
 
   opts = rec {
     number = true;

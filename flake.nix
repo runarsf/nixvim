@@ -3,9 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixpkgsMaster.url = "github:nixos/nixpkgs/master";
-    flakeUtils.url = "github:numtide/flake-utils";
-    treefmtNix.url = "github:numtide/treefmt-nix";
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    flake-utils.url = "github:numtide/flake-utils";
 
     nixvim = {
       url = "github:nix-community/nixvim";
@@ -21,18 +20,24 @@
       url = "github:yunfachi/nypkgs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    alejandra = {
+      url = "github:kamadorueda/alejandra/4.0.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
     self,
     nixpkgs,
-    flakeUtils,
-    treefmtNix,
+    flake-utils,
+    treefmt-nix,
     nixlib,
     nixvim,
     ...
   }:
-    flakeUtils.lib.eachDefaultSystem (
+    flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = import nixpkgs {
           inherit system;
@@ -50,7 +55,7 @@
             lib
             ;
         };
-        treefmtEval = treefmtNix.lib.evalModule pkgs ./treefmt.nix;
+        treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
         config = {
           inherit pkgs;
 

@@ -5,7 +5,7 @@
   ...
 }:
 lib.utils.mkLanguageModule config "python" {
-  extraPackages = with pkgs; [ ruff ];
+  extraPackages = with pkgs; [ruff];
 
   plugins = {
     lsp.servers = {
