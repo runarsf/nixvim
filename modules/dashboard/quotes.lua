@@ -252,4 +252,12 @@ quotes = {
 	[[I say dance, they say, "How high?"]],
 	[[I'm fast. To give you a reference point. I'm somewhere between a snake and a mongoose. And a panther.]],
 	[[Bob Vance, Vance Refrigeration.]],
+
+	-- Ghost Stories (Dub)
+	[[<Unintelligible gibberish>]],
+	[[Haveyouacceptedjesusasyourpersonalsavior?]],
+	[[OH MY GOD WHAT THE HELL IS HAPPENING THESE ARE THE FASTEST LIP FLAPS I'VE EVER HAD TO SYNC]],
+	[[Jump 😇 I SAID JUMP 👹]],
+	[[She's back! RuPaul! 😨]],
+	[[Drag queens won't bother you, worry about priests.]],
 }

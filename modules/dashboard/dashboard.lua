@@ -11,6 +11,137 @@ function RemoveAnsiCodes(str)
   return RunCommand("printf '" .. str .. "' | ansi2txt")
 end
 
+function GetAscii(xs)
+    local ascii = xs[math.random(#xs)]
+    if type(ascii[1]) == "table" then
+      return GetAscii(ascii)
+    end
+    return ascii
+  end
+
+function GetRandomAsciiArt()
+  local width = vim.api.nvim_win_get_width(0)
+  local height = vim.api.nvim_win_get_height(0)
+
+  local max_width = width - 2 * 3
+  local dog_width = max_width - 16
+  local worm_width = math.floor((max_width - 15) / 6)
+
+  -- https://oldcompcz.github.io/jgs/joan_stark/index-2.html
+  local ascii_banners = {
+    { -- Fox
+      [[              /^._ ]],
+      [[,___,--~~~~--' /'~']],
+      [[`~--~\ )___,)/'    ]],
+      [[    (/\\_  (/\\_   ]],
+    },
+    { -- Fox
+      [[ /\           ]],
+      [[(~(           ]],
+      [[ ) )     |\_/|]],
+      [[( _-----_(.".)]],
+      [[  (       \o/ ]],
+      [[  /|/--\|\    ]],
+      [[ " "   " "    ]],
+    },
+    { -- Hedgehog
+      [[   .|||||||||.  ]],
+      [[  ||||||||||||| ]],
+      [[ /. `|||||||||||]],
+      [[o__,_||||||||||']],
+    },
+    { -- Cat
+      [[ ／|_     ]],
+      [[(o o /    ]],
+      [[ |.   ~.  ]],
+      [[ じしf_,)ノ]],
+    },
+    { -- Duck
+      [[   _  ]],
+      [[,_(')<]],
+      [[\___) ]],
+    },
+    { -- Whale
+      [[      ::.     ]],
+      [[(\./)  .-""-. ]],
+      [[ `\'-'`      \]],
+      [[   '.___,_^__/]],
+    },
+    { -- Dog
+      [[     __  ]],
+      [[(___()'`;]],
+      [[/,    /` ]],
+      [[\\"--\\  ]],
+    },
+    { -- Sitting dog
+      [[    __  ]],
+      [[   ()'`;]],
+      [[   /\|` ]],
+      [[  /  |  ]],
+      [[(/_)_|_ ]],
+    },
+    { -- Sleeping dog
+      [[       z              ]],
+      [[    Z                 ]],
+      [[      z               ]],
+      [[  ."-.                ]],
+      [[ /|  | _o.----.    _  ]],
+      [[/\_  \/ /  __  \_// ) ]],
+      [[\__)-/_/\_____)____/  ]],
+    },
+    { -- Worm
+      [[      ]] .. string.rep([[      ]], worm_width) .. [[      __ ]],
+      [[(\   .]] .. string.rep([[-.   .]], worm_width) .. [[-.   /_")]],
+      [[ \\_//]] .. string.rep([[^\\_//]], worm_width) .. [[^\\_//   ]],
+      [[  `"´ ]] .. string.rep([[  `"´ ]], worm_width) .. [[  `"´    ]],
+    },
+    { -- Dachshund
+      [[      ]] .. string.rep(" ", dog_width) .. [[    .-.   ]],
+      [[(_____]] .. string.rep("_", dog_width) .. [[___()6 `-,]],
+      [[(   __]] .. string.rep("_", dog_width) .. [[_   /''"` ]],
+      [[//\\  ]] .. string.rep(" ", dog_width) .. [[ //\\     ]],
+      [["" "" ]] .. string.rep(" ", dog_width) .. [[ "" ""    ]],
+    },
+    { -- Dog
+      [[ ..^____/]],
+      [[`-. ___ )]],
+      [[  ||  || ]],
+    },
+    { -- Minecraft fox
+      [[⬜⬜        ⬜⬜]],
+      [[⬜⬛        ⬛⬜]],
+      [[🟧🟧🟧🟧🟧🟧🟧🟧]],
+      [[🟧🟧🟧🟧🟧🟧🟧🟧]],
+      [[🟧🟧🟧🟧🟧🟧🟧🟧]],
+      [[⬛⬜🟧🟧🟧🟧⬜⬛]],
+      [[🟧🟧⬜⬛⬛⬜🟧🟧]],
+      [[⬜⬜⬜⬜⬜⬜⬜⬜]],
+    },
+    { -- Amoebas
+      { [[_____.______ <-- amoeba]] },
+      { [[_____.______ <-- upside down amoeba]] },
+      { [[_____!______ <-- amoeba with a chef's hat]] },
+      { [[_____.|_____ <-- amoeba trying to climb a fence]] },
+      { [[___.......__ <-- queue of amoebas]] },
+      { [[_____*______ <-- amoeba with flower costume]] },
+      { [[_____.z_____ <-- sleeping amoeba]] },
+      { [[____________ <-- invisible amoeba]] },
+      { [[_____o______ <-- bodybuilding amoeba]] },
+      { [[_____O______ <-- bodybuilding amoeba on steroids]] },
+      { [[____o.o_____ <-- amoeba with glasses]] },
+      { [[____.-._____ <-- two amoebas carrying a log]] },
+      { [[_____.>_____ <-- amoeba with a boomerang]] },
+      { [[_____.-_____ <-- amoeba with a rifle]] },
+      { [[_____$._____ <-- opulent amoeba]] },
+      { [[_____.._____ <-- amoebas conversing]] },
+      { [[_____.}_____ <-- amoeba with a bow and arrow]] },
+      { [[_____o=o____ <-- amoeba skateboarding]] },
+    }
+  }
+
+  return table.concat(GetAscii(ascii_banners), "\n")
+end
+
 function GetRandomPokemon(shiny_rate)
   local generate_shiny = math.random() < (shiny_rate or -1) --> use krabby's default if unset
   local pokemon_command = "krabby random --no-title"
@@ -22,11 +153,17 @@ function GetRandomPokemon(shiny_rate)
   return RunCommand(pokemon_command)
 end
 
-function GetPokemonSection()
+function RenderTextBanner(banner)
+  return {
+    text = banner,
+    align = "center",
+  }
+end
+
+function RenderTerminalBanner(banner)
   local utf8 = require("lua-utf8")
 
-  local pokemon = GetRandomPokemon(0.01)
-  local lines = vim.split(pokemon, "\n")
+  local lines = vim.split(banner, "\n")
   local height = #lines
   local width = 0
 
@@ -38,7 +175,7 @@ function GetPokemonSection()
     end
   end
 
-  local pimary = FindPrimaryColor(pokemon)
+  local pimary = FindPrimaryColor(banner)
   local r, g, b = pimary.r, pimary.g, pimary.b
   local hex = string.format("#%02x%02x%02x", r, g, b)
 
@@ -52,7 +189,7 @@ function GetPokemonSection()
     "  indent=$(printf '%*s' $pad_width \"\");",
     '  printf \'%s%s\\n\' "$indent" "$line";',
     "done <<'EOF'",
-    pokemon,
+    banner,
     "EOF",
   }, "\n")
 
@@ -65,6 +202,16 @@ function GetPokemonSection()
     -- width = width,
     -- align = "center",
   }
+end
+
+function GetBannerSection()
+  math.randomseed(os.time())
+
+  if math.random() < 1/2 then
+    return RenderTerminalBanner(GetRandomPokemon(0.01))
+  else
+    return RenderTextBanner(GetRandomAsciiArt())
+  end
 end
 
 function FindPrimaryColor(str)

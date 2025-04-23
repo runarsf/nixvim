@@ -17,14 +17,22 @@ lib.mkModule config "dashboard" {
 
       sections = [
         (
-          helpers.mkRaw "GetPokemonSection()"
+          helpers.mkRaw "GetBannerSection()"
         )
         {
-          padding = 2;
+          padding = 0;
         }
         {
           section = "keys";
           gap = 1;
+          padding = 1;
+        }
+        {
+          text = {
+            __unkeyed = helpers.mkRaw ''quotes[math.random(#quotes)]'';
+            hl = "Comment";
+          };
+          align = "center";
         }
       ];
 
@@ -34,58 +42,53 @@ lib.mkModule config "dashboard" {
             {
               icon = "";
               key = "i";
-              desc = "~ Start writing";
-              action = ":ene | startinsert";
+              desc = "Start writing";
+              action = "<CMD>enew | startinsert<CR>";
             }
           ]
           ++ lib.optionals config.modules.telescope.enable [
             {
               icon = "";
               key = "p";
-              desc = "~ Open";
-              action = ":lua Snacks.dashboard.pick('files')";
+              desc = "Open";
+              action = "<CMD>lua Snacks.dashboard.pick('files')<CR>";
             }
             {
               icon = "󱎸";
               key = "/";
-              desc = "~ Find";
-              action = ":lua Snacks.dashboard.pick('live_grep')";
+              desc = "Find";
+              action = "<CMD>lua Snacks.dashboard.pick('live_grep')<CR>";
             }
             {
               icon = "";
               key = "r";
-              desc = "~ Recents";
+              desc = "Recents";
               action = ":lua Snacks.dashboard.pick('oldfiles')";
             }
           ]
-          ++ lib.optionals config.modules.neo-tree.enable [
+          ++ lib.optionals (config.modules.mini.enable
+            && lib.attrs.hasAttrPath ["plugins" "mini" "modules" "files"] config) [
             {
               icon = "";
               key = "e";
-              desc = "~ Explorer";
-              action = "<leader>e";
+              desc = "Explorer";
+              action = "<CMD>lua MiniFiles.open()<CR>";
             }
           ]
           ++ lib.optionals config.modules.toggleterm.enable [
             {
               icon = "";
               key = "g";
-              desc = "~ Git";
-              action = ":lua ToggleGitUi()";
-            }
-            {
-              icon = "";
-              key = "$";
-              desc = "~ Terminal";
-              action = ":ToggleTerm";
+              desc = "Git";
+              action = "<CMD>lua GituiToggle()<CR>";
             }
           ]
           ++ [
             {
               icon = "";
               key = "q";
-              desc = "~ Quit";
-              action = ":q";
+              desc = "Quit";
+              action = "<CMD>q<CR>";
             }
           ];
       };
@@ -108,7 +111,7 @@ lib.mkModule config "dashboard" {
     }
   ];
 
-  extraConfigLuaPre = builtins.readFile ./dashboard.lua;
+  extraConfigLuaPre = lib.concatStringsSep "\n" [(builtins.readFile ./quotes.lua) (builtins.readFile ./dashboard.lua)];
 
   extraLuaPackages = rocks:
     with rocks; [
@@ -117,6 +120,6 @@ lib.mkModule config "dashboard" {
 
   extraPackages = with pkgs; [
     krabby
-    colorized-logs
+    colorized-logs # ansi2txt
   ];
 }
