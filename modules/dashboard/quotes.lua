@@ -1,4 +1,4 @@
-quotes = {
+Quotes = {
 	-- https://raw.githubusercontent.com/afreeorange/developer-excuses/refs/heads/master/excuses.txt
 	[[Actually, that's a feature.]],
 	[[Are you sure you don't have a problem with your internet connection?]],
@@ -260,4 +260,25 @@ quotes = {
 	[[Jump 😇 I SAID JUMP 👹]],
 	[[She's back! RuPaul! 😨]],
 	[[Drag queens won't bother you, worry about priests.]],
+
+	-- Drag Race
+	[[Well come on Teletubby, teleport us to Mars!]],
+	[[Your tone seems very pointed right now.]],
+	[[After a long night of hookin'
+trade didn't like the session, so he had gutted me, and set me on fire.
+But you know I didn't die... I had crystalized, and now I'm a glamazon bitch
+ready for the runway.]],
+	[[She done already done had herses!]],
+	[[Look over there!]],
+	[[I looove toast!]],
+	[[Let me ask you a very fair question, what do you do successfully? Quickly.]],
+	[[Opulence! You. Earn. Everything!]],
+	[[Who said? Jesus.]],
+	[[Party.]],
+	[[Go back to Party City where you belong!]],
+	[[I'd like to keep it on, please 🤡]],
+	[[To the beat of the rhythm of the night 💃 ]],
+	[[Bitch, I am from Chicago!]],
+	[[Is the bus still runnin'?]],
+	[[Miss Va]] .. string.rep("a", vim.api.nvim_win_get_width(0) - (2 * 3) - 12) .. [[njie!]],
 }
