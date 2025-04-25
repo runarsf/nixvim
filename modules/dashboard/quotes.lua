@@ -214,6 +214,22 @@ Quotes = {
 	[[Huh? Wha? Oh... hehe.. okay]],
 	[[I was lifted, but not by the ambulance]],
 	[[Fagurt er í fjörðum]],
+	[[Go piss girl 💅]],
+	[[Go sip girl 🥤]],
+	[[Hüt Namitag isch Sirenealarm. Was bedütet das? Tüüt, tüüt, tüü-üü-üüt!]],
+	[[oh! 🦅 mijn verf!]],
+	[[There is no such thing as a coincidence...]],
+	[[Divorce babes, divorce.]],
+
+	-- Gaga
+	[[No sleep. Bus, club, 'nother club, 'nother club, plane, next place,
+no sleep, no fear, nobody believed in me.]],
+	[[I can feel a lot of people who know exactly who they are...]],
+	[[There can be a hundred people in the room, and 99 don't believe in you...]],
+	[[Talented, brilliant, incredible, amazing, showstopping, spectacular, never the same,
+totally unique, completely not ever been done before, unafraid to reference or not reference,
+put it in a blender, shit on it, vomit on it, eat it, give birth to it.]],
+	[[I'm not sad, it's just fashion...]],
 
 	-- FromSoft
 	[[Could this be a dog? 🐢]],
@@ -252,6 +268,7 @@ Quotes = {
 	[[I say dance, they say, "How high?"]],
 	[[I'm fast. To give you a reference point. I'm somewhere between a snake and a mongoose. And a panther.]],
 	[[Bob Vance, Vance Refrigeration.]],
+	[[Who is Justice Beaver?]],
 
 	-- Ghost Stories (Dub)
 	[[<Unintelligible gibberish>]],
@@ -263,6 +280,7 @@ Quotes = {
 
 	-- Drag Race
 	[[Well come on Teletubby, teleport us to Mars!]],
+	[[I was born at a very young age. The first years of my life, I couldn't even walk...]],
 	[[Your tone seems very pointed right now.]],
 	[[After a long night of hookin'
 trade didn't like the session, so he had gutted me, and set me on fire.
