@@ -277,6 +277,7 @@ put it in a blender, shit on it, vomit on it, eat it, give birth to it.]],
 	[[Jump 😇 I SAID JUMP 👹]],
 	[[She's back! RuPaul! 😨]],
 	[[Drag queens won't bother you, worry about priests.]],
+	[[Do you think the rain made him go away answer me?]],
 
 	-- Drag Race
 	[[Well come on Teletubby, teleport us to Mars!]],
@@ -299,4 +300,7 @@ ready for the runway.]],
 	[[Bitch, I am from Chicago!]],
 	[[Is the bus still runnin'?]],
 	[[Miss Va]] .. string.rep("a", vim.api.nvim_win_get_width(0) - (2 * 3) - 12) .. [[njie!]],
+	[[Baby, you can't read the doll!]],
+	[[One day me and my cousins was out flipping and... just started flipping 🤸]],
+	[[Of all the opportunities I've had in my life, this is by far the most recent.]],
 }
