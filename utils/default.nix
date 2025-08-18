@@ -4,8 +4,14 @@ args @ {
   lib,
   pkgs,
   ...
-}: {
+}: rec {
   viml = import ./viml.nix args;
+
+  # TODO: Use concatPaths
+  keymaps = import ./keymaps.nix args;
+
+  setup' = name: setup name {};
+  setup = name: options: let opts = lib.generators.toLua {} options; in viml.fromLua "require('${name}').setup(${opts})";
 
   mkLanguageModule = config: name: moduleConfig:
     lib.mkModuleWithOptions {
@@ -15,6 +21,16 @@ args @ {
         name
       ];
       default = config.modules.languages.all.enable;
+    };
+
+  mkColorschemeModule = config: name: moduleConfig:
+    lib.mkModuleWithOptions {
+      inherit config moduleConfig;
+      name = [
+        "colorschemes"
+        name
+      ];
+      default = config.modules.colorschemes.selected == name;
     };
 
   mkPlugins = config: plugins: let
