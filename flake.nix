@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixpkgs-master.url = "github:nixos/nixpkgs/master";
     flake-utils.url = "github:numtide/flake-utils";
 
     nixvim = {
@@ -12,18 +11,14 @@
     };
 
     nixlib = {
-      url = "git+ssh://git@github.com/runarsf/nixlib";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nypkgs = {
-      url = "github:yunfachi/nypkgs";
+      url = "github:runarsf/nixlib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
-    alejandra = {
-      url = "github:kamadorueda/alejandra/4.0.0";
+
+    dotfiles = {
+      url = "github:runarsf/dotfiles";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -46,7 +41,10 @@
         };
         lib'' = nixpkgs.lib.extend (_: _: {inherit utils;});
         lib' = lib''.extend nixvim.lib.overlay;
-        lib = nixlib.lib.deepMerge [lib' nixlib.lib];
+        lib = nixlib.lib.deepMerge [
+          lib'
+          nixlib.lib
+        ];
         utils = import ./utils {
           inherit
             inputs
@@ -66,6 +64,9 @@
                 ./modules
               ];
               filterDefault = false;
+              exclude = [
+                ./modules/dashboard/quotes.nix
+              ];
             };
           };
 
@@ -79,7 +80,9 @@
           nvim = default;
 
           updater = pkgs.writeShellScriptBin "nixvim-flake-updater" ''
+            printf '\033[1;34minfo:\033[0m updating fetchers...\n'
             ${nixpkgs.lib.getExe pkgs.update-nix-fetchgit} --verbose ./**/*.nix 2>&1 | grep --line-buffered -i "updating"
+            printf '\033[1;34minfo:\033[0m updating flake inputs...\n'
             nix flake update
           '';
         };
