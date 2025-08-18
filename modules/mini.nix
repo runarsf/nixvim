@@ -12,10 +12,23 @@ lib.mkModule config "mini" {
       comment = {};
       align = {};
       surround = {};
-      bufremove = {};
-      move = {};
       trailspace = {};
-      tabline = {};
+      move = {
+        options = {
+          reindent_linewise = true;
+        };
+        mappings = {
+          left = "<M-Left>";
+          down = "<M-Down>";
+          up = "<M-Up>";
+          right = "<M-Right>";
+
+          line_left = "<M-Left>";
+          line_down = "<M-Down>";
+          line_up = "<M-Up>";
+          line_right = "<M-Right>";
+        };
+      };
       files = {
         mappings = {
           go_in_plus = "<Right>";
@@ -75,11 +88,82 @@ lib.mkModule config "mini" {
     */
   ];
 
-  keymaps = [
-    {
-      key = "<C-n>";
-      action = "<CMD>lua MiniFiles.open()<CR>";
-      options.desc = "Open file browser";
-    }
+  keymaps = with lib.utils.keymaps; [
+    (mkKeymap' "<C-n>" (helpers.mkRaw ''
+        function()
+          local files = require('mini.files')
+          if not files.close() then
+            -- files.open(vim.api.nvim_buf_get_name(0))
+            files.open(files.get_latest_path())
+          end
+        end
+    '') "File browser")
+
+    (mkKeymap ["n"] "<M-h>" (helpers.mkRaw ''
+      function()
+        require('mini.move').move_line('left')
+      end
+    '') "Move left")
+    (mkKeymap ["n"] "<M-j>" (helpers.mkRaw ''
+      function()
+        require('mini.move').move_line('down')
+      end
+    '') "Move down")
+    (mkKeymap ["n"] "<M-k>" (helpers.mkRaw ''
+      function()
+        require('mini.move').move_line('up')
+      end
+    '') "Move up")
+    (mkKeymap ["n"] "<M-l>" (helpers.mkRaw ''
+      function()
+        require('mini.move').move_line('right')
+      end
+    '') "Move right")
+
+    (mkKeymap ["x"] "<M-h>" (helpers.mkRaw ''
+      function()
+        require('mini.move').move_selection('left')
+      end
+    '') "Move left")
+    (mkKeymap ["x"] "<M-j>" (helpers.mkRaw ''
+      function()
+        require('mini.move').move_selection('down')
+      end
+    '') "Move down")
+    (mkKeymap ["x"] "<M-k>" (helpers.mkRaw ''
+      function()
+        require('mini.move').move_selection('up')
+      end
+    '') "Move up")
+    (mkKeymap ["x"] "<M-l>" (helpers.mkRaw ''
+      function()
+        require('mini.move').move_selection('right')
+      end
+    '') "Move right")
   ];
 }
+
+
+# TODO: Mapping to toggle dotfiles
+#   local show_dotfiles = true
+# 
+#   local filter_show = function(fs_entry) return true end
+# 
+#   local filter_hide = function(fs_entry)
+#     return not vim.startswith(fs_entry.name, '.')
+#   end
+# 
+#   local toggle_dotfiles = function()
+#     show_dotfiles = not show_dotfiles
+#     local new_filter = show_dotfiles and filter_show or filter_hide
+#     MiniFiles.refresh({ content = { filter = new_filter } })
+#   end
+# 
+#   vim.api.nvim_create_autocmd('User', {
+#     pattern = 'MiniFilesBufferCreate',
+#     callback = function(args)
+#       local buf_id = args.data.buf_id
+#       -- Tweak left-hand side of mapping to your liking
+#       vim.keymap.set('n', 'g.', toggle_dotfiles, { buffer = buf_id })
+#     end,
+#   })

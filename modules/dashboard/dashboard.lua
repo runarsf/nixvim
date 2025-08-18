@@ -1,4 +1,39 @@
-function RunCommand(command)
+local M = {}
+
+M.get_random_quote = function()
+	local quotes = require("utils.quotes")
+	print(quotes)
+	local selected = quotes[math.random(#quotes)]
+	local quote = type(selected) == "table" and selected[1] or selected
+	---@diagnostic disable-next-line: undefined-field
+	local author = type(selected) == "table" and selected[2] or nil
+
+	if not author then
+		return quote
+	end
+
+	-- Calculate padding for right-aligned author
+	local quote_lines = vim.split(quote, "\n")
+	local max_width = 0
+
+	-- Find the width of the longest line in the quote
+	for _, line in ipairs(quote_lines) do
+		local line_width = vim.fn.strdisplaywidth(line)
+		if line_width > max_width then
+			max_width = line_width
+		end
+	end
+
+	-- Format author line with padding to align with the longest quote line
+	local author_line = "— " .. author
+	local author_width = vim.fn.strdisplaywidth(author_line)
+	local padding_needed = math.max(0, max_width - author_width)
+	local padded_author = string.rep(" ", padding_needed) .. author_line
+
+	return quote .. "\n" .. padded_author
+end
+
+M.run_command = function(command)
 	local handle = assert(io.popen(command, "r"))
 	local output = assert(handle:read("*a"))
 
@@ -7,21 +42,22 @@ function RunCommand(command)
 	return output:gsub("^(\n+)", ""):gsub("(\n+)$", "")
 end
 
-function RemoveAnsiCodes(str)
-	return RunCommand("printf '" .. str .. "' | ansi2txt")
+M.remove_ansi_codes = function(str)
+	return M.run_command("printf '" .. str .. "' | ansi2txt")
 end
 
-function GetAscii(xs)
+M.get_ascii = function(xs)
+	math.randomseed(os.time())
 	local ascii = xs[math.random(#xs)]
 	if type(ascii[1]) == "table" then
-		return GetAscii(ascii)
+		return M.get_ascii(ascii)
 	end
 	return ascii
 end
 
-function GetRandomAsciiArt()
+M.get_random_ascii_art = function()
 	local width = vim.api.nvim_win_get_width(0)
-	local height = vim.api.nvim_win_get_height(0)
+	-- local height = vim.api.nvim_win_get_height(0)
 
 	local max_width = width - 2 * 3
 	local dog_width = max_width - 16
@@ -51,10 +87,24 @@ function GetRandomAsciiArt()
 			[[o__,_||||||||||']],
 		},
 		{ -- Cat
-			[[ ／|_     ]],
-			[[(o o /    ]],
-			[[ |.   ~.  ]],
+			[[ ／|_      ]],
+			[[(o o /     ]],
+			[[ |.   ~.   ]],
 			[[ じしf_,)ノ]],
+		},
+		{ -- pb
+			[[                __     ]],
+			[[               /\/'-,  ]],
+			[[       ,--'''''   /"   ]],
+			[[ ____,'.  )       \___ ]],
+			[['"""""------'"""`-----']],
+		},
+		{
+			[[          __   ]],
+			[[ \ ______/ V`-,]],
+			[[  }        /~~ ]],
+			[[ /_)^ --,r'    ]],
+			[[|b      |b     ]],
 		},
 		{ -- Duck
 			[[   _  ]],
@@ -122,16 +172,11 @@ function GetRandomAsciiArt()
 			{ [[_____.______ <-- upside down amoeba]] },
 			{ [[_____!______ <-- amoeba with a chef's hat]] },
 			{ [[_____.|_____ <-- amoeba trying to climb a fence]] },
-			{ [[___.......__ <-- queue of amoebas]] },
+			{ [[___......___ <-- queue of amoebas]] },
 			{ [[_____*______ <-- amoeba with flower costume]] },
 			{ [[_____.z_____ <-- sleeping amoeba]] },
-			{ [[____________ <-- invisible amoeba]] },
-			{ [[_____o______ <-- bodybuilding amoeba]] },
-			{ [[_____O______ <-- bodybuilding amoeba on steroids]] },
 			{ [[____o.o_____ <-- amoeba with glasses]] },
-			{ [[____.-._____ <-- two amoebas carrying a log]] },
 			{ [[_____.>_____ <-- amoeba with a boomerang]] },
-			{ [[_____.-_____ <-- amoeba with a rifle]] },
 			{ [[_____$._____ <-- opulent amoeba]] },
 			{ [[_____.._____ <-- amoebas conversing]] },
 			{ [[_____.}_____ <-- amoeba with a bow and arrow]] },
@@ -139,10 +184,13 @@ function GetRandomAsciiArt()
 		},
 	}
 
-	return table.concat(GetAscii(ascii_banners), "\n")
+	return table.concat(M.get_ascii(ascii_banners), "\n")
 end
 
-function GetRandomPokemon(shiny_rate)
+-- FIXME: Sometimes the pokemon only partially renders.
+--        Pokemon rendering is disabled in get_banner_section for now.
+M.get_random_pokemon = function(shiny_rate)
+	math.randomseed(os.time())
 	local generate_shiny = math.random() < (shiny_rate or -1) --> use krabby's default if unset
 	local pokemon_command = "krabby random --no-title"
 
@@ -150,10 +198,10 @@ function GetRandomPokemon(shiny_rate)
 		pokemon_command = pokemon_command .. " --shiny"
 	end
 
-	return RunCommand(pokemon_command)
+	return M.run_command(pokemon_command)
 end
 
-function RenderTextBanner(banner)
+M.render_text_banner = function(banner)
 	return {
 		text = banner,
 		align = "center",
@@ -161,62 +209,32 @@ function RenderTextBanner(banner)
 	}
 end
 
-function RenderTerminalBanner(banner)
-	local utf8 = require("lua-utf8")
+M.rgb_to_hsv = function(r, g, b)
+	r, g, b = r / 255, g / 255, b / 255
+	local max, min = math.max(r, g, b), math.min(r, g, b)
+	local delta = max - min
+	local h, s, v = 0, 0, max
 
-	local lines = vim.split(banner, "\n")
-	local height = #lines
-	local width = 0
-
-	for _, line in ipairs(lines) do
-		local clean_line = RemoveAnsiCodes(line)
-		local line_length = utf8.len(clean_line)
-		if line_length > width then
-			width = line_length or 0
+	if delta > 0 then
+		s = delta / max
+		if max == r then
+			h = (g - b) / delta
+		elseif max == g then
+			h = 2 + (b - r) / delta
+		else
+			h = 4 + (r - g) / delta
 		end
+		h = (h * 60) % 360
 	end
 
-	local pimary = FindPrimaryColor(banner)
-	local r, g, b = pimary.r, pimary.g, pimary.b
-	local hex = string.format("#%02x%02x%02x", r, g, b)
-
-	vim.api.nvim_set_hl(0, "SnacksDashboardIcon", { fg = hex })
-
-	-- FIXME: https://github.com/folke/snacks.nvim/issues/1642
-	-- local renderer = "printf '" .. pokemon .. "'"
-	local renderer = table.concat({
-		"while IFS= read -r line; do",
-		"  pad_width=$(( ($(tput cols) - " .. width .. " ) / 2 ));",
-		"  indent=$(printf '%*s' $pad_width \"\");",
-		'  printf \'%s%s\\n\' "$indent" "$line";',
-		"done <<'EOF'",
-		banner,
-		"EOF",
-	}, "\n")
-
 	return {
-		section = "terminal",
-		cmd = renderer,
-		height = height,
-		padding = 2,
-
-		-- FIXME: https://github.com/folke/snacks.nvim/issues/1642
-		-- width = width,
-		-- align = "center",
+		h = h / 360,
+		s = s,
+		v = v,
 	}
 end
 
-function GetBannerSection()
-	math.randomseed(os.time())
-
-	if math.random() < 1 / 2 then
-		return RenderTerminalBanner(GetRandomPokemon(0.01))
-	else
-		return RenderTextBanner(GetRandomAsciiArt())
-	end
-end
-
-function FindPrimaryColor(str)
+M.find_primary_color = function(str)
 	local color_frequencies = {}
 
 	for code in str:gmatch("\27%[(.-)m") do
@@ -260,7 +278,7 @@ function FindPrimaryColor(str)
 
 			if luminance > 0.333 then
 				local normalized_frequency = frequency / total_pixels
-				local hsv = RgbToHsv(r, g, b)
+				local hsv = M.rgb_to_hsv(r, g, b)
 				local saturation = hsv.s
 
 				local frequency_weight = 0.75
@@ -287,27 +305,59 @@ function FindPrimaryColor(str)
 	return best_color.value
 end
 
-function RgbToHsv(r, g, b)
-	r, g, b = r / 255, g / 255, b / 255
-	local max, min = math.max(r, g, b), math.min(r, g, b)
-	local delta = max - min
-	local h, s, v = 0, 0, max
+M.render_terminal_banner = function(banner)
+	local utf8 = require("lua-utf8")
 
-	if delta > 0 then
-		s = delta / max
-		if max == r then
-			h = (g - b) / delta
-		elseif max == g then
-			h = 2 + (b - r) / delta
-		else
-			h = 4 + (r - g) / delta
+	local lines = vim.split(banner, "\n")
+	local height = #lines
+	local width = 0
+
+	for _, line in ipairs(lines) do
+		local clean_line = M.remove_ansi_codes(line)
+		local line_length = utf8.len(clean_line)
+		if line_length > width then
+			width = line_length or 0
 		end
-		h = (h * 60) % 360
 	end
 
+	local primary = M.find_primary_color(banner)
+	local r, g, b = primary.r, primary.g, primary.b
+	local hex = string.format("#%02x%02x%02x", r, g, b)
+
+	vim.api.nvim_set_hl(0, "SnacksDashboardIcon", { fg = hex })
+
+	-- FIXME: https://github.com/folke/snacks.nvim/issues/1642
+	-- local renderer = "printf '" .. pokemon .. "'"
+	local renderer = table.concat({
+		"while IFS= read -r line; do",
+		"  pad_width=$(( ($(tput cols) - " .. width .. " ) / 2 ));",
+		"  indent=$(printf '%*s' $pad_width \"\");",
+		'  printf \'%s%s\\n\' "$indent" "$line";',
+		"done <<'EOF'",
+		banner,
+		"EOF",
+	}, "\n")
+
 	return {
-		h = h / 360,
-		s = s,
-		v = v,
+		section = "terminal",
+		cmd = renderer,
+		height = height,
+		padding = 2,
+
+		-- FIXME: https://github.com/folke/snacks.nvim/issues/1642
+		-- width = width,
+		-- align = "center",
 	}
 end
+
+M.get_banner_section = function()
+	-- math.randomseed(os.time())
+
+	-- if math.random() < 0.5 then
+	-- 	return render_terminal_banner(get_random_pokemon(0.01))
+	-- else
+	return M.render_text_banner(M.get_random_ascii_art())
+	-- end
+end
+
+return M

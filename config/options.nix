@@ -7,6 +7,20 @@
 
   luaLoader.enable = true;
 
+  /*
+     performance = {
+    # Way too tedious to maintain
+    # combinePlugins.enable = true;
+
+    byteCompileLua = {
+      enable = true;
+      luaLib = true;
+      nvimRuntime = true;
+      plugins = true;
+    };
+  };
+  */
+
   clipboard = {
     register = "unnamedplus";
     providers = {
@@ -17,7 +31,29 @@
 
   extraPackages = with pkgs; [sqlite];
 
+  filetype = {
+    extension = {
+      vert = "glsl";
+      frag = "glsl";
+      comp = "glsl";
+      glsl = "glsl";
+      geom = "glsl";
+      jet = "cpp.jet";
+      j2 = "cpp.j2";
+    };
+  };
+
   opts = rec {
+    # Also handled by sleuth
+    shiftwidth = 2;
+    tabstop = builtins.floor (shiftwidth * 1.5);
+    softtabstop = 0;
+    shiftround = true;
+    smartindent = true;
+    autoindent = true;
+    smarttab = true;
+    expandtab = true;
+
     number = true;
     relativenumber = true;
     list = true;
@@ -29,6 +65,11 @@
       extends = "»";
     };
     fillchars = {
+      foldopen = "";
+      foldclose = "";
+      fold = " ";
+      foldsep = " ";
+      diff = "╱";
       eob = " ";
       lastline = " ";
     };
@@ -55,28 +96,22 @@
     wrap = false;
     linebreak = true;
     breakindent = true;
-
-    # Also handled by sleuth
-    shiftwidth = 2;
-    tabstop = builtins.floor (shiftwidth * 1.5);
-    softtabstop = 0;
-    shiftround = true;
-    smartindent = true;
-    autoindent = true;
-    smarttab = true;
-    expandtab = true;
   };
 
   # Disable some builtin plugins
-  globals = {
-    loaded_tutor_mode_plugin = 1;
-    loaded_netrw = 1;
-    loaded_netrwPlugin = 1;
-    loaded_netrwSettings = 1;
-    loaded_netrwFileHandlers = 1;
-  };
-
-  extraConfigLuaPre = builtins.readFile ./utils.lua;
+  globals = lib.fill 1 [
+    "loaded_gzip"
+    "loaded_netrw"
+    "loaded_matchit"
+    "loaded_tarPlugin"
+    "loaded_zipPlugin"
+    "loaded_matchparen"
+    "loaded_netrwPlugin"
+    "loaded_2html_plugin"
+    "loaded_netrwSettings"
+    "loaded_tutor_mode_plugin"
+    "loaded_netrwFileHandlers"
+  ];
 
   extraConfigVim = ''
     " Faster keyword completion

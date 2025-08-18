@@ -1,6 +1,14 @@
 {lib, ...}: {
   options = {
-    modules.colorschemes.all.enable = lib.mkEnableOption "all configured colorschemes";
-    modules.colorschemes.transparent = lib.mkEnableOption "transparent colorscheme background";
+    modules.colorschemes = {
+      selected = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        example = "ayu";
+        description = "The colorscheme to use.";
+      };
+
+      transparent = lib.mkEnableOption "transparent colorscheme background";
+    };
   };
 }

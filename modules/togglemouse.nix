@@ -9,13 +9,9 @@ lib.mkModule config "togglemouse" {
     vim-togglemouse
   ];
 
-  opts.mouse = "";
+  opts.mouse = "a";
 
-  keymaps = [
-    {
-      key = "<Leader>mm";
-      action = "<Plug>ToggleMouse";
-      options.desc = "Toggle mouse";
-    }
+  keymaps = with lib.utils.keymaps; [
+    (mkKeymap' "<Leader>mm" "<Plug>ToggleMouse" "Toggle mouse")
   ];
 }

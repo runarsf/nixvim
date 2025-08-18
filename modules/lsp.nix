@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  helpers,
   ...
 }:
 lib.mkModule config "lsp" {
@@ -9,56 +10,47 @@ lib.mkModule config "lsp" {
     inlayHints = true;
   };
 
-  keymaps = [
-    {
-      key = "<C-.>";
-      action = "<CMD>lua vim.lsp.buf.code_action()<CR>";
-      mode = [
-        "i"
-        "n"
-      ];
-      options.desc = "(lsp) Code actions";
-    }
-    {
-      key = "<C-.>";
-      action = "<CMD>lua vim.lsp.buf.range_code_action()<CR>";
-      mode = ["x"];
-      options.desc = "(lsp) Code actions";
-    }
-    {
-      key = "gd";
-      action = "<CMD>lua vim.lsp.buf.definition()<CR>";
-      mode = ["n"];
-      options.desc = "(lsp) Go to definition";
-    }
-    {
-      key = "gD";
-      action = "<CMD>lua vim.lsp.buf.declaration()<CR>";
-      mode = ["n"];
-      options.desc = "(lsp) Go to declaration";
-    }
-    {
-      key = "gr";
-      action = "<CMD>lua vim.lsp.buf.references()<CR>";
-      mode = ["n"];
-      options.desc = "(lsp) Go to references";
-    }
-    {
-      key = "K";
-      action = "<CMD>lua vim.lsp.buf.hover()<CR>";
-      mode = ["n"];
-      options.desc = "(lsp) Hover";
-    }
-    {
-      key = "<Leader>R";
-      action = "<CMD>lua vim.lsp.buf.rename()<CR>";
-      mode = ["n"];
-      options.desc = "(lsp) Rename";
-    }
-    {
-      key = "<Leader>h";
-      action = "<CMD>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>";
-      options.desc = "(lsp) Toggle inlay hints";
-    }
+  # TODO: Consistent maps with groups (see lazyvim) https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+  keymaps = with lib.utils.keymaps; [
+    (mkKeymap ["i" "n"] "<C-." (helpers.mkRaw ''
+      function()
+        vim.lsp.buf.code_action()
+      end
+    '') "Code Action")
+    (mkKeymap ["x"] "<C-." (helpers.mkRaw ''
+      function()
+        vim.lsp.buf.range_code_action()
+      end
+    '') "Code Action")
+    (mkKeymap ["n"] "gd" (helpers.mkRaw ''
+      function()
+        vim.lsp.buf.definition()
+      end
+    '') "Go to definition")
+    (mkKeymap ["n"] "gD" (helpers.mkRaw ''
+      function()
+        vim.lsp.buf.declaration()
+      end
+    '') "Go to declaration")
+    (mkKeymap ["n"] "gr" (helpers.mkRaw ''
+      function()
+        vim.lsp.buf.references()
+      end
+    '') "Go to references")
+    (mkKeymap ["n"] "K" (helpers.mkRaw ''
+      function()
+        vim.lsp.buf.hover()
+      end
+    '') "Hover")
+    (mkKeymap ["n"] "<Leader>R" (helpers.mkRaw ''
+      function()
+        vim.lsp.buf.rename()
+      end
+    '') "Rename")
+    (mkKeymap ["n"] "<Leader>h" (helpers.mkRaw ''
+      function()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+      end
+    '') "Toggle inlay hints")
   ];
 }

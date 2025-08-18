@@ -14,7 +14,7 @@ lib.mkModule config "obsidian" {
     obsidian = {
       enable = true;
       settings = {
-        picker.name = "telescope.nvim";
+        picker.name = lib.mkIf config.modules.telescope.enable "telescope.nvim";
         workspaces = [
           {
             name = "Notes";

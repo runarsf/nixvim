@@ -2,18 +2,38 @@
   config,
   lib,
   pkgs,
+  helpers,
   ...
 }:
 lib.mkModule config "lualine" {
+  performance.combinePlugins.standalonePlugins = ["lualine.nvim"];
+
+  utils = [
+    {
+      "lualine" =
+        # lua
+        ''
+          local M = {}
+
+          M.BufferLanguageColor = function()
+            local filename = vim.fn.expand("%:t")
+            local _, color = require("nvim-web-devicons").get_icon_color(filename)
+            return color
+          end
+
+          return M
+        '';
+    }
+  ];
+
   plugins.lualine = {
     enable = true;
-    package = pkgs.master.vimPlugins.lualine-nvim;
     settings = {
       extensions = [
         "trouble"
         "toggleterm"
-        "symbols-outline"
         "nvim-dap-ui"
+        "symbols-outline"
       ];
       sections = {
         lualine_a = [
@@ -45,21 +65,109 @@ lib.mkModule config "lualine" {
           "diff"
         ];
         lualine_c = [
-          "filename"
+          {
+            __unkeyed = "filename";
+            path = 1;
+            symbols = {
+              modified = "•";
+              readonly = "󰏯 ";
+              unnamed = "Unnamed";
+              newfile = "New file";
+            };
+            cond =
+              helpers.mkRaw
+              # lua
+              ''
+                function()
+                  local ignored_filename_patterns = {
+                    "^$",
+                    "^neo%-tree filesystem %[%d+%]$",
+                    "#toggleterm#%d+",
+                    "^dap-view%:%/%/.*",
+                    "^%[dap%-repl%-%d+%]$",
+                  }
+
+                  local filename = vim.fn.expand("%:t")
+
+                  for _, pattern in ipairs(ignored_filename_patterns) do
+                    if string.find(filename, pattern) then
+                      return false
+                    end
+                  end
+
+                  return true
+                end
+              '';
+          }
         ];
         lualine_x = [
           {
             __unkeyed = "lsp_status";
-            # FIXME remove otter ls with a format function
-            ignore_lsp = [
-              "otter-ls"
-              "copilot"
-            ];
+            ignore_lsp = ["copilot"];
+            icon = {
+              __unkeyed = "󰗊";
+              # TODO: lualine doesn't update this color on refresh, it only runs once
+              color.fg =
+                helpers.mkRaw
+                # lua
+                "require('utils.lualine').BufferLanguageColor()";
+            };
+            symbols.done = "";
+            fmt =
+              # lua
+              ''
+                function(lsp_status)
+                  local ignored = {
+                    "emmet_language_server",
+                  }
+
+                  local seen = {}
+                  local unique = {}
+
+                  for ls in lsp_status:gmatch("%S+") do
+                    if not seen[ls] and not vim.tbl_contains(ignored, ls) then
+                      table.insert(unique, ls)
+                      seen[ls] = true
+                    end
+                  end
+
+                  lsp_status = table.concat(unique, " ")
+
+                  -- otter-ls has stuff after it, so i can't use ignore_lsp
+                  return lsp_status:gsub("otter%-ls%[.+%]", ""):gsub("%s+$", "")
+                end
+              '';
           }
-          "StatusPaste()"
-          "StatusMouse()"
+          ''
+            if vim.o.paste then return "P" else return "" end
+          ''
+          ''
+            if #vim.o.mouse > 0 then return "M" else return "" end
+          ''
           "encoding"
-          "filetype"
+          {
+            __unkeyed = "filetype";
+            cond =
+              helpers.mkRaw
+              # lua
+              ''
+                function()
+                  local ignored_filetypes = {
+                    "neo-tree",
+                    "TelescopePrompt",
+                    "TelescopeResults",
+                    "toggleterm",
+                    "dap-repl",
+                    "trouble",
+                    "dap-view",
+                    "neo-tree-popup",
+                    "snacks_dashboard",
+                  }
+
+                  return not vim.tbl_contains(ignored_filetypes, vim.bo.filetype)
+                end
+              '';
+          }
         ];
         lualine_y = [
           "selectioncount"
@@ -85,19 +193,5 @@ lib.mkModule config "lualine" {
         right = "";
       };
     };
-
-    luaConfig.pre =
-      # lua
-      ''
-        function StatusMouse()
-          if #vim.o.mouse > 0 then return "M" else return "" end
-        end
-        function StatusPaste()
-          if vim.o.paste then return "P" else return "" end
-        end
-        function Noop()
-          return ""
-        end
-      '';
   };
 }

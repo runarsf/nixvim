@@ -9,16 +9,8 @@ lib.mkModule config "hop" {
     settings.keys = "etovxqpdygfblzhckisuran";
   };
 
-  keymaps = [
-    {
-      key = "f";
-      action = "<CMD>HopPattern<CR>";
-      options.desc = "Hop (pattern)";
-    }
-    {
-      key = "F";
-      action = "<CMD>HopAnywhere<CR>";
-      options.desc = "Hop";
-    }
+  keymaps = with lib.utils.keymaps; [
+    (mkKeymap' "f" "<CMD>HopPattern<CR>" "Hop (pattern)")
+    (mkKeymap' "F" "<CMD>HopAnywhere<CR>" "Hop")
   ];
 }

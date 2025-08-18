@@ -1,60 +1,64 @@
 {
+  inputs,
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 lib.utils.mkLanguageModule config "nix" {
   plugins = {
-    lsp.servers.nixd = {
-      enable = true;
-      settings = let
-        flakeExpr =
-          # nix
-          ''(builtins.getFlake "${inputs.self}")'';
-        systemExpr =
-          # nix
-          ''''${builtins.currentSystem}'';
-      in {
-        formatting.command = ["nix fmt"];
+    hmts.enable = true;
 
-        nixpkgs.expr =
-          # nix
-          "import ${flakeExpr}.inputs.nixpkgs { system = ${systemExpr}; }";
-
-        options = {
-          nixvim.expr =
+    lsp.servers = {
+      statix.enable = true;
+      nixd = {
+        enable = true;
+        settings = let
+          flakeExpr =
             # nix
-            "${flakeExpr}.packages.${systemExpr}.nvim.options";
+            ''(builtins.getFlake "${inputs.self}")'';
+          systemExpr =
+            # nix
+            ''''${builtins.currentSystem}'';
+        in {
+          formatting.command = ["nix fmt"];
+
+          nixpkgs.expr =
+            # nix
+            "import ${flakeExpr}.inputs.nixpkgs { system = ${systemExpr}; }";
+
+          options = {
+            nixvim.expr =
+              # nix
+              "${flakeExpr}.packages.${systemExpr}.nvim.options";
+
+            # TODO: make nixvim not rely on my dotfiles for these options
+
+            nixos.expr =
+              # nix
+              "${flakeExpr}.inputs.dotfiles.nixosConfigurations.runix.options";
+
+            home-manager.expr =
+              # nix
+              "${flakeExpr}.inputs.dotfiles.homeConfigurations.runar.options";
+          };
         };
       };
     };
 
     lint = {
-      lintersByFt.nix = [
-        "statix"
-        "deadnix"
-      ];
+      lintersByFt.nix = ["deadnix"];
+
+      linters.deadnix.cmd = lib.getExe pkgs.deadnix;
     };
 
     conform-nvim.settings = {
-      formatters_by_ft.nix = ["nixfmt"];
-      # formatters_by_ft.nix = {
-      #   # TODO Remove nixfmt when alejandra supports pipe operator: https://github.com/kamadorueda/alejandra/issues/436
-      #   __unkeyed-1 = "alejandra";
-      #   __unkeyed-2 = "nixfmt";
-      #   stop_after_first = true;
-      # };
+      formatters_by_ft.nix = ["alejandra"];
 
-      formatters = {
-        nixfmt.command = lib.getExe pkgs.nixfmt-rfc-style;
-        alejandra = {
-          command = lib.getExe pkgs.alejandra;
-        };
+      formatters.alejandra = {
+        command = lib.getExe pkgs.alejandra;
+        args = ["--quiet" "-"];
       };
     };
-
-    hmts.enable = true;
   };
 }

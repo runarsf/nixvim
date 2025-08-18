@@ -3,7 +3,7 @@
   config,
   ...
 }:
-lib.mkModule config "linter" {
+lib.mkModule config "linting" {
   plugins.lint = {
     enable = true;
 

@@ -10,11 +10,7 @@ lib.mkModule config "zen" {
     twilight.settings.context = 6;
   };
 
-  keymaps = [
-    {
-      key = "<Leader>z";
-      action = "<CMD>ZenMode<CR>";
-      mode = "n";
-    }
+  keymaps = with lib.utils.keymaps; [
+    (mkKeymap' "<Leader>z" "<CMD>ZenMode<CR>" "Zen mode")
   ];
 }

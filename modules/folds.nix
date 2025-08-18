@@ -6,16 +6,6 @@
 }:
 # TODO https://github.com/OXY2DEV/foldtext.nvim
 lib.mkModule config "folds" {
-  extraConfigVim = lib.concatStringsSep "\n" [(builtins.readFile ./folds.vim)];
-
-  keymaps = [
-    {
-      key = "zF";
-      action = "<CMD>call AutoFold()<CR>";
-      options.desc = "Toggle auto fold";
-    }
-  ];
-
   extraPlugins = with pkgs.vimPlugins; [
     {
       plugin = pretty-fold;

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  helpers,
   ...
 }:
 lib.mkModule config "which-key" {
@@ -18,12 +19,11 @@ lib.mkModule config "which-key" {
     };
   };
 
-  keymaps = [
-    {
-      key = "<LocalLeader>";
-      action = ''<CMD>lua require('which-key').show()<CR>'';
-      mode = ["n"];
-      options.desc = "Show which-key";
-    }
+  keymaps = with lib.utils.keymaps; [
+    (mkKeymap' "<LocalLeader>" (helpers.mkRaw ''
+      function()
+        require('which-key').show()
+      end
+    '') "Show which-key")
   ];
 }

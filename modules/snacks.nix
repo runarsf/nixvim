@@ -1,14 +1,12 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 lib.mkModule config "snacks" {
   plugins = {
     snacks = {
       enable = true;
-      package = pkgs.master.vimPlugins.snacks-nvim;
       autoLoad = true;
       lazyLoad.enable = false;
       settings = {
@@ -16,19 +14,7 @@ lib.mkModule config "snacks" {
         bigfile.enabled = true;
         bufdelete.enabled = true;
         picker.sources.explorer.auto_close = true;
-        image.enabled = true;
-        # indent = let
-        #   char = "▏";
-        # in {
-        #   enabled = true;
-        #   animate.enabled = false;
-        #   indent.char = char;
-        #   scope.char = char;
-        # };
-        input.enabled = true;
-        picker.enabled = true;
         quickfile.enabled = true;
-        words.enabled = true;
       };
     };
   };

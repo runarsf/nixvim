@@ -5,28 +5,41 @@
   pkgs,
   ...
 }:
+# FIXME: When "opening vim -> C-p -> open a file -> ,q", why does it not exit but open an empty buffer?
 lib.mkModule config "dashboard" {
   modules.snacks.enable = true;
+  # TODO: Why does this lead to infinitely recursion?
+  # lib.trivial.warnIf (!config.modules.snacks.enable)
+  # "implicitly enabling snacks because dashboard.enable is set, please explicitly enable snacks"
+  # true;
+
+  utils = [
+    ./dashboard.lua
+    {
+      "quotes" = lib.print ''
+        return ${lib.generators.toLua { } (import ./quotes.nix).quotes}
+      '';
+    }
+  ];
 
   plugins = {
-    lazy.enable = true;
+    # lazy.enable = true;
 
     snacks.settings.dashboard = {
       enabled = true;
       width = 64;
 
       sections = [
-        (
-          helpers.mkRaw "GetBannerSection()"
-        )
+        (helpers.mkRaw "require('utils.dashboard').get_banner_section()")
         {
+          # FIXME: pressing esc in telescope menus should exit immediately and not just leave insert mode
           section = "keys";
           gap = 1;
           padding = 2;
         }
         {
           text = {
-            __unkeyed = helpers.mkRaw ''Quotes[math.random(#Quotes)]'';
+            __unkeyed = helpers.mkRaw ''require('utils.dashboard').get_random_quote()'';
             hl = "Comment";
           };
           align = "center";
@@ -40,44 +53,68 @@ lib.mkModule config "dashboard" {
               icon = "";
               key = "i";
               desc = "Start writing";
-              action = "<CMD>enew | startinsert<CR>";
+              action = "<cmd>enew | startinsert<cr>";
             }
           ]
           ++ lib.optionals config.modules.telescope.enable [
             {
               icon = "";
-              key = "p";
-              desc = "Open";
-              action = "<CMD>lua Snacks.dashboard.pick('files')<CR>";
+              key = "f";
+              desc = "Find files";
+              action =
+                helpers.mkRaw
+                  # lua
+                  ''
+                    function()
+                      require('search').open({ tab_name = 'Files' })
+                    end
+                  '';
             }
             {
               icon = "󱎸";
-              key = "/";
-              desc = "Find";
-              action = "<CMD>lua Snacks.dashboard.pick('live_grep')<CR>";
-            }
-            {
-              icon = "";
-              key = "r";
-              desc = "Recents";
-              action = ":lua Snacks.dashboard.pick('oldfiles')";
-            }
-          ]
-          ++ lib.optionals (config.modules.mini.enable
-            && lib.attrs.hasAttrPath ["plugins" "mini" "modules" "files"] config) [
-            {
-              icon = "";
-              key = "e";
-              desc = "Explorer";
-              action = "<CMD>lua MiniFiles.open()<CR>";
+              key = "s";
+              desc = "Grep files";
+              action =
+                helpers.mkRaw
+                  # lua
+                  ''
+                    function()
+                      require('search').open({ tab_name = 'Grep' })
+                    end
+                  '';
             }
           ]
-          ++ lib.optionals config.modules.toggleterm.enable [
+          ++
+            lib.optionals
+              (config.modules.mini.enable && lib.attrs.hasAttrPath [ "plugins" "mini" "modules" "files" ] config)
+              [
+                {
+                  icon = "";
+                  key = "e";
+                  desc = "Explorer";
+                  action =
+                    helpers.mkRaw
+                      # lua
+                      ''
+                        function()
+                          require('mini.files').open()
+                        end
+                      '';
+                }
+              ]
+          ++ lib.optionals config.modules.terminal.enable [
             {
               icon = "";
               key = "g";
               desc = "Git";
-              action = "<CMD>lua GituiToggle()<CR>";
+              action =
+                helpers.mkRaw
+                  # lua
+                  ''
+                    function()
+                      require('gitui').toggle()
+                    end
+                  '';
             }
           ]
           ++ [
@@ -85,7 +122,14 @@ lib.mkModule config "dashboard" {
               icon = "";
               key = "q";
               desc = "Quit";
-              action = "<CMD>q<CR>";
+              action =
+                helpers.mkRaw
+                  # lua
+                  ''
+                    function()
+                      vim.cmd.quit()
+                    end
+                  '';
             }
           ];
       };
@@ -99,19 +143,17 @@ lib.mkModule config "dashboard" {
       event = "BufNew";
       callback =
         helpers.mkRaw
-        # lua
-        ''
-          function()
-            vim.g.minitrailspace_disable = false
-          end
-        '';
+          # lua
+          ''
+            function()
+              vim.g.minitrailspace_disable = false
+            end
+          '';
     }
   ];
 
-  extraConfigLuaPre = lib.concatStringsSep "\n" [(builtins.readFile ./quotes.lua) (builtins.readFile ./dashboard.lua)];
-
-  extraLuaPackages = rocks:
-    with rocks; [
+  extraLuaPackages =
+    rocks: with rocks; [
       luautf8
     ];
 

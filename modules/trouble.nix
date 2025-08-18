@@ -12,11 +12,7 @@ lib.mkModule config "trouble" {
     };
   };
 
-  keymaps = [
-    {
-      key = "<Leader>t";
-      action = "<CMD>Trouble diagnostics<CR>";
-      options.desc = "Toggle diagnostics";
-    }
+  keymaps = with lib.utils.keymaps; [
+    (mkKeymap' "<Leader>t" "<CMD>Trouble diagnostics<CR>" "Toggle diagnostics")
   ];
 }

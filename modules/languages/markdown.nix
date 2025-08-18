@@ -4,6 +4,8 @@
   ...
 }:
 lib.utils.mkLanguageModule config "markdown" {
+  performance.combinePlugins.standalonePlugins = ["markview" "helpview"];
+
   plugins = {
     lsp.servers = {
       marksman.enable = true;
@@ -27,12 +29,8 @@ lib.utils.mkLanguageModule config "markdown" {
     helpview.enable = true;
   };
 
-  keymaps = [
-    {
-      key = "<Leader>md";
-      action = "<CMD>Glow<CR>";
-      options.desc = "Preview markdown";
-    }
+  keymaps = with lib.utils.keymaps; [
+    (mkKeymap' "<Leader>md" "<CMD>Glow<CR>" "Preview markdown")
   ];
 
   files."ftplugin/markdown.lua" = {

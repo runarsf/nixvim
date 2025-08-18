@@ -4,7 +4,7 @@
   helpers,
   ...
 }:
-lib.mkModule' config ["colorschemes" "vscode"] config.modules.colorschemes.all.enable {
+lib.utils.mkColorschemeModule config "vscode" {
   colorschemes.vscode = {
     enable = true;
 

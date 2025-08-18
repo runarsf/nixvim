@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  helpers,
   ...
 }:
 lib.mkModule config "outline" {
@@ -10,7 +11,11 @@ lib.mkModule config "outline" {
       plugin = aerial-nvim;
       config = lib.utils.viml.fromLua ''
         require("aerial").setup();
-        require("telescope").load_extension("aerial")
+
+        local ok, telescope = pcall(require, "telescope")
+        if ok then
+          telescope.load_extension("aerial")
+        end
       '';
     }
     {
@@ -32,26 +37,13 @@ lib.mkModule config "outline" {
     };
   };
 
-  keymaps = [
-    {
-      key = "<Leader>ss";
-      options.desc = "Open Namu";
-      mode = ["n"];
-      action = ''<CMD>lua require("namu.namu_symbols").show()<CR>'';
-      # options.silent = true;
-      # action = '':try | execute 'lua require("namu.namu_symbols").show' | catch | try | execute 'Navbuddy' | catch | execute 'Telescope aerial' | endtry | endtry<CR>'';
-    }
-    {
-      key = "<Leader>sn";
-      options.desc = "Open Navbuddy";
-      mode = ["n"];
-      action = ''<CMD>Navbuddy<CR>'';
-    }
-    {
-      key = "<Leader>sa";
-      options.desc = "Open Aerial";
-      mode = ["n"];
-      action = ''<CMD>Telescope aerial<CR>'';
-    }
+  keymaps = with lib.utils.keymaps; [
+    (mkKeymap' "<Leader>ss" (helpers.mkRaw ''
+      function()
+        require("namu.namu_symbols").show()
+      end
+    '') "Open Namu")
+    (mkKeymap' "<Leader>sn" "<CMD>Navbuddy<CR>" "Open Navbuddy")
+    (mkKeymap' "<Leader>sa" "<CMD>Telescope aerial<CR>" "Open Aerial")
   ];
 }

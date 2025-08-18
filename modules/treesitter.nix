@@ -4,11 +4,15 @@
   ...
 }:
 lib.mkModule config "treesitter" {
+  performance.combinePlugins.standalonePlugins = ["nvim-treesitter"];
+
   extraConfigLuaPost = ''
     -- Prevent LSP from overwriting treesitter color settings
     -- https://github.com/NvChad/NvChad/issues/1907
     vim.highlight.priorities.semantic_tokens = 95
   '';
+
+  # TODO dropbar
 
   plugins = {
     treesitter = {

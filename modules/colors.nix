@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  helpers,
   ...
 }:
 lib.mkModule config "colors" {
@@ -14,17 +15,17 @@ lib.mkModule config "colors" {
     };
   };
 
-  keymaps = [
-    {
-      key = "<Leader>c";
-      action = "<CMD>lua require('minty.huefy').open( { border = true } )<CR>";
-      options.desc = "Color picker";
-    }
-  ];
+  # keymaps = with lib.utils.keymaps; [
+  #   (mkKeymap' "<Leader>c" (helpers.mkRaw ''
+  #     function()
+  #       require('minty.huefy').open( { border = true } )
+  #     end
+  #   '') "Color picker")
+  # ];
 
-  extraPlugins = with pkgs.vimPlugins; [
-    nvchad-volt
-    nvchad-menu
-    nvchad-minty
-  ];
+  # extraPlugins = with pkgs.vimPlugins; [
+  #   nvchad-volt
+  #   nvchad-menu
+  #   nvchad-minty
+  # ];
 }

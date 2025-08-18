@@ -31,7 +31,9 @@ lib.utils.mkLanguageModule config "typst" {
   extraPlugins = with pkgs.vimPlugins; [
     {
       plugin = typst-preview;
-      config = lib.utils.viml.fromLua ''require("typst-preview").setup()'';
+      config = lib.utils.viml.fromLua ''
+        require("typst-preview").setup()
+      '';
     }
   ];
 

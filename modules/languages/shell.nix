@@ -4,6 +4,9 @@
   pkgs,
   ...
 }:
+
+# TODO https://github.com/kaplanelad/shellfirm
+
 lib.utils.mkLanguageModule config "shell" {
   plugins = {
     lsp.servers = {

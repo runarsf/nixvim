@@ -4,7 +4,7 @@
   pkgs,
   ...
 }:
-lib.mkModule' config ["colorschemes" "sequoia"] config.modules.colorschemes.all.enable {
+lib.utils.mkColorschemeModule config "sequoia" {
   colorscheme = "sequoia";
 
   extraPlugins = with pkgs.vimPlugins; [sequoia-moonlight-nvim];

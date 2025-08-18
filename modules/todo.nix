@@ -32,11 +32,7 @@ lib.mkModule config "todo" {
     };
   };
 
-  keymaps = [
-    {
-      key = "<Leader>T";
-      action = "<CMD>Trouble todo<CR>";
-      options.desc = "Show TODOs";
-    }
+  keymaps = with lib.utils.keymaps; [
+    (mkKeymap' "<Leader>T" "<CMD>Trouble todo<CR>" "Show TODOs")
   ];
 }
