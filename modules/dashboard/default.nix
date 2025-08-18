@@ -16,7 +16,7 @@ lib.mkModule config "dashboard" {
   utils = [
     ./dashboard.lua
     {
-      "quotes" = lib.print ''
+      "quotes" = ''
         return ${lib.generators.toLua { } (import ./quotes.nix).quotes}
       '';
     }
