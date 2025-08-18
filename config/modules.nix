@@ -1,35 +1,60 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }: {
-  # TODO https://github.com/chrisgrieser/nvim-origami
-  # TODO https://www.reddit.com/r/neovim/comments/1d5ub7d/lazydevnvim_much_faster_luals_setup_for_neovim/
-  # TODO https://github.com/altermo/ultimate-autopair.nvim
-  # TODO https://github.com/Tyler-Barham/floating-help.nvim
-  # TODO https://github.com/tris203/precognition.nvim
-  # TODO https://github.com/mvllow/modes.nvim
-  # TODO jupytext or molten
-  # TODO smaller notification, fidget for messages?
-  # TODO snacks dashboard
-
   options = {
-    # TODO This does not belong here
-    modules.languages.all.enable = lib.mkEnableOption "enable all languages";
+    utils = lib.mkOption rec {
+      type = lib.types.listOf <| lib.types.either lib.types.path <| lib.types.attrsOf lib.types.str;
+      default = lib.filesystem.concatPaths {
+        paths = [../utils];
+        suffix = ".lua";
+        filterDefault = false;
+      };
+      description = "List of lua files or attribute sets with inline lua code to be added to the lua/utils directory";
+      apply = paths: default ++ paths;
+    };
   };
 
   config = {
+    # TODO: Merge files/strings with same name
+    #  Might need to add local M = {} to the top of the file and return M at end
+    extraFiles = let
+      attrUtils = builtins.filter builtins.isAttrs config.utils;
+      pathUtils = builtins.filter builtins.isPath config.utils;
+
+      attrFiles =
+        builtins.concatLists
+        <| builtins.map (
+          util:
+            builtins.map (name: {
+              name = "lua/utils/${name}.lua";
+              value = {text = builtins.getAttr name util;};
+            })
+            <| builtins.attrNames util
+        )
+        attrUtils;
+
+      pathFiles =
+        builtins.map (util: {
+          name = "lua/utils/${builtins.baseNameOf (toString util)}";
+          value = {source = util;};
+        })
+        pathUtils;
+    in
+      builtins.listToAttrs <| attrFiles ++ pathFiles;
+
     modules =
       lib.enable [
         "lsp"
-        "cmp"
-        "formatter"
-        "linter"
-        "debugger"
+        "completions"
+        "formatting"
+        "linting"
+        "debugging"
         "treesitter"
         "otter"
         "telescope"
-        "virt-column"
         "pets"
         "gremlins"
         "mini"
@@ -39,7 +64,7 @@
         "outline"
         "hop"
         "togglemouse"
-        "toggleterm"
+        "terminal"
         "trouble"
         "colors"
         "folds"
@@ -48,17 +73,17 @@
         "zen"
         "dashboard"
         "which-key"
-        "indents"
         "smart-splits"
-        [
-          "languages"
-          "all"
-        ]
+        "editing"
       ]
       // {
         colorschemes = {
-          ayu.enable = true;
+          selected = "ayu";
           transparent = true;
+        };
+        languages = {
+          all.enable = true;
+          http.enable = false;
         };
       };
 
@@ -68,6 +93,8 @@
       "neocord"
       "gitsigns"
       "intellitab"
+      "git-conflict"
+      "fugitive"
       # "barbecue"
       # "marks"
       # "improved-search"
@@ -78,7 +105,7 @@
 
     extraPlugins = with pkgs.vimPlugins; [
       openingh-nvim
-      longlines
+      nvim-nio
       # codi-vim
       # lens-vim
       # {
@@ -111,7 +138,9 @@
       /*
          {
         plugin = hologram-nvim;
-        config = lib.utils.viml.fromLua ''require("hologram").setup({})'';
+        config = lib.utils.viml.fromLua ''
+          require("hologram").setup({})
+        '';
       }
       */
       /*
@@ -137,5 +166,10 @@
       }
       */
     ];
+
+    extraLuaPackages = rocks:
+      with rocks; [
+        nvim-nio
+      ];
   };
 }
