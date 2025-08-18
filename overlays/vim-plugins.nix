@@ -33,17 +33,6 @@ _: _: super: {
         };
       };
 
-      indentmini = super.vimUtils.buildVimPlugin {
-        name = "indentmini.nvim";
-        src = super.fetchFromGitHub {
-          owner = "nvimdev";
-          repo = "indentmini.nvim";
-          rev = "59c2be5387e3a3308bb43f07e7e39fde0628bd4d";
-          sha256 = "1a2bakxvsdz1qn0sp5y8kd3xkczhxbag1jph2n44r57ghaa4zls6";
-        };
-        doCheck = false;
-      };
-
       vim-togglemouse = super.vimUtils.buildVimPlugin {
         name = "vim-togglemouse";
         src = super.fetchFromGitHub {
@@ -100,8 +89,8 @@ _: _: super: {
         src = super.fetchFromGitHub {
           owner = "mirlge";
           repo = "kak.nvim";
-          rev = "d4d55034232209d1476902ea004c48e01e06aa2a";
-          hash = "sha256-KkF6eh3LMOTDE87x/YB3E8pCNAptxgRkJ2v2e19gGEU=";
+          rev = "b9a7cc37dfd02084087540ba8a1cdb174716b31f";
+          hash = "sha256-T7fP6MZfpNqVwwvWcghqJ4hXpTOCNDIYgAVoNOvqyXA=";
         };
         doCheck = false;
       };
