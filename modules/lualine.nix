@@ -138,12 +138,16 @@ lib.mkModule config "lualine" {
                 end
               '';
           }
-          ''
-            if vim.o.paste then return "P" else return "" end
-          ''
-          ''
-            if #vim.o.mouse > 0 then return "M" else return "" end
-          ''
+          (helpers.mkRaw ''
+            function()
+              if vim.o.paste then return "P" else return "" end
+            end
+          '')
+          # (helpers.mkRaw ''
+          #   function()
+          #     if #vim.o.mouse > 0 then return "M" else return "" end
+          #   end
+          # '')
           "encoding"
           {
             __unkeyed = "filetype";
@@ -172,6 +176,15 @@ lib.mkModule config "lualine" {
         lualine_y = [
           "selectioncount"
           "searchcount"
+        ];
+        lualine_z = [
+          {
+            __unkeyed = "location";
+            padding = {
+              left = 0;
+              right = 1;
+            };
+          }
         ];
       };
       options = {
