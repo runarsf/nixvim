@@ -28,19 +28,19 @@ lib.utils.mkLanguageModule config "nix" {
             "import ${flakeExpr}.inputs.nixpkgs { system = ${systemExpr}; }";
 
           options = {
-            nixvim.expr =
-              # nix
-              "${flakeExpr}.packages.${systemExpr}.nvim.options";
+            # NOTE: These slow down everything significantly
 
-            # TODO: make nixvim not rely on my dotfiles for these options
-
-            nixos.expr =
-              # nix
-              "${flakeExpr}.inputs.dotfiles.nixosConfigurations.runix.options";
-
-            home-manager.expr =
-              # nix
-              "${flakeExpr}.inputs.dotfiles.homeConfigurations.runar.options";
+            # nixvim.expr =
+            #   # nix
+            #   "${flakeExpr}.packages.${systemExpr}.nvim.options";
+            #
+            # nixos.expr =
+            #   # nix
+            #   "${flakeExpr}.inputs.dotfiles.nixosConfigurations.runix.options";
+            #
+            # home-manager.expr =
+            #   # nix
+            #   "${flakeExpr}.inputs.dotfiles.homeConfigurations.runar.options";
           };
         };
       };

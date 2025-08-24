@@ -55,6 +55,7 @@
         "treesitter"
         "otter"
         "telescope"
+        "copilot"
         "pets"
         "gremlins"
         "mini"

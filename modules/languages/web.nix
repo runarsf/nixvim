@@ -11,30 +11,37 @@ lib.utils.mkLanguageModule config "web" {
       cssls.enable = true;
       eslint.enable = true;
       html.enable = true;
+      emmet_language_server.enable = true;
+      tailwindcss.enable = true;
     };
+
+    tailwind-tools.enable = true;
 
     conform-nvim.settings = {
       formatters_by_ft = rec {
-        javascript = {
-          __unkeyed-1 = "prettierd";
-          __unkeyed-2 = "prettier";
-          stop_after_first = true;
-        };
+        javascript = ["prettierd"];
         typescript = javascript;
-        html = ["deno_fmt"];
-        css = ["deno_fmt"];
+        typescriptreact = javascript;
+
+        html = javascript;
+        htmlangular = javascript;
+
+        css = javascript;
       };
 
-      formatters = {
-        prettier = {
-          command = lib.getExe pkgs.nodePackages.prettier;
-          # args = ["--stdin-filepath" "$FILENAME"];
-        };
-        deno_fmt = {
-          command = lib.getExe pkgs.deno;
-          # args = ["fmt" "-"];
-        };
+      formatters.prettierd.command = lib.getExe pkgs.prettierd;
+    };
+
+    lint = {
+      linters.eslint_d.cmd = lib.getExe pkgs.eslint_d;
+
+      lintersByFt = rec {
+        javascript = ["eslint_d"];
+        typescript = javascript;
+        typescriptreact = javascript;
       };
     };
   };
+
+  extraPackages = with pkgs; [prettierd];
 }
