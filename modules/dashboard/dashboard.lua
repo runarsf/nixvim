@@ -2,7 +2,6 @@ local M = {}
 
 M.get_random_quote = function()
 	local quotes = require("utils.quotes")
-	print(quotes)
 	local selected = quotes[math.random(#quotes)]
 	local quote = type(selected) == "table" and selected[1] or selected
 	---@diagnostic disable-next-line: undefined-field
