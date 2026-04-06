@@ -210,6 +210,7 @@
     ''Ingat 🫰''
     ''This call may be monitored or recorded for quality purposes 🥖''
     ''I don't wanna put it in the team chat.''
+    ''What's the worst thing that can happen, diarrhea? I already have that.''
     [
       ''Hüt Namitag isch Sirenealarm. Was bedütet das? Tüüt, tüüt, tüü-üü-üüt!''
       "👵"
@@ -278,6 +279,10 @@
         All the time... or whenever you want... yeah
       ''
       "Chit"
+    ]
+    [
+      ''If you ever speak to me in Spanish, please use the formal "usted".''
+      "April Ludgate"
     ]
 
     # Gaga

@@ -34,7 +34,7 @@ lib.mkModule config "treesitter" {
         multiline_threshold = 1;
       };
     };
-    treesitter-refactor.enable = true;
+    # treesitter-refactor.enable = true;
     treesitter-textobjects.enable = true;
   };
 }

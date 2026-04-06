@@ -15,8 +15,6 @@ lib.utils.mkLanguageModule config "web" {
       tailwindcss.enable = true;
     };
 
-    tailwind-tools.enable = true;
-
     conform-nvim.settings = {
       formatters_by_ft = rec {
         javascript = ["prettierd"];

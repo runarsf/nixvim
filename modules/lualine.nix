@@ -10,6 +10,7 @@ lib.mkModule config "lualine" {
 
   utils = [
     {
+      # TODO: require("nvim-web-devicons").set_default_icon("<3", "#6d8086", 65)
       "lualine" =
         # lua
         ''
@@ -17,7 +18,16 @@ lib.mkModule config "lualine" {
 
           M.BufferLanguageColor = function()
             local filename = vim.fn.expand("%:t")
-            local _, color = require("nvim-web-devicons").get_icon_color(filename)
+            if filename == nil or filename == "" then
+              return nil
+            end
+
+            local ok, devicons = pcall(require, "nvim-web-devicons")
+            if not ok then
+              return nil
+            end
+
+            local _, color = devicons.get_icon_color(filename)
             return color
           end
 

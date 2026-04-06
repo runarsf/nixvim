@@ -116,8 +116,6 @@ lib.mkModule config "copilot" {
   files."ftplugin/copilot-chat.lua" = {
     opts = {
       foldenable = false;
-      number = false;
-      relativenumber = false;
       wrap = true;
     };
   };

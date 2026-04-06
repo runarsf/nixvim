@@ -20,11 +20,6 @@ lib.mkModule config "completions" {
     luasnip.enable = true;
     friendly-snippets.enable = true;
 
-    lspkind = {
-      enable = true;
-      cmp.enable = true;
-    };
-
     colorful-menu.enable = true;
 
     blink-cmp = {
