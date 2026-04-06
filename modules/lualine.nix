@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   helpers,
   ...
 }:
@@ -117,10 +116,11 @@ lib.mkModule config "lualine" {
             icon = {
               __unkeyed = "󰗊";
               # TODO: lualine doesn't update this color on refresh, it only runs once
-              color.fg =
-                helpers.mkRaw
-                # lua
-                "require('utils.lualine').BufferLanguageColor()";
+              # FIXME: Cryptic error
+              # color.fg =
+              #   helpers.mkRaw
+              #   # lua
+              #   "require('utils.lualine').BufferLanguageColor()";
             };
             symbols.done = "";
             fmt =
