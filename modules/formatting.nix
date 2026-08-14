@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   ...
 }:
 lib.mkModule config "formatting" {
@@ -11,7 +10,7 @@ lib.mkModule config "formatting" {
   };
 
   keymaps = with lib.utils.keymaps; [
-    (mkKeymap' "<Leader>f" (helpers.mkRaw ''
+    (mkKeymap' "<Leader>f" (lib.nixvim.mkRaw ''
       function()
         require('conform').format()
       end

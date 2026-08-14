@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   ...
 }:
 lib.mkModule config "lualine" {
@@ -84,7 +83,7 @@ lib.mkModule config "lualine" {
               newfile = "New file";
             };
             cond =
-              helpers.mkRaw
+              lib.nixvim.mkRaw
               # lua
               ''
                 function()
@@ -118,7 +117,7 @@ lib.mkModule config "lualine" {
               # TODO: lualine doesn't update this color on refresh, it only runs once
               # FIXME: Cryptic error
               # color.fg =
-              #   helpers.mkRaw
+              #   lib.nixvim.mkRaw
               #   # lua
               #   "require('lualine').BufferLanguageColor()";
             };
@@ -148,12 +147,12 @@ lib.mkModule config "lualine" {
                 end
               '';
           }
-          (helpers.mkRaw ''
+          (lib.nixvim.mkRaw ''
             function()
               if vim.o.paste then return "P" else return "" end
             end
           '')
-          # (helpers.mkRaw ''
+          # (lib.nixvim.mkRaw ''
           #   function()
           #     if #vim.o.mouse > 0 then return "M" else return "" end
           #   end
@@ -162,7 +161,7 @@ lib.mkModule config "lualine" {
           {
             __unkeyed = "filetype";
             cond =
-              helpers.mkRaw
+              lib.nixvim.mkRaw
               # lua
               ''
                 function()

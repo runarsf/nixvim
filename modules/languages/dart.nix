@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   ...
 }:
 lib.utils.mkLanguageModule config "dart" {
@@ -45,7 +44,7 @@ lib.utils.mkLanguageModule config "dart" {
 
     "ftplugin/dart.lua" = {
       keymaps = with lib.utils.keymaps; [
-        (mkBufferKeymap' "<leader>dc" (helpers.mkRaw ''
+        (mkBufferKeymap' "<leader>dc" (lib.nixvim.mkRaw ''
           function()
             if require('dap').session() ~= nil then
               require('dap').continue()

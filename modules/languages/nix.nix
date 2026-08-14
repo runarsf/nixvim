@@ -7,7 +7,9 @@
 }:
 lib.utils.mkLanguageModule config "nix" {
   plugins = {
-    hmts.enable = true;
+    # NOTE: broken on neovim >=0.12, causes treesitter highlighter errors when opening nix files
+    # https://github.com/nix-community/nixvim/issues (attempt to call method 'parent' (a nil value))
+    hmts.enable = false;
 
     lsp.servers = {
       statix.enable = true;

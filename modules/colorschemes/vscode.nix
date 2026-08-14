@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   ...
 }:
 lib.utils.mkColorschemeModule config "vscode" {
@@ -13,7 +12,7 @@ lib.utils.mkColorschemeModule config "vscode" {
       underline_links = true;
 
       group_overrides = let
-        color = name: helpers.mkRaw "require('vscode.colors').get_colors().${name}";
+        color = name: lib.nixvim.mkRaw "require('vscode.colors').get_colors().${name}";
       in {
         "@string.special.path.nix" = {
           fg = color "vscOrange";

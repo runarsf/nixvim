@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   ...
 }:
 lib.mkModule config "buffers" {
@@ -16,23 +15,23 @@ lib.mkModule config "buffers" {
         diagnostics = "nvim_lsp";
         show_buffer_close_icons = false;
         always_show_bufferline = false;
-        style_preset = helpers.mkRaw "require('bufferline').style_preset.no_italic";
+        style_preset = lib.nixvim.mkRaw "require('bufferline').style_preset.no_italic";
       };
     };
   };
 
   keymaps = with lib.utils.keymaps; [
-    (mkKeymap' "<C-t>" (helpers.mkRaw "vim.cmd.enew") "New buffer")
-    (mkKeymap' "<S-l>" (helpers.mkRaw "vim.cmd.bnext") "Next buffer")
-    (mkKeymap' "<S-h>" (helpers.mkRaw "vim.cmd.bprevious") "Previous buffer")
-    (mkKeymap' "<leader>w" (helpers.mkRaw "vim.cmd.write") "Write")
-    (mkKeymap' "<leader>q" (helpers.mkRaw "require('buffers').close") "Close buffer")
-    (mkKeymap' "<leader>wq" (helpers.mkRaw ''
+    (mkKeymap' "<C-t>" (lib.nixvim.mkRaw "vim.cmd.enew") "New buffer")
+    (mkKeymap' "<S-l>" (lib.nixvim.mkRaw "vim.cmd.bnext") "Next buffer")
+    (mkKeymap' "<S-h>" (lib.nixvim.mkRaw "vim.cmd.bprevious") "Previous buffer")
+    (mkKeymap' "<leader>w" (lib.nixvim.mkRaw "vim.cmd.write") "Write")
+    (mkKeymap' "<leader>q" (lib.nixvim.mkRaw "require('buffers').close") "Close buffer")
+    (mkKeymap' "<leader>wq" (lib.nixvim.mkRaw ''
       function()
         vim.cmd.write()
         require('buffers').close()
       end
     '') "Close buffer")
-    (mkKeymap' "<leader>Q" (helpers.mkRaw "vim.cmd.qall") "Quit")
+    (mkKeymap' "<leader>Q" (lib.nixvim.mkRaw "vim.cmd.qall") "Quit")
   ];
 }

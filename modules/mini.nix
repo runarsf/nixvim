@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   ...
 }:
 lib.mkModule config "mini" {
@@ -49,7 +48,7 @@ lib.mkModule config "mini" {
     {
       event = ["User"];
       pattern = ["MiniFilesBufferCreate"];
-      callback = helpers.mkRaw ''
+      callback = lib.nixvim.mkRaw ''
         function(args)
           local map_buf = function(lhs, rhs)
             vim.keymap.set('n', lhs, rhs, { buffer = args.data.buf_id })
@@ -73,7 +72,7 @@ lib.mkModule config "mini" {
       # Open files if vim started with no arguments
       event = ["VimEnter"];
       pattern = ["*"];
-      callback = helpers.mkRaw ''
+      callback = lib.nixvim.mkRaw ''
         function()
           if (vim.fn.expand("%") == "") then
             MiniFiles.open()
@@ -89,76 +88,74 @@ lib.mkModule config "mini" {
   ];
 
   keymaps = with lib.utils.keymaps; [
-    (mkKeymap' "<C-n>" (helpers.mkRaw ''
-        function()
-          local files = require('mini.files')
-          if not files.close() then
-            -- files.open(vim.api.nvim_buf_get_name(0))
-            files.open(files.get_latest_path())
-          end
+    (mkKeymap' "<C-n>" (lib.nixvim.mkRaw ''
+      function()
+        local files = require('mini.files')
+        if not files.close() then
+          -- files.open(vim.api.nvim_buf_get_name(0))
+          files.open(files.get_latest_path())
         end
+      end
     '') "File browser")
 
-    (mkKeymap ["n"] "<M-h>" (helpers.mkRaw ''
+    (mkKeymap ["n"] "<M-h>" (lib.nixvim.mkRaw ''
       function()
         require('mini.move').move_line('left')
       end
     '') "Move left")
-    (mkKeymap ["n"] "<M-j>" (helpers.mkRaw ''
+    (mkKeymap ["n"] "<M-j>" (lib.nixvim.mkRaw ''
       function()
         require('mini.move').move_line('down')
       end
     '') "Move down")
-    (mkKeymap ["n"] "<M-k>" (helpers.mkRaw ''
+    (mkKeymap ["n"] "<M-k>" (lib.nixvim.mkRaw ''
       function()
         require('mini.move').move_line('up')
       end
     '') "Move up")
-    (mkKeymap ["n"] "<M-l>" (helpers.mkRaw ''
+    (mkKeymap ["n"] "<M-l>" (lib.nixvim.mkRaw ''
       function()
         require('mini.move').move_line('right')
       end
     '') "Move right")
 
-    (mkKeymap ["x"] "<M-h>" (helpers.mkRaw ''
+    (mkKeymap ["x"] "<M-h>" (lib.nixvim.mkRaw ''
       function()
         require('mini.move').move_selection('left')
       end
     '') "Move left")
-    (mkKeymap ["x"] "<M-j>" (helpers.mkRaw ''
+    (mkKeymap ["x"] "<M-j>" (lib.nixvim.mkRaw ''
       function()
         require('mini.move').move_selection('down')
       end
     '') "Move down")
-    (mkKeymap ["x"] "<M-k>" (helpers.mkRaw ''
+    (mkKeymap ["x"] "<M-k>" (lib.nixvim.mkRaw ''
       function()
         require('mini.move').move_selection('up')
       end
     '') "Move up")
-    (mkKeymap ["x"] "<M-l>" (helpers.mkRaw ''
+    (mkKeymap ["x"] "<M-l>" (lib.nixvim.mkRaw ''
       function()
         require('mini.move').move_selection('right')
       end
     '') "Move right")
   ];
 }
-
-
 # TODO: Mapping to toggle dotfiles
 #   local show_dotfiles = true
-# 
+#
 #   local filter_show = function(fs_entry) return true end
-# 
+#
 #   local filter_hide = function(fs_entry)
 #     return not vim.startswith(fs_entry.name, '.')
 #   end
-# 
+#
 #   local toggle_dotfiles = function()
 #     show_dotfiles = not show_dotfiles
 #     local new_filter = show_dotfiles and filter_show or filter_hide
 #     MiniFiles.refresh({ content = { filter = new_filter } })
 #   end
-# 
+#
 #   vim.api.nvim_create_autocmd('User', {
 #     pattern = 'MiniFilesBufferCreate',
 #     callback = function(args)
@@ -167,3 +164,4 @@ lib.mkModule config "mini" {
 #       vim.keymap.set('n', 'g.', toggle_dotfiles, { buffer = buf_id })
 #     end,
 #   })
+

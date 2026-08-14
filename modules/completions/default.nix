@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   pkgs,
   ...
 }:
@@ -49,7 +48,7 @@ lib.mkModule config "completions" {
           };
 
           providers = let
-            useKindName = name: helpers.mkRaw "require('blink').use_kind_name('${name}')";
+            useKindName = name: lib.nixvim.mkRaw "require('blink').use_kind_name('${name}')";
           in {
             buffer.min_keyword_length = 5;
             snippets.min_keyword_length = 3;
@@ -111,7 +110,7 @@ lib.mkModule config "completions" {
             scrolloff = 3;
 
             min_width = 20;
-            max_height = helpers.mkRaw "math.floor(vim.o.lines / 2)";
+            max_height = lib.nixvim.mkRaw "math.floor(vim.o.lines / 2)";
 
             draw = {
               gap = 2;
@@ -124,8 +123,8 @@ lib.mkModule config "completions" {
 
               components = {
                 label = {
-                  text = helpers.mkRaw "require('blink').colorize_text";
-                  highlight = helpers.mkRaw "require('blink').colorize_highlights";
+                  text = lib.nixvim.mkRaw "require('blink').colorize_text";
+                  highlight = lib.nixvim.mkRaw "require('blink').colorize_highlights";
                 };
               };
             };
@@ -144,8 +143,8 @@ lib.mkModule config "completions" {
             preset = "inherit";
 
             "<Esc>" = [
-              (helpers.mkRaw "require('blink').actions.hide_and_leave_insert")
-              (helpers.mkRaw "require('blink').actions.cmdline_fallback")
+              (lib.nixvim.mkRaw "require('blink').actions.hide_and_leave_insert")
+              (lib.nixvim.mkRaw "require('blink').actions.cmdline_fallback")
             ];
             "<Tab>" = [
               "select_next"
@@ -192,7 +191,7 @@ lib.mkModule config "completions" {
 
           "<Tab>" = [
             "snippet_forward"
-            (helpers.mkRaw "require('blink').actions.select_next_or_indent")
+            (lib.nixvim.mkRaw "require('blink').actions.select_next_or_indent")
             "fallback"
           ];
           "<S-Tab>" = [
@@ -201,11 +200,11 @@ lib.mkModule config "completions" {
             "fallback"
           ];
           "<Down>" = [
-            (helpers.mkRaw "require('blink').actions.select_next_and_wrap_if_in_list")
+            (lib.nixvim.mkRaw "require('blink').actions.select_next_and_wrap_if_in_list")
             "fallback"
           ];
           "<Up>" = [
-            (helpers.mkRaw "require('blink').actions.select_prev_and_wrap_if_in_list")
+            (lib.nixvim.mkRaw "require('blink').actions.select_prev_and_wrap_if_in_list")
             "fallback"
           ];
           "<C-Space>" = [
@@ -216,8 +215,8 @@ lib.mkModule config "completions" {
             "fallback"
           ];
           "<Esc>" = [
-            (helpers.mkRaw "require('blink').actions.cancel_and_leave_insert")
-            (helpers.mkRaw "require('blink').actions.hide_and_leave_insert")
+            (lib.nixvim.mkRaw "require('blink').actions.cancel_and_leave_insert")
+            (lib.nixvim.mkRaw "require('blink').actions.hide_and_leave_insert")
             "fallback"
           ];
         };

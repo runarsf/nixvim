@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   pkgs,
   ...
 }:
@@ -36,7 +35,7 @@ lib.mkModule config "git" {
   ];
 
   keymaps = lib.optionals config.modules.terminal.enable (with lib.utils.keymaps; [
-    (mkKeymap' "<Leader>g" (helpers.mkRaw ''
+    (mkKeymap' "<Leader>g" (lib.nixvim.mkRaw ''
       function()
         require('terminal').GitUi:toggle()
       end

@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   pkgs,
   ...
 }: let
@@ -11,7 +10,7 @@
   mkButton = key: label: action: {
     type = "button";
     val = label;
-    on_press = helpers.mkRaw action;
+    on_press = lib.nixvim.mkRaw action;
     opts = {
       position = "center";
       shortcut = key;
@@ -19,7 +18,7 @@
       width = 50;
       align_shortcut = "right";
       hl_shortcut = "AlphaBannerAccent";
-      keymap = helpers.mkRaw ''{ "n", "${key}", ${action}, { noremap = true, silent = true, nowait = true } }'';
+      keymap = lib.nixvim.mkRaw ''{ "n", "${key}", ${action}, { noremap = true, silent = true, nowait = true } }'';
     };
   };
 in
@@ -39,7 +38,7 @@ in
           type = "padding";
           val = 3;
         }
-        (helpers.mkRaw "require('dashboard').get_banner_section()")
+        (lib.nixvim.mkRaw "require('dashboard').get_banner_section()")
         {
           type = "padding";
           val = 2;
@@ -58,7 +57,7 @@ in
           type = "padding";
           val = 2;
         }
-        (helpers.mkRaw "require('dashboard').get_quote_element()")
+        (lib.nixvim.mkRaw "require('dashboard').get_quote_element()")
       ];
 
       opts.margin = 5;
@@ -70,7 +69,7 @@ in
       {
         event = "BufNew";
         callback =
-          helpers.mkRaw
+          lib.nixvim.mkRaw
           # lua
           ''
             function()

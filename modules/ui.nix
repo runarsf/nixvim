@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   ...
 }: let
   indentchar = "▏";
@@ -85,7 +84,7 @@ in
       #   enable = true;
       #   modules.indentscope = {
       #     symbol = char;
-      #     draw.animation = helpers.mkRaw "require('mini.indentscope').gen_animation.none()";
+      #     draw.animation = lib.nixvim.mkRaw "require('mini.indentscope').gen_animation.none()";
       #   };
       # };
       snacks = {
@@ -100,7 +99,7 @@ in
     };
 
     keymaps = with lib.utils.keymaps; [
-      (mkKeymap' "<Leader>n" (helpers.mkRaw ''
+      (mkKeymap' "<Leader>n" (lib.nixvim.mkRaw ''
         function()
           local ok, lz_n = pcall(require, 'lz.n')
           if ok then

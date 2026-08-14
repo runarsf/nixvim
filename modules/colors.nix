@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  helpers,
   ...
 }:
 lib.mkModule config "colors" {
@@ -16,7 +15,7 @@ lib.mkModule config "colors" {
   };
 
   # keymaps = with lib.utils.keymaps; [
-  #   (mkKeymap' "<Leader>c" (helpers.mkRaw ''
+  #   (mkKeymap' "<Leader>c" (lib.nixvim.mkRaw ''
   #     function()
   #       require('minty.huefy').open( { border = true } )
   #     end

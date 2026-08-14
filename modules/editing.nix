@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   ...
 }:
 lib.mkModule config "editing" rec {
@@ -76,7 +75,7 @@ lib.mkModule config "editing" rec {
   };
 
   keymaps = with lib.utils.keymaps; [
-    (mkKeymap ["n" "x"] "<Leader>Fr" (helpers.mkRaw ''
+    (mkKeymap ["n" "x"] "<Leader>Fr" (lib.nixvim.mkRaw ''
       function()
         local opts = vim.tbl_deep_extend("force",
           {},
@@ -86,12 +85,12 @@ lib.mkModule config "editing" rec {
         require('grug-far').open(opts)
       end
     '') "Find & Replace")
-    (mkKeymap ["n" "x"] "<Leader>FR" (helpers.mkRaw ''
+    (mkKeymap ["n" "x"] "<Leader>FR" (lib.nixvim.mkRaw ''
       function()
         require('grug-far').open()
       end
     '') "Find & Replace (all files)")
-    (mkKeymap ["x"] "<Leader>Fs" (helpers.mkRaw ''
+    (mkKeymap ["x"] "<Leader>Fs" (lib.nixvim.mkRaw ''
       function()
         local opts = vim.tbl_deep_extend("force",
           {},

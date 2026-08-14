@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  helpers,
   ...
 }:
 # TODO: Automatically spawn random pet when user gets bored or doesn't interact with the editor for a while
@@ -53,13 +52,13 @@ lib.mkModule config "pets" {
   ];
 
   keymaps = lib.optionals config.modules.telescope.enable (with lib.utils.keymaps; [
-    (mkKeymap' "<Leader>Ps" (helpers.mkRaw ''
+    (mkKeymap' "<Leader>Ps" (lib.nixvim.mkRaw ''
       function()
         require('lz.n').trigger_load('telescope.nvim')
         require('pets').PickPet()
       end
     '') "Spawn pet :⁾")
-    (mkKeymap' "<Leader>Pk" (helpers.mkRaw ''
+    (mkKeymap' "<Leader>Pk" (lib.nixvim.mkRaw ''
       function()
         require('duck').cook_all()
       end

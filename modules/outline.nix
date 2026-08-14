@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  helpers,
   ...
 }:
 lib.mkModule config "outline" {
@@ -38,7 +37,7 @@ lib.mkModule config "outline" {
   };
 
   keymaps = with lib.utils.keymaps; [
-    (mkKeymap' "<Leader>ss" (helpers.mkRaw ''
+    (mkKeymap' "<Leader>ss" (lib.nixvim.mkRaw ''
       function()
         require("namu.namu_symbols").show()
       end

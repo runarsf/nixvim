@@ -26,6 +26,8 @@ lib.mkModule config "otter" {
   };
 
   luaModules = [
-    ./otter.lua
+    ./otter-diagnostics.lua
   ];
+
+  extraConfigLua = "require('otter-diagnostics').setup()";
 }

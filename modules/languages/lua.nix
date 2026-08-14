@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  helpers,
   ...
 }:
 lib.utils.mkLanguageModule config "lua" {
@@ -17,7 +16,7 @@ lib.utils.mkLanguageModule config "lua" {
       formatters.stylua = {
         command = lib.getExe pkgs.stylua;
         # args = ["--indent-width" (builtins.toString config.opts.shiftwidth) "--stdin-filepath" "$FILENAME" "-"];
-        # cwd = helpers.mkRaw ''require("conform.util").root_file({ ".editorconfig", "package.json", ".stylua.toml" })'';
+        # cwd = lib.nixvim.mkRaw ''require("conform.util").root_file({ ".editorconfig", "package.json", ".stylua.toml" })'';
       };
     };
   };

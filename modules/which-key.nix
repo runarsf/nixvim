@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   ...
 }:
 lib.mkModule config "which-key" {
@@ -20,7 +19,7 @@ lib.mkModule config "which-key" {
   };
 
   keymaps = with lib.utils.keymaps; [
-    (mkKeymap' "<LocalLeader>" (helpers.mkRaw ''
+    (mkKeymap' "<LocalLeader>" (lib.nixvim.mkRaw ''
       function()
         require('which-key').show()
       end

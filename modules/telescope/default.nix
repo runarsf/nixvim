@@ -3,7 +3,6 @@
   config,
   lib,
   pkgs,
-  helpers,
   ...
 }:
 lib.mkModule config "telescope" {
@@ -38,7 +37,7 @@ lib.mkModule config "telescope" {
           "^\\.DS_Store"
         ];
         mappings.i = {
-          "<Esc>" = helpers.mkRaw "require('telescope.actions').close";
+          "<Esc>" = lib.nixvim.mkRaw "require('telescope.actions').close";
           "<C-h>" = "which_key";
         };
       };
@@ -64,12 +63,12 @@ lib.mkModule config "telescope" {
         cmd = ["Telescope"];
         keys = ["<C-p>"];
         # HACK: This is a workaround since the lazyLoad config for telescope doesn't seem to work.
-        before = helpers.mkRaw ''
+        before = lib.nixvim.mkRaw ''
           function()
             require('lz.n').trigger_load('telescope.nvim')
           end
         '';
-        after = helpers.mkRaw ''
+        after = lib.nixvim.mkRaw ''
           function()
             require("telescope").load_extension("smart_open")
           end
@@ -79,7 +78,7 @@ lib.mkModule config "telescope" {
         __unkeyed-1 = "vimplugin-search.nvim";
         cmd = ["Telescope"];
         keys = ["<C-p>"];
-        after = helpers.mkRaw ''
+        after = lib.nixvim.mkRaw ''
           function()
             require('search').setup({
               initial_tab = 1,
@@ -132,12 +131,12 @@ lib.mkModule config "telescope" {
   ];
 
   keymaps = with lib.utils.keymaps; [
-    (mkKeymap' "<C-p>" (helpers.mkRaw ''
+    (mkKeymap' "<C-p>" (lib.nixvim.mkRaw ''
       function()
         require('search').open({ tab_name = 'Files' })
       end
     '') "Search files")
-    (mkKeymap' "<leader><tab>" (helpers.mkRaw ''
+    (mkKeymap' "<leader><tab>" (lib.nixvim.mkRaw ''
       function()
         -- HACK: See other hacks in this file
         require('lz.n').trigger_load('telescope.nvim')

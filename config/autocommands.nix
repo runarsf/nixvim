@@ -1,8 +1,4 @@
-{
-  helpers,
-  lib,
-  ...
-}: let
+{lib, ...}: let
   autoCmds = [
     {
       # Show cursor-line
@@ -33,7 +29,7 @@
         "TermLeave"
       ];
       pattern = ["*"];
-      callback = helpers.mkRaw ''
+      callback = lib.nixvim.mkRaw ''
         function()
           if vim.o.buftype ~= "nofile" then
             vim.cmd.checktime()
@@ -46,7 +42,7 @@
       group = "forbid_cmdwin";
       event = ["CmdwinEnter"];
       pattern = ["*"];
-      callback = helpers.mkRaw ''
+      callback = lib.nixvim.mkRaw ''
         function()
           vim.cmd.q()
           vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(":", true, false, true), 'n', false)
@@ -61,7 +57,7 @@
         "InsertChange"
       ];
       pattern = ["*"];
-      callback = helpers.mkRaw ''
+      callback = lib.nixvim.mkRaw ''
         function()
           if vim.v.insertmode == "r" then
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Insert>", true, false, true), "n", false)
@@ -73,7 +69,7 @@
       group = "yank_highlight";
       event = ["TextYankPost"];
       pattern = ["*"];
-      callback = helpers.mkRaw ''
+      callback = lib.nixvim.mkRaw ''
         function()
           (vim.hl or vim.highlight).on_yank({
             higroup = "CurSearch",
@@ -86,7 +82,7 @@
       group = "resize_splits";
       event = ["VimResized"];
       pattern = ["*"];
-      callback = helpers.mkRaw ''
+      callback = lib.nixvim.mkRaw ''
         function()
           local current_tab = vim.fn.tabpagenr()
           vim.cmd("tabdo wincmd =")
@@ -114,7 +110,7 @@
         "startuptime"
         "tsplayground"
       ];
-      callback = helpers.mkRaw ''
+      callback = lib.nixvim.mkRaw ''
         function(event)
           vim.bo[event.buf].buflisted = false
           vim.schedule(function()
@@ -134,7 +130,7 @@
       group = "mkdir_p";
       event = ["BufWritePre"];
       pattern = ["*"];
-      callback = helpers.mkRaw ''
+      callback = lib.nixvim.mkRaw ''
         function(event)
           if event.match:match("^%w%w+:[\\/][\\/]") then
             return

@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  helpers,
   ...
 }: let
   layoutToString = layout:
@@ -23,7 +22,7 @@
       then builtins.elemAt args 2
       else "qmk";
   in
-    helpers.mkRaw ''
+    lib.nixvim.mkRaw ''
       function() require('qmk').setup({
         name = '${name}',
         variant = '${variant}',
@@ -85,7 +84,7 @@ in
         group = "Qmk";
         event = ["BufEnter"];
         pattern = ["*lulu/keymap.c"];
-        callback = helpers.mkRaw ''
+        callback = lib.nixvim.mkRaw ''
           function() require('qmk').setup({
                      name = 'LAYOUT',
                      layout = {
