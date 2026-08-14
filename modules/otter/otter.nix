@@ -25,7 +25,7 @@ lib.mkModule config "otter" {
     };
   };
 
-  utils = [
+  luaModules = [
     ./otter.lua
   ];
 }

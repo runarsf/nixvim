@@ -5,45 +5,73 @@
   ...
 }: {
   options = {
-    utils = lib.mkOption rec {
-      type = lib.types.listOf <| lib.types.either lib.types.path <| lib.types.attrsOf lib.types.str;
-      default = lib.filesystem.concatPaths {
-        paths = [../utils];
-        suffix = ".lua";
-        filterDefault = false;
+    luaModules = with lib.types;
+      lib.mkOption {
+        type = listOf (either path (attrsOf str));
+        default = [];
+        description = "List of lua files/directories or attribute sets with inline lua code, each added to the lua/ directory under its own name";
       };
-      description = "List of lua files or attribute sets with inline lua code to be added to the lua/utils directory";
-      apply = paths: default ++ paths;
-    };
   };
 
   config = {
-    # TODO: Merge files/strings with same name
-    #  Might need to add local M = {} to the top of the file and return M at end
     extraFiles = let
-      attrUtils = builtins.filter builtins.isAttrs config.utils;
-      pathUtils = builtins.filter builtins.isPath config.utils;
+      attrUtils = builtins.filter builtins.isAttrs config.luaModules;
+      pathUtils = builtins.filter builtins.isPath config.luaModules;
+
+      isDir = util:
+        (builtins.readDir (dirOf util))."${baseNameOf (toString util)}" or null
+        == "directory";
 
       attrFiles =
         builtins.concatLists
-        <| builtins.map (
-          util:
-            builtins.map (name: {
-              name = "lua/utils/${name}.lua";
-              value = {text = builtins.getAttr name util;};
-            })
-            <| builtins.attrNames util
-        )
-        attrUtils;
+        (map (
+            util:
+              map (name: {
+                name = "lua/${name}.lua";
+                value = {text = builtins.getAttr name util;};
+              })
+              (builtins.attrNames util)
+          )
+          attrUtils);
 
       pathFiles =
-        builtins.map (util: {
-          name = "lua/utils/${builtins.baseNameOf (toString util)}";
+        builtins.concatMap (
+          util:
+            if isDir util
+            then
+              map (luaFile: {
+                name = "lua/${lib.removePrefix "${toString util}/" (toString luaFile)}";
+                value = {source = luaFile;};
+              })
+              (lib.filesystem.concatPaths {
+                paths = [util];
+                suffix = ".lua";
+                filterDefault = false;
+              })
+            else [
+              {
+                name = "lua/${baseNameOf (toString util)}";
+                value = {source = util;};
+              }
+            ]
+        )
+        pathUtils;
+
+      # Shared, generic lua helpers (not tied to any one module) live under
+      # ../utils and keep the require("utils.<name>") prefix, since they're
+      # genuinely common code rather than one module's implementation detail.
+      sharedUtilFiles =
+        map (util: {
+          name = "lua/utils/${baseNameOf (toString util)}";
           value = {source = util;};
         })
-        pathUtils;
+        (lib.filesystem.concatPaths {
+          paths = [../utils];
+          suffix = ".lua";
+          filterDefault = false;
+        });
     in
-      builtins.listToAttrs <| attrFiles ++ pathFiles;
+      builtins.listToAttrs (attrFiles ++ pathFiles ++ sharedUtilFiles);
 
     modules =
       lib.enable [
@@ -107,65 +135,6 @@
     extraPlugins = with pkgs.vimPlugins; [
       openingh-nvim
       nvim-nio
-      # codi-vim
-      # lens-vim
-      # {
-      #   plugin = visual-nvim;
-      #   config = utils.luaToViml ''
-      #     require('visual').setup({
-      #         treesitter_textobjects = true,
-      #         commands = {
-      #           move_up_then_normal = { amend = true },
-      #           move_down_then_normal = { amend = true },
-      #           move_right_then_normal = { amend = true },
-      #           move_left_then_normal = { amend = true },
-      #         },
-      #       } )
-      #   '';
-      # }
-      # {
-      #   plugin = kak-nvim;
-      #   config = utils.luaToViml ''
-      #     require("kak").setup({
-      #       full = true,
-      #       which_key_integration = true,
-      #
-      #       experimental = {
-      #         rebind_visual_aiAI = true,
-      #       }
-      #     })
-      #   '';
-      # }
-      /*
-         {
-        plugin = hologram-nvim;
-        config = lib.utils.viml.fromLua ''
-          require("hologram").setup({})
-        '';
-      }
-      */
-      /*
-         {
-        plugin = legendary-nvim;
-        config = lib.utils.viml.fromLua ''
-          require("legendary").setup({
-            extensions = {
-              smart_splits = {
-                directions = { 'Left', 'Down', 'Up', 'Right', },
-                mods = {
-                  move = '<S>',
-                  resize = '<M-S>',
-                },
-              },
-              which_key = {
-                auto_register = true,
-              },
-              diffview = true,
-            },
-          })
-        '';
-      }
-      */
     ];
 
     extraLuaPackages = rocks:

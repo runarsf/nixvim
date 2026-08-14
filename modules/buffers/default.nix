@@ -5,7 +5,7 @@
   ...
 }:
 lib.mkModule config "buffers" {
-  utils = [
+  luaModules = [
     ./buffers.lua
   ];
 
@@ -26,11 +26,11 @@ lib.mkModule config "buffers" {
     (mkKeymap' "<S-l>" (helpers.mkRaw "vim.cmd.bnext") "Next buffer")
     (mkKeymap' "<S-h>" (helpers.mkRaw "vim.cmd.bprevious") "Previous buffer")
     (mkKeymap' "<leader>w" (helpers.mkRaw "vim.cmd.write") "Write")
-    (mkKeymap' "<leader>q" (helpers.mkRaw "require('utils.buffers').close") "Close buffer")
+    (mkKeymap' "<leader>q" (helpers.mkRaw "require('buffers').close") "Close buffer")
     (mkKeymap' "<leader>wq" (helpers.mkRaw ''
       function()
         vim.cmd.write()
-        require('utils.buffers').close()
+        require('buffers').close()
       end
     '') "Close buffer")
     (mkKeymap' "<leader>Q" (helpers.mkRaw "vim.cmd.qall") "Quit")

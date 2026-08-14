@@ -14,7 +14,7 @@ lib.mkModule config "git" {
     neogit.enable = true;
   };
 
-  utils = lib.optionals config.modules.terminal.enable [
+  luaModules = lib.optionals config.modules.terminal.enable [
     {
       "terminal" =
         # lua
@@ -38,7 +38,7 @@ lib.mkModule config "git" {
   keymaps = lib.optionals config.modules.terminal.enable (with lib.utils.keymaps; [
     (mkKeymap' "<Leader>g" (helpers.mkRaw ''
       function()
-        require('utils.terminal').GitUi:toggle()
+        require('terminal').GitUi:toggle()
       end
     '') "Toggle GitUI")
   ]);

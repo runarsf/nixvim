@@ -48,7 +48,7 @@ lib.mkModule config "pets" {
     }
   ];
 
-  utils = lib.optionals config.modules.telescope.enable [
+  luaModules = lib.optionals config.modules.telescope.enable [
     ./pets.lua
   ];
 
@@ -56,7 +56,7 @@ lib.mkModule config "pets" {
     (mkKeymap' "<Leader>Ps" (helpers.mkRaw ''
       function()
         require('lz.n').trigger_load('telescope.nvim')
-        require('utils.pets').PickPet()
+        require('pets').PickPet()
       end
     '') "Spawn pet :⁾")
     (mkKeymap' "<Leader>Pk" (helpers.mkRaw ''

@@ -7,7 +7,7 @@
 }:
 # TODO: Lazy load on { "InsertEnter", "CmdwinEnter", "CmdlineEnter" },
 lib.mkModule config "completions" {
-  utils = [
+  luaModules = [
     ./blink.lua
   ];
 
@@ -49,7 +49,7 @@ lib.mkModule config "completions" {
           };
 
           providers = let
-            useKindName = name: helpers.mkRaw "require('utils.blink').use_kind_name('${name}')";
+            useKindName = name: helpers.mkRaw "require('blink').use_kind_name('${name}')";
           in {
             buffer.min_keyword_length = 5;
             snippets.min_keyword_length = 3;
@@ -124,8 +124,8 @@ lib.mkModule config "completions" {
 
               components = {
                 label = {
-                  text = helpers.mkRaw "require('utils.blink').colorize_text";
-                  highlight = helpers.mkRaw "require('utils.blink').colorize_highlights";
+                  text = helpers.mkRaw "require('blink').colorize_text";
+                  highlight = helpers.mkRaw "require('blink').colorize_highlights";
                 };
               };
             };
@@ -144,8 +144,8 @@ lib.mkModule config "completions" {
             preset = "inherit";
 
             "<Esc>" = [
-              (helpers.mkRaw "require('utils.blink').actions.hide_and_leave_insert")
-              (helpers.mkRaw "require('utils.blink').actions.cmdline_fallback")
+              (helpers.mkRaw "require('blink').actions.hide_and_leave_insert")
+              (helpers.mkRaw "require('blink').actions.cmdline_fallback")
             ];
             "<Tab>" = [
               "select_next"
@@ -192,7 +192,7 @@ lib.mkModule config "completions" {
 
           "<Tab>" = [
             "snippet_forward"
-            (helpers.mkRaw "require('utils.blink').actions.select_next_or_indent")
+            (helpers.mkRaw "require('blink').actions.select_next_or_indent")
             "fallback"
           ];
           "<S-Tab>" = [
@@ -201,11 +201,11 @@ lib.mkModule config "completions" {
             "fallback"
           ];
           "<Down>" = [
-            (helpers.mkRaw "require('utils.blink').actions.select_next_and_wrap_if_in_list")
+            (helpers.mkRaw "require('blink').actions.select_next_and_wrap_if_in_list")
             "fallback"
           ];
           "<Up>" = [
-            (helpers.mkRaw "require('utils.blink').actions.select_prev_and_wrap_if_in_list")
+            (helpers.mkRaw "require('blink').actions.select_prev_and_wrap_if_in_list")
             "fallback"
           ];
           "<C-Space>" = [
@@ -216,8 +216,8 @@ lib.mkModule config "completions" {
             "fallback"
           ];
           "<Esc>" = [
-            (helpers.mkRaw "require('utils.blink').actions.cancel_and_leave_insert")
-            (helpers.mkRaw "require('utils.blink').actions.hide_and_leave_insert")
+            (helpers.mkRaw "require('blink').actions.cancel_and_leave_insert")
+            (helpers.mkRaw "require('blink').actions.hide_and_leave_insert")
             "fallback"
           ];
         };

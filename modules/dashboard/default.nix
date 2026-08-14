@@ -4,161 +4,83 @@
   helpers,
   pkgs,
   ...
-}:
-# FIXME: When "opening vim -> C-p -> open a file -> ,q", why does it not exit but open an empty buffer?
-lib.mkModule config "dashboard" {
-  modules.snacks.enable = true;
-  # TODO: Why does this lead to infinitely recursion?
-  # lib.trivial.warnIf (!config.modules.snacks.enable)
-  # "implicitly enabling snacks because dashboard.enable is set, please explicitly enable snacks"
-  # true;
-
-  utils = [
-    ./dashboard.lua
-    {
-      "quotes" = ''
-        return ${lib.generators.toLua { } (import ./quotes.nix).quotes}
-      '';
-    }
-  ];
-
-  plugins = {
-    # lazy.enable = true;
-
-    snacks.settings.dashboard = {
-      enabled = true;
-      width = 64;
-
-      sections = [
-        (helpers.mkRaw "require('utils.dashboard').get_banner_section()")
-        {
-          # FIXME: pressing esc in telescope menus should exit immediately and not just leave insert mode
-          section = "keys";
-          gap = 1;
-          padding = 2;
-        }
-        {
-          text = {
-            __unkeyed = helpers.mkRaw ''require('utils.dashboard').get_random_quote()'';
-            hl = "Comment";
-          };
-          align = "center";
-        }
-      ];
-
-      preset = {
-        keys =
-          [
-            {
-              icon = "";
-              key = "i";
-              desc = "Start writing";
-              action = "<cmd>enew | startinsert<cr>";
-            }
-          ]
-          ++ lib.optionals config.modules.telescope.enable [
-            {
-              icon = "";
-              key = "f";
-              desc = "Find files";
-              action =
-                helpers.mkRaw
-                  # lua
-                  ''
-                    function()
-                      require('search').open({ tab_name = 'Files' })
-                    end
-                  '';
-            }
-            {
-              icon = "󱎸";
-              key = "s";
-              desc = "Grep files";
-              action =
-                helpers.mkRaw
-                  # lua
-                  ''
-                    function()
-                      require('search').open({ tab_name = 'Grep' })
-                    end
-                  '';
-            }
-          ]
-          ++
-            lib.optionals
-              (config.modules.mini.enable && lib.attrs.hasAttrPath [ "plugins" "mini" "modules" "files" ] config)
-              [
-                {
-                  icon = "";
-                  key = "e";
-                  desc = "Explorer";
-                  action =
-                    helpers.mkRaw
-                      # lua
-                      ''
-                        function()
-                          require('mini.files').open()
-                        end
-                      '';
-                }
-              ]
-          ++ lib.optionals config.modules.terminal.enable [
-            {
-              icon = "";
-              key = "g";
-              desc = "Git";
-              action =
-                helpers.mkRaw
-                  # lua
-                  ''
-                    function()
-                      require('gitui').toggle()
-                    end
-                  '';
-            }
-          ]
-          ++ [
-            {
-              icon = "";
-              key = "q";
-              desc = "Quit";
-              action =
-                helpers.mkRaw
-                  # lua
-                  ''
-                    function()
-                      vim.cmd.quit()
-                    end
-                  '';
-            }
-          ];
-      };
+}: let
+  # alpha-nvim buttons: `on_press` runs when the button is activated via <CR>,
+  # `opts.keymap` binds the shortcut key directly in the dashboard buffer so
+  # pressing e.g. "f" alone (no <CR> needed) triggers the same action.
+  mkButton = key: label: action: {
+    type = "button";
+    val = label;
+    on_press = helpers.mkRaw action;
+    opts = {
+      position = "center";
+      shortcut = key;
+      cursor = 3;
+      width = 50;
+      align_shortcut = "right";
+      hl_shortcut = "AlphaBannerAccent";
+      keymap = helpers.mkRaw ''{ "n", "${key}", ${action}, { noremap = true, silent = true, nowait = true } }'';
     };
   };
+in
+  lib.mkModule config "dashboard" {
+    luaModules = [
+      ./lua
+    ];
 
-  globals.minitrailspace_disable = true;
+    plugins.alpha = {
+      enable = true;
+      # A custom layout is used instead of one of alpha's bundled themes, so
+      # `theme` must be unset (the two are mutually exclusive).
+      theme = null;
 
-  autoCmd = [
-    {
-      event = "BufNew";
-      callback =
-        helpers.mkRaw
+      layout = [
+        {
+          type = "padding";
+          val = 3;
+        }
+        (helpers.mkRaw "require('dashboard').get_banner_section()")
+        {
+          type = "padding";
+          val = 2;
+        }
+        {
+          type = "group";
+          val = [
+            (mkButton "i" "  Start writing" "function() vim.cmd('enew | startinsert') end")
+            (mkButton "f" "  Find files" "function() require('search').open({ tab_name = 'Files' }) end")
+            (mkButton "s" "󱎸  Grep files" "function() require('search').open({ tab_name = 'Grep' }) end")
+            (mkButton "q" "  Quit" "function() vim.cmd('quit') end")
+          ];
+          opts.spacing = 1;
+        }
+        {
+          type = "padding";
+          val = 2;
+        }
+        (helpers.mkRaw "require('dashboard').get_quote_element()")
+      ];
+
+      opts.margin = 5;
+    };
+
+    globals.minitrailspace_disable = true;
+
+    autoCmd = [
+      {
+        event = "BufNew";
+        callback =
+          helpers.mkRaw
           # lua
           ''
             function()
               vim.g.minitrailspace_disable = false
             end
           '';
-    }
-  ];
-
-  extraLuaPackages =
-    rocks: with rocks; [
-      luautf8
+      }
     ];
 
-  extraPackages = with pkgs; [
-    krabby
-    colorized-logs # ansi2txt
-  ];
-}
+    extraPackages = with pkgs; [
+      krabby
+    ];
+  }

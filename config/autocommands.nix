@@ -1,6 +1,5 @@
 {
   helpers,
-  config,
   lib,
   ...
 }: let

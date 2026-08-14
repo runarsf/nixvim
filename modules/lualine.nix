@@ -7,7 +7,7 @@
 lib.mkModule config "lualine" {
   performance.combinePlugins.standalonePlugins = ["lualine.nvim"];
 
-  utils = [
+  luaModules = [
     {
       # TODO: require("nvim-web-devicons").set_default_icon("<3", "#6d8086", 65)
       "lualine" =
@@ -120,7 +120,7 @@ lib.mkModule config "lualine" {
               # color.fg =
               #   helpers.mkRaw
               #   # lua
-              #   "require('utils.lualine').BufferLanguageColor()";
+              #   "require('lualine').BufferLanguageColor()";
             };
             symbols.done = "";
             fmt =

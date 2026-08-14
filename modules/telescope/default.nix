@@ -7,7 +7,7 @@
   ...
 }:
 lib.mkModule config "telescope" {
-  utils = [
+  luaModules = [
     ./pickers.lua
   ];
 
@@ -105,7 +105,7 @@ lib.mkModule config "telescope" {
                       opts or {},
                       -- ''${lib.generators.toLua {} plugins.telescope.settings.defaults},
                       {
-                        entry_maker = require('utils.pickers').prettyGrepEntryMaker(opts)
+                        entry_maker = require('pickers').prettyGrepEntryMaker(opts)
                       }
                     )
                     require("telescope.builtin").live_grep(opts)
