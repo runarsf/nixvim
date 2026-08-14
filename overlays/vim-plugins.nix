@@ -13,6 +13,16 @@ _: _: super: {
         };
       };
 
+      cendre = super.vimUtils.buildVimPlugin {
+        name = "cendre";
+        src = super.fetchFromGitHub {
+          owner = "Aejkatappaja";
+          repo = "cendre";
+          rev = "4d0758a3e6bf0d415c5e7b8cbaaf396754213a07";
+          hash = "sha256-rtERQ2H3JroqY3qNezpLAv9morcmlqrreu2AGou6D+A=";
+        };
+      };
+
       vim-unicode-homoglyphs = super.vimUtils.buildVimPlugin {
         name = "vim-unicode-homoglyphs";
         src = super.fetchFromGitHub {

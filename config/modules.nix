@@ -99,7 +99,6 @@
         "folds"
         "lualine"
         "ui"
-        "zen"
         "dashboard"
         "which-key"
         "smart-splits"

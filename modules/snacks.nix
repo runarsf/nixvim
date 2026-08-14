@@ -10,7 +10,6 @@ lib.mkModule config "snacks" {
       autoLoad = true;
       lazyLoad.enable = false;
       settings = {
-        # TODO https://github.com/folke/snacks.nvim/blob/main/docs/scratch.md
         bigfile.enabled = true;
         bufdelete.enabled = true;
         picker.sources.explorer.auto_close = true;
