@@ -7,6 +7,24 @@
   colchar = "▕";
 in
   lib.mkModule config "ui" {
+    # Native, experimental (per Neovim's own doc comment) replacement for the
+    # classic hit-enter-prompt message UI, needed because cmdheight = 0 forces
+    # a blocking prompt for any message otherwise (see config/options.nix).
+    # Routes messages to an ephemeral auto-dismissing window instead of the
+    # cmdline. Doesn't affect vim.notify()-based messages (LSP progress via
+    # fidget, plugins that already call vim.notify), which nvim-notify below
+    # renders directly, bypassing this entirely.
+    extraConfigLua =
+      # lua
+      ''
+        require('vim._core.ui2').enable({
+          msg = {
+            targets = 'msg',
+            msg = { timeout = 3000 },
+          },
+        })
+      '';
+
     plugins = {
       nui.enable = true;
 
@@ -33,43 +51,7 @@ in
         };
       };
 
-      noice = {
-        enable = true;
-        settings = {
-          messages.view = "mini";
-          notify.view = "notify";
-
-          lsp.progress = {
-            enable = true;
-            view = "mini";
-          };
-
-          cmdline.format.find_and_replace = {
-            title = " Find & replace ";
-            icon = "󰛔";
-            pattern = "^:%%s/";
-            lang = "regex";
-          };
-
-          presets = {
-            bottom_search = true;
-            command_palette = true;
-            long_message_to_split = true;
-            inc_rename = true;
-            lsp_doc_border = true;
-          };
-
-          views.notify.replace = false;
-        };
-        luaConfig.post =
-          # lua
-          ''
-            local ok, telescope = pcall(require, "telescope")
-            if ok then
-              telescope.load_extension("noice")
-            end
-          '';
-      };
+      fidget.enable = true;
 
       virt-column = {
         enable = true;
@@ -98,16 +80,12 @@ in
       };
     };
 
-    keymaps = with lib.utils.keymaps; [
+    keymaps = lib.optionals config.modules.telescope.enable (with lib.utils.keymaps; [
       (mkKeymap' "<Leader>n" (lib.nixvim.mkRaw ''
         function()
-          local ok, lz_n = pcall(require, 'lz.n')
-          if ok then
-            lz_n.trigger_load('telescope.nvim')
-          end
-
-          vim.cmd("Noice telescope")
+          require('lz.n').trigger_load('telescope.nvim')
+          require('pickers').notifications()
         end
-      '') "Message history")
-    ];
+      '') "Notification & message history")
+    ]);
   }

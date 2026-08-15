@@ -7,6 +7,12 @@ local telescopeMakeEntryModule = require('telescope.make_entry')
 local plenaryStrings = require('plenary.strings')
 local devIcons = require('nvim-web-devicons')
 local telescopeEntryDisplayModule = require('telescope.pickers.entry_display')
+local telescopePickersModule = require('telescope.pickers')
+local telescopeFindersModule = require('telescope.finders')
+local telescopeConfigModule = require('telescope.config')
+local telescopeActionsModule = require('telescope.actions')
+local telescopeActionStateModule = require('telescope.actions.state')
+local telescopePreviewersModule = require('telescope.previewers')
 
 -- Obtain Filename icon width
 -- --------------------------
@@ -170,6 +176,107 @@ M.prettyGrepEntryMaker = function(opts)
 
     return originalEntryTable
   end
+end
+
+-- There's no `telescope.builtin` equivalent for `:messages`, so this is a
+-- full custom picker rather than just an entry-maker like the ones above.
+-- Combines `require('notify').history()` (vim.notify()-routed, structured:
+-- title/level/icon/timestamp, possibly multi-line) and `:messages`
+-- (echomsg/print-routed, flat single lines, no timestamp) into one picker,
+-- since they're disjoint sources (notify overrides `vim.notify`; it never
+-- touches `:messages`) and checking both separately is tedious. There's no
+-- real timestamp to merge them by for `:messages`, so each source is sorted
+-- newest-first internally and notifications are listed before messages.
+M.notifications = function(opts)
+  opts = opts or {}
+
+  local displayer = telescopeEntryDisplayModule.create({
+    separator = ' ',
+    items = {
+      { width = 2 },
+      { width = 10 },
+      { remaining = true },
+    },
+  })
+
+  local entryMaker = function(entry)
+    return {
+      value = entry,
+      ordinal = entry.title .. ' ' .. entry.summary,
+      display = function(e)
+        return displayer({
+          { e.value.icon, 'Notify' .. e.value.level .. 'Title' },
+          { e.value.title, 'Notify' .. e.value.level .. 'Title' },
+          { e.value.summary, 'Notify' .. e.value.level .. 'Body' },
+        })
+      end,
+    }
+  end
+
+  local results = {}
+
+  local ok, notify = pcall(require, 'notify')
+  if ok then
+    local history = notify.history()
+    for i = #history, 1, -1 do
+      local notif = history[i]
+      table.insert(results, {
+        title = notif.title[1] ~= '' and notif.title[1] or 'notify',
+        level = notif.level,
+        icon = notif.icon,
+        summary = notif.message[1],
+        full = table.concat(notif.message, '\n'),
+      })
+    end
+  end
+
+  -- `:messages` prints oldest-first; reverse so the most recent is on top
+  local lines = vim.split(vim.fn.execute('messages'), '\n')
+  for i = #lines, 1, -1 do
+    if lines[i] ~= '' then
+      table.insert(results, {
+        title = 'message',
+        level = 'Message',
+        icon = '',
+        summary = lines[i],
+        full = lines[i],
+      })
+    end
+  end
+
+  telescopePickersModule.new(opts, {
+    prompt_title = 'Notifications & Messages',
+    finder = telescopeFindersModule.new_table({
+      results = results,
+      entry_maker = entryMaker,
+    }),
+    sorter = telescopeConfigModule.values.generic_sorter(opts),
+    previewer = telescopePreviewersModule.new_buffer_previewer({
+      title = 'Message',
+      define_preview = function(self, entry)
+        vim.api.nvim_win_set_option(self.state.winid, 'wrap', true)
+        vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, vim.split(entry.value.full, '\n'))
+      end,
+    }),
+    attach_mappings = function(prompt_bufnr, _)
+      telescopeActionsModule.select_default:replace(function()
+        telescopeActionsModule.close(prompt_bufnr)
+        local selection = telescopeActionStateModule.get_selected_entry()
+        if not selection then
+          return
+        end
+
+        local buf = vim.api.nvim_create_buf(false, true)
+        vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(selection.value.full, '\n'))
+        vim.bo[buf].modifiable = false
+        vim.bo[buf].bufhidden = 'wipe'
+
+        vim.cmd.tabnew()
+        vim.api.nvim_win_set_buf(0, buf)
+      end)
+      return true
+    end,
+  }):find()
 end
 
 return M

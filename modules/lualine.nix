@@ -8,7 +8,6 @@ lib.mkModule config "lualine" {
 
   luaModules = [
     {
-      # TODO: require("nvim-web-devicons").set_default_icon("<3", "#6d8086", 65)
       "lualine" =
         # lua
         ''
@@ -115,7 +114,6 @@ lib.mkModule config "lualine" {
             icon = {
               __unkeyed = "󰗊";
               # TODO: lualine doesn't update this color on refresh, it only runs once
-              # FIXME: Cryptic error
               # color.fg =
               #   lib.nixvim.mkRaw
               #   # lua
@@ -152,11 +150,11 @@ lib.mkModule config "lualine" {
               if vim.o.paste then return "P" else return "" end
             end
           '')
-          # (lib.nixvim.mkRaw ''
-          #   function()
-          #     if #vim.o.mouse > 0 then return "M" else return "" end
-          #   end
-          # '')
+          (lib.nixvim.mkRaw ''
+            function()
+              if #vim.o.mouse > 0 then return "M" else return "" end
+            end
+          '')
           "encoding"
           {
             __unkeyed = "filetype";
@@ -188,7 +186,12 @@ lib.mkModule config "lualine" {
         ];
         lualine_z = [
           {
-            __unkeyed = "location";
+            # Improved "location" indicator that doesn't pre-pad smaller numbers with space
+            __unkeyed = lib.nixvim.mkRaw ''
+              function()
+                return string.format('%d:%d', vim.fn.line('.'), vim.fn.charcol('.'))
+              end
+            '';
             padding = {
               left = 0;
               right = 1;

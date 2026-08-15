@@ -33,7 +33,7 @@ in
       # `theme` must be unset (the two are mutually exclusive).
       theme = null;
 
-      layout = [
+      settings.layout = [
         {
           type = "padding";
           val = 3;
@@ -60,7 +60,7 @@ in
         (lib.nixvim.mkRaw "require('dashboard').get_quote_element()")
       ];
 
-      opts.margin = 5;
+      settings.opts.margin = 5;
     };
 
     globals.minitrailspace_disable = true;

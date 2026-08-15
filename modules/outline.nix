@@ -27,12 +27,14 @@ lib.mkModule config "outline" {
 
   plugins.navbuddy = {
     enable = true;
-    lsp.autoAttach = true;
-    mappings = {
-      "<Left>" = "parent";
-      "<Right>" = "children";
-      "-" = "hsplit";
-      "|" = "vsplit";
+    settings = {
+      lsp.auto_attach = true;
+      mappings = {
+        "<Left>" = lib.nixvim.mkRaw "require('nvim-navbuddy.actions').parent()";
+        "<Right>" = lib.nixvim.mkRaw "require('nvim-navbuddy.actions').children()";
+        "-" = lib.nixvim.mkRaw "require('nvim-navbuddy.actions').hsplit()";
+        "|" = lib.nixvim.mkRaw "require('nvim-navbuddy.actions').vsplit()";
+      };
     };
   };
 
