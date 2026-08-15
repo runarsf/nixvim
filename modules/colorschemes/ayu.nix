@@ -21,17 +21,21 @@ in
           BlinkCmpDocBorder.bg = "None";
           Pmenu.bg = "None";
           LineNr.fg = "#3C414A";
+          FloatBorder.fg = "#3C414A";
+          TelescopeBorder.fg = "#3C414A";
+          BlinkCmpMenuBorder.fg = "#3C414A";
           IndentLine.fg = "#1E222A";
           IndentLineCurrent.fg = "#E6B450";
+          MsgArea.link = "NormalFloat";
         }
         // lib.optionalAttrs config.modules.colorschemes.transparent {
-          # Normal.bg = "None";
-          # NormalFloat.bg = "None";
-          # ColorColumn.bg = "None";
-          # SignColumn.bg = "None";
-          # Folded.bg = "None";
-          # FoldColumn.bg = "None";
-          # VertSplit.bg = "None";
+          Normal.bg = "None";
+          NormalFloat.bg = "None";
+          ColorColumn.bg = "None";
+          SignColumn.bg = "None";
+          Folded.bg = "None";
+          FoldColumn.bg = "None";
+          VertSplit.bg = "None";
         };
     };
 

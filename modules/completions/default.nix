@@ -105,7 +105,6 @@ lib.mkModule config "completions" {
           };
 
           menu = {
-            border = "rounded";
             auto_show = true;
             scrolloff = 3;
 
@@ -131,7 +130,6 @@ lib.mkModule config "completions" {
           };
 
           documentation = {
-            window.border = "rounded";
             auto_show = true;
             auto_show_delay_ms = 0;
           };

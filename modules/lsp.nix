@@ -9,16 +9,27 @@ lib.mkModule config "lsp" {
     inlayHints = true;
   };
 
+  # Prefer LSP folding (config/options.nix defaults foldexpr to treesitter's)
+  autoCmd = [
+    {
+      event = ["LspAttach"];
+      callback = lib.nixvim.mkRaw ''
+        function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if client and client:supports_method('textDocument/foldingRange') then
+            local win = vim.api.nvim_get_current_win()
+            vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
+          end
+        end
+      '';
+    }
+  ];
+
   # TODO: Consistent maps with groups (see lazyvim) https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
   keymaps = with lib.utils.keymaps; [
-    (mkKeymap ["i" "n"] "<C-." (lib.nixvim.mkRaw ''
+    (mkKeymap ["i" "n" "x"] "<C-." (lib.nixvim.mkRaw ''
       function()
         vim.lsp.buf.code_action()
-      end
-    '') "Code Action")
-    (mkKeymap ["x"] "<C-." (lib.nixvim.mkRaw ''
-      function()
-        vim.lsp.buf.range_code_action()
       end
     '') "Code Action")
     (mkKeymap ["n"] "gd" (lib.nixvim.mkRaw ''

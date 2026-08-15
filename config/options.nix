@@ -75,6 +75,11 @@
     };
     showbreak = "↪" + lib.strings.replicate (shiftwidth - 1) " ";
     timeoutlen = 350;
+    winborder = "rounded"; # Default border for floats that don't set their own
+    cmdheight = 0;
+    # Auto-dismiss messages after 3s instead of blocking on a hit-enter prompt.
+    messagesopt = "wait:3000,history:500,progress:c";
+    showcmd = false;
     filetype = "on";
     confirm = true;
     backup = false;
@@ -91,11 +96,22 @@
     sidescrolloff = 5;
     cursorline = true;
     foldopen = "block,hor,insert,jump,mark,percent,quickfix,search,tag,undo";
+    # Defaults to treesitter folding; modules/lsp.nix upgrades to LSP folding
+    # per-buffer when the attached client supports it.
+    foldmethod = "expr";
+    foldexpr = "v:lua.vim.treesitter.foldexpr()";
+    foldlevelstart = 99; # Open all folds by default when entering a buffer
     grepprg = "${lib.getExe pkgs.ripgrep} --vimgrep --hidden --glob '!.git'";
 
     wrap = false;
     linebreak = true;
     breakindent = true;
+  };
+
+  # Neovim 0.11 changed the virtual_text default to off; set explicitly.
+  diagnostic.settings = {
+    virtual_text = true;
+    virtual_lines.current_line = true;
   };
 
   # Disable some builtin plugins
