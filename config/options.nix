@@ -111,7 +111,6 @@
   # Neovim 0.11 changed the virtual_text default to off; set explicitly.
   diagnostic.settings = {
     virtual_text = true;
-    virtual_lines.current_line = true;
   };
 
   # Disable some builtin plugins

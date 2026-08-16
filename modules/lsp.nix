@@ -62,5 +62,21 @@ lib.mkModule config "lsp" {
         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
       end
     '') "Toggle inlay hints")
+    (mkKeymap' "<Leader>t" (lib.nixvim.mkRaw ''
+      function()
+        require('telescope.builtin').diagnostics({ bufnr = 0 })
+      end
+    '') "Toggle diagnostics")
+    (mkKeymap ["n"] "<Leader>e" (lib.nixvim.mkRaw ''
+      function()
+        vim.diagnostic.config({ virtual_lines = { current_line = true } })
+        vim.api.nvim_create_autocmd("CursorMoved", {
+          once = true,
+          callback = function()
+            vim.diagnostic.config({ virtual_lines = false })
+          end,
+        })
+      end
+    '') "Show line diagnostics")
   ];
 }

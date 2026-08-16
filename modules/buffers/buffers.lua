@@ -14,7 +14,10 @@ local count_bufs_by_type = function(loaded_only)
   }
   local buftypes = vim.api.nvim_list_bufs()
   for _, bufname in pairs(buftypes) do
-    if (not loaded_only) or vim.api.nvim_buf_is_loaded(bufname) then
+    -- Unlisted buffers (help windows, LSP logs, sidebars, ...) aren't shown
+    -- as bufferline tabs, so they shouldn't count towards "tabs remaining".
+    if vim.api.nvim_buf_get_option(bufname, 'buflisted')
+      and ((not loaded_only) or vim.api.nvim_buf_is_loaded(bufname)) then
       local buftype = vim.api.nvim_buf_get_option(bufname, 'buftype')
       buftype = buftype ~= "" and buftype or 'normal'
       count[buftype] = count[buftype] + 1
@@ -26,8 +29,7 @@ end
 M.close = function()
   local bufTable = count_bufs_by_type()
   if (bufTable.normal <= 1) then
-    -- TODO: Use vim.cmd.quit?
-    vim.api.nvim_exec2([[:q]], {})
+    vim.cmd.quit()
   else
     if require("utils.plugins").has("snacks") then
       require("snacks").bufdelete()

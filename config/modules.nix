@@ -94,7 +94,6 @@
         "hop"
         "togglemouse"
         "terminal"
-        "trouble"
         "colors"
         "folds"
         "lualine"

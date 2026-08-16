@@ -271,7 +271,7 @@ M.notifications = function(opts)
         vim.bo[buf].modifiable = false
         vim.bo[buf].bufhidden = 'wipe'
 
-        vim.cmd.tabnew()
+        vim.cmd.enew()
         vim.api.nvim_win_set_buf(0, buf)
       end)
       return true
