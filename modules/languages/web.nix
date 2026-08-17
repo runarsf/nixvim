@@ -13,6 +13,11 @@ lib.utils.mkLanguageModule config "web" {
       html.enable = true;
       emmet_language_server.enable = true;
       tailwindcss.enable = true;
+      # Angular Language Service. Roots at `angular.json`/`nx.json`, so this
+      # resolves correctly for both plain Angular CLI projects and Nx
+      # monorepos, and probes `<root>/node_modules` for the project's own
+      # `@angular/language-service`/typescript versions.
+      angularls.enable = true;
     };
 
     conform-nvim.settings = {
@@ -41,5 +46,5 @@ lib.utils.mkLanguageModule config "web" {
     };
   };
 
-  extraPackages = with pkgs; [prettierd];
+  extraPackages = with pkgs; [prettierd angular-language-server];
 }

@@ -12,8 +12,6 @@ lib.mkModule config "treesitter" {
     vim.highlight.priorities.semantic_tokens = 95
   '';
 
-  # TODO dropbar
-
   plugins = {
     treesitter = {
       enable = true;

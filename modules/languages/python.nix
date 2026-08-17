@@ -28,10 +28,26 @@ lib.utils.mkLanguageModule config "python" {
 
     dap-python = {
       enable = true;
+      # Resolve the interpreter used to run/debug the target program: prefer
+      # whatever's on PATH (devShell, home-manager profile, system python),
+      # falling back to a nix-provided python so debugging still works
+      # outside a project environment.
+      # NOTE: VIRTUAL_ENV/CONDA_PREFIX are already checked first by dap-python
+      # itself before this is called.
+      resolvePython = lib.nixvim.mkRaw ''
+        function()
+          local python = vim.fn.exepath("python3")
+          if python == "" then
+            python = vim.fn.exepath("python")
+          end
+          if python ~= "" then
+            return python
+          end
+          return "${lib.getExe pkgs.python3}"
+        end
+      '';
       settings = {
         console = "integratedTerminal";
-        # TODO use resolvePython instead? or directly from pkgs
-        adapterPythonPath = "~/.nix-profile/bin/python";
       };
     };
   };

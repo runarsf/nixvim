@@ -147,6 +147,16 @@ lib.mkModule config "telescope" {
                     require("telescope.builtin").live_grep(opts)
                   end,
                 },
+                {
+                  name = "TODOs",
+                  tele_func = function(opts)
+                    opts = vim.tbl_deep_extend("force",
+                      opts or {},
+                      search_opts
+                    )
+                    require("telescope").extensions["todo-comments"].todo(opts)
+                  end,
+                },
               }
             })
           end

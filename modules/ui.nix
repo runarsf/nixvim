@@ -50,6 +50,23 @@ in
           messages.view = "notify";
           notify.view = "notify";
 
+          # Default history filter drops `list_cmd`-kind messages (`:verbose
+          # map`, `:autocmd`, `:registers`, ...), so they'd flash by in a
+          # notify toast and never show up in the <Leader>n picker.
+          commands.history.filter.any = [
+            {event = "notify";}
+            {error = true;}
+            {warning = true;}
+            {
+              event = "msg_show";
+              kind = ["" "list_cmd"];
+            }
+            {
+              event = "lsp";
+              kind = "message";
+            }
+          ];
+
           lsp.progress = {
             enabled = true;
             view = "mini";
