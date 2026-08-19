@@ -79,6 +79,17 @@
           default = nixvim.legacyPackages.${system}.makeNixvimWithModule config;
           nvim = default;
 
+          neovide = pkgs.symlinkJoin {
+            name = "neovide-nixvim";
+            paths = [pkgs.neovide];
+            buildInputs = [pkgs.makeWrapper];
+            postBuild = ''
+              wrapProgram $out/bin/neovide \
+                --add-flags "--neovim-bin ${default}/bin/nvim"
+            '';
+            meta.mainProgram = "neovide";
+          };
+
           updater = pkgs.writeShellScriptBin "nixvim-flake-updater" ''
             printf '\033[1;34minfo:\033[0m updating fetchers...\n'
             ${nixpkgs.lib.getExe pkgs.update-nix-fetchgit} --verbose ./**/*.nix 2>&1 | grep --line-buffered -i "updating"
