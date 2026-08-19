@@ -69,6 +69,7 @@ lib.mkModule config "telescope" {
         undo.enable = true;
         media-files.enable = true;
         advanced-git-search.enable = true;
+        zoxide.enable = true;
       };
     };
 
@@ -148,6 +149,16 @@ lib.mkModule config "telescope" {
                   end,
                 },
                 {
+                  name = "Directories",
+                  tele_func = function(opts)
+                    opts = vim.tbl_deep_extend("force",
+                      opts or {},
+                      search_opts
+                    )
+                    require('telescope').extensions.zoxide.list(opts)
+                  end,
+                },
+                {
                   name = "TODOs",
                   tele_func = function(opts)
                     opts = vim.tbl_deep_extend("force",
@@ -184,7 +195,6 @@ lib.mkModule config "telescope" {
     '') "Search files")
     (mkKeymap' "<leader><tab>" (lib.nixvim.mkRaw ''
       function()
-        -- HACK: See other hacks in this file
         require('lz.n').trigger_load('telescope.nvim')
         local ok, builtin = pcall(require, 'telescope.builtin')
 
@@ -195,6 +205,11 @@ lib.mkModule config "telescope" {
         end
       end
     '') "List buffers")
+    (mkKeymap' "<leader>z" (lib.nixvim.mkRaw ''
+      function()
+        require('telescope').extensions.zoxide.list()
+      end
+    '') "Zoxide")
   ];
 
   extraPackages = with pkgs; [ripgrep];
