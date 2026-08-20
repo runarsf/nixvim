@@ -8,7 +8,13 @@ lib.mkModule config "todo" {
   plugins.todo-comments = {
     enable = true;
     settings = {
-      highlight.pattern = ".*<(KEYWORDS)s*:*";
+      highlight.pattern = ".*<(KEYWORDS)\\s*:*";
+      # NOTE keyword = "bg" (not the default "wide") to avoid
+      # https://github.com/folke/todo-comments.nvim/issues/400-ish:
+      # "wide" computes end_col as finish+1, which errors when the
+      # keyword is the last thing on the line (e.g. bare "TODO" with
+      # nothing after it).
+      highlight.keyword = "bg";
       search.pattern = "\\s\\b(KEYWORDS)\\b\\s";
       mergeKeywords = true;
       keywords = {

@@ -118,7 +118,7 @@ lib.mkModule config "telescope" {
               return tab_bar_create(conf)
             end
 
-            search_opts = {
+            local search_opts = {
               layout_strategy = nil,
               layout_config = { height = 0.7 },
             }
