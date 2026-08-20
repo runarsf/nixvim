@@ -11,7 +11,18 @@ lib.mkModule config "git" {
     git-conflict.enable = true;
     diffview.enable = true;
     neogit.enable = true;
+    gitsigns.enable = true;
+    fugitive.enable = true;
   };
+
+  extraPlugins = with pkgs.vimPlugins; [
+    # {
+    #   plugin = diffbandit;
+    #   config = lib.utils.viml.fromLua ''
+    #     require("diffbandit").setup()
+    #   '';
+    # }
+  ];
 
   luaModules = lib.optionals config.modules.terminal.enable [
     {

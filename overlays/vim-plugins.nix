@@ -23,6 +23,16 @@ _: _: super: {
         };
       };
 
+      diffbandit = super.vimUtils.buildVimPlugin {
+        name = "diffbandit";
+        src = super.fetchFromGitHub {
+          owner = "CoreyKaylor";
+          repo = "diffbandit.nvim";
+          rev = "c445befc6975e3909c6542415d14c9e04067c235";
+          hash = "sha256-iLtJD+t4qiz2oqJzbpZtoZ4Q9Tp3j8rlzWKpnaJFQWI=";
+        };
+      };
+
       vim-unicode-homoglyphs = super.vimUtils.buildVimPlugin {
         name = "vim-unicode-homoglyphs";
         src = super.fetchFromGitHub {
